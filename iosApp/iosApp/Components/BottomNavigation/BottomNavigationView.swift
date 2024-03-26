@@ -9,6 +9,7 @@
 import SwiftUI
 import shared
 
+
 struct BottomNavigationView: View {
     
     let component: BottomNavigationComponent
@@ -24,23 +25,64 @@ struct BottomNavigationView: View {
     }
     
     var body: some View {
+    
+        let isSelectedHome = activeChild is BottomNavigationComponentChild.HomeChild
+        let isSelectedChat = activeChild is BottomNavigationComponentChild.ChatChild
+        let isSelectedSettings = activeChild is BottomNavigationComponentChild.SettingsChild
+        
         VStack {
+            
             BottomNavigationChildrenView(child: activeChild)
                 .frame(maxHeight: .infinity)
-                
+            
             HStack(alignment: .bottom, spacing: 16) {
+                Spacer()
+
                 Button(action: { component.onTabClicked(tab: MainNavTab.home) }) {
-                    Label("Counters", systemImage: "123.rectangle")
+                    Label("Главная", systemImage:  "house")
                         .labelStyle(VerticalLabelStyle())
-                        .opacity(activeChild is BottomNavigationComponentChild.HomeChild ? 1 : 0.5)
+                        .opacity(isSelectedHome ? 1 : 0.5)
+                        .foregroundStyle(isSelectedHome ? Color.BottomBar.selectedNavigationItem : Color.BottomBar.unselectedNavigationItem)
                 }
+                .frame(height: 50)
+                
+                Spacer()
+                
+                Button(action: { component.onTabClicked(tab: MainNavTab.chat) }) {
+                    Label("Чат", systemImage: "message")
+                        .labelStyle(VerticalLabelStyle())
+                        .opacity(isSelectedChat ? 1 : 0.5)
+                        .foregroundStyle(isSelectedChat ? Color.BottomBar.selectedNavigationItem : Color.BottomBar.unselectedNavigationItem)
+                }
+                .frame(height: 50)
+                
+                Spacer()
                     
-                Button(action: { component.onTabClicked(tab: MainNavTab.menu) }) {
-                    Label("Multi-Pane", systemImage: "list.bullet")
+                Button(action: { component.onTabClicked(tab: MainNavTab.settings) }) {
+                    Label("Настройки", systemImage: "gearshape")
                         .labelStyle(VerticalLabelStyle())
-                        .opacity(activeChild is BottomNavigationComponentChild.MenuChild ? 1 : 0.5)
+                        .opacity(isSelectedSettings ? 1 : 0.5)
+                        .foregroundStyle(isSelectedSettings ? Color.BottomBar.selectedNavigationItem : Color.BottomBar.unselectedNavigationItem)
                 }
+                .frame(height: 50)
+
+                Spacer()
             }
+            .overlay(Divider().foregroundStyle(Color.BottomBar.stroke).frame(height: 1), alignment: .top)
+            .background(Color.BottomBar.background)
+        }
+    }
+}
+
+struct VerticalLabelStyle: LabelStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        VStack(alignment: .center, spacing: 4) {
+            
+            configuration.icon
+                .frame(width: 24, height: 24)
+                
+            configuration.title
+                .font(.system(size: 10))
         }
     }
 }
@@ -53,8 +95,30 @@ struct BottomNavigationChildrenView: View {
         
         switch child {
         case let child as BottomNavigationComponentChild.HomeChild: HomeView(component: child.component)
-        case let child as BottomNavigationComponentChild.MenuChild: MenuView(component: child.component)
+        case let child as BottomNavigationComponentChild.ChatChild: ChatView(component: child.component)
+        case let child as BottomNavigationComponentChild.SettingsChild: SettingsView(component: child.component)
         default: EmptyView()
         }
+    }
+}
+
+struct Test1: View {
+    
+    var body: some View {
+        Text("Body1")
+    }
+}
+
+struct Test2: View {
+    
+    var body: some View {
+        Text("Body2")
+    }
+}
+
+struct Test3: View {
+    
+    var body: some View {
+        Text("Body3")
     }
 }

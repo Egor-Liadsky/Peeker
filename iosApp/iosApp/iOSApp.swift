@@ -11,6 +11,7 @@ import shared
 
 @main
 struct iOSApp: App {
+    
     @UIApplicationDelegateAdaptor(AppDelegate.self)
         var appDelegate: AppDelegate
 

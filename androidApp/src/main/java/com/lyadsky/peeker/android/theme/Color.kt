@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 object Color {
 
     object Base {
-        val white = Color(0xFF)
+        val white = Color(0xFFFFFFFF)
     }
 
     object BottomBar {

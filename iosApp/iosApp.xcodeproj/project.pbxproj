@@ -11,6 +11,9 @@
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		3240DF853130C43887B39B63 /* Pods_iosApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 787669F10B077577637201F5 /* Pods_iosApp.framework */; };
+		7467D2A82BB3092500EF4FEB /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7467D2A72BB3092500EF4FEB /* ChatView.swift */; };
+		7467D2AC2BB31D2000EF4FEB /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7467D2AB2BB31D2000EF4FEB /* Colors.swift */; };
+		7467D2AF2BB31DA400EF4FEB /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7467D2AE2BB31DA400EF4FEB /* Color.swift */; };
 		74725F092BB2EF8100ED6460 /* AboutAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74725F082BB2EF8100ED6460 /* AboutAppView.swift */; };
 		74725F0C2BB2EFCA00ED6460 /* BottomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74725F0B2BB2EFCA00ED6460 /* BottomNavigationView.swift */; };
 		74725F0E2BB2EFEC00ED6460 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74725F0D2BB2EFEC00ED6460 /* HomeView.swift */; };
@@ -19,13 +22,15 @@
 		74725F172BB2F04F00ED6460 /* ObservableValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74725F162BB2F04F00ED6460 /* ObservableValue.swift */; };
 		74725F192BB2F06500ED6460 /* StackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74725F182BB2F06500ED6460 /* StackView.swift */; };
 		74725F1B2BB2F07500ED6460 /* StateValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74725F1A2BB2F07500ED6460 /* StateValue.swift */; };
-		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
+		7467D2A72BB3092500EF4FEB /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		7467D2AB2BB31D2000EF4FEB /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		7467D2AE2BB31DA400EF4FEB /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		74725F082BB2EF8100ED6460 /* AboutAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppView.swift; sourceTree = "<group>"; };
 		74725F0B2BB2EFCA00ED6460 /* BottomNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomNavigationView.swift; sourceTree = "<group>"; };
 		74725F0D2BB2EFEC00ED6460 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -35,7 +40,6 @@
 		74725F182BB2F06500ED6460 /* StackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackView.swift; sourceTree = "<group>"; };
 		74725F1A2BB2F07500ED6460 /* StateValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateValue.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		787669F10B077577637201F5 /* Pods_iosApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		895B8B9553E900FE8547B8FC /* Pods-iosApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.debug.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -62,9 +66,34 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		7467D2A62BB3091900EF4FEB /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				7467D2A72BB3092500EF4FEB /* ChatView.swift */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		7467D2AA2BB31D1400EF4FEB /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				7467D2AB2BB31D2000EF4FEB /* Colors.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		7467D2AD2BB31D7700EF4FEB /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				7467D2AE2BB31DA400EF4FEB /* Color.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		74725F042BB2EEF800ED6460 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				7467D2A62BB3091900EF4FEB /* Chat */,
 				74725F112BB2F00C00ED6460 /* Root */,
 				74725F0A2BB2EFB100ED6460 /* BottomNavigation */,
 				74725F072BB2EF0D00ED6460 /* Settings */,
@@ -153,10 +182,11 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				7467D2AD2BB31D7700EF4FEB /* Extension */,
+				7467D2AA2BB31D1400EF4FEB /* Theme */,
 				74725F142BB2F03700ED6460 /* Utils */,
 				74725F042BB2EEF800ED6460 /* Components */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
-				7555FF82242A565900829871 /* ContentView.swift */,
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
@@ -279,8 +309,10 @@
 			files = (
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				74725F0C2BB2EFCA00ED6460 /* BottomNavigationView.swift in Sources */,
+				7467D2AC2BB31D2000EF4FEB /* Colors.swift in Sources */,
+				7467D2A82BB3092500EF4FEB /* ChatView.swift in Sources */,
 				74725F172BB2F04F00ED6460 /* ObservableValue.swift in Sources */,
-				7555FF83242A565900829871 /* ContentView.swift in Sources */,
+				7467D2AF2BB31DA400EF4FEB /* Color.swift in Sources */,
 				74725F102BB2EFFE00ED6460 /* SettingsView.swift in Sources */,
 				74725F192BB2F06500ED6460 /* StackView.swift in Sources */,
 				74725F132BB2F01700ED6460 /* RootView.swift in Sources */,

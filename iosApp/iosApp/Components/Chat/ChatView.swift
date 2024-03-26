@@ -1,5 +1,5 @@
 //
-//  SettingsView.swift
+//  ChatView.swift
 //  iosApp
 //
 //  Created by Егор Лядский on 2024-03-26.
@@ -9,11 +9,11 @@
 import SwiftUI
 import shared
 
-struct SettingsView: View {
+struct ChatView: View {
     
-    let component: SettingsComponent
+    let component: ChatComponent
     
     var body: some View {
-        Text("Settings view")
+        Text("Chat view")
     }
 }
