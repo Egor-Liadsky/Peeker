@@ -39,7 +39,13 @@ android {
 }
 
 dependencies {
+
+    // Modules
     implementation(projects.shared)
+
+    // Navigation
+    implementation(libs.decompose.compose)
+
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)

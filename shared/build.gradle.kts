@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.androidLibrary)
+    id("kotlinx-serialization")
 }
 
 kotlin {
@@ -25,12 +26,17 @@ kotlin {
         framework {
             baseName = "shared"
             isStatic = true
+
+            export(libs.decompose)
+            export(libs.essenty.lifecycle)
         }
     }
-    
+
     sourceSets {
         commonMain.dependencies {
-            //put your multiplatform dependencies here
+            api(libs.decompose)
+            api(libs.essenty.lifecycle)
+            implementation(libs.kotlinx.serialization.json)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
