@@ -1,4 +1,4 @@
-package com.lyadsky.moneychecker.components.home
+package com.lyadsky.peeker.components.home
 
 interface HomeComponent {
 

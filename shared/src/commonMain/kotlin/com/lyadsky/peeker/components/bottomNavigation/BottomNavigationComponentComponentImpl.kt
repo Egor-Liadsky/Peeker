@@ -1,4 +1,4 @@
-package com.lyadsky.moneychecker.components.bottomNavigation
+package com.lyadsky.peeker.components.bottomNavigation
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
@@ -6,13 +6,11 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.popTo
-import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
-import com.lyadsky.moneychecker.components.bottomNavigation.BottomNavigationComponent.*
-import com.lyadsky.moneychecker.components.home.HomeComponent
-import com.lyadsky.moneychecker.components.home.HomeComponentImpl
-import com.lyadsky.moneytracker.components.menu.MenuComponent
-import com.lyadsky.moneytracker.components.menu.MenuComponentImpl
+import com.lyadsky.peeker.components.bottomNavigation.BottomNavigationComponent.*
+import com.lyadsky.peeker.components.chat.ChatComponentImpl
+import com.lyadsky.peeker.components.home.HomeComponentImpl
+import com.lyadsky.peeker.components.settings.SettingsComponentImpl
 import kotlinx.serialization.Serializable
 
 class BottomNavigationComponentComponentImpl(
@@ -33,7 +31,8 @@ class BottomNavigationComponentComponentImpl(
     override fun onTabClicked(tab: MainNavTab) {
         when(tab) {
             MainNavTab.HOME -> navigation.bringToFront(Config.Home)
-            MainNavTab.MENU -> navigation.bringToFront(Config.Menu)
+            MainNavTab.CHAT -> navigation.bringToFront(Config.Chat)
+            MainNavTab.SETTINGS -> navigation.bringToFront(Config.Settings)
         }
     }
 
@@ -47,7 +46,8 @@ class BottomNavigationComponentComponentImpl(
     ): Child {
         return when (config) {
             Config.Home -> homeComponent(componentContext)
-            Config.Menu -> menuComponent(componentContext)
+            Config.Chat -> chatComponent(componentContext)
+            Config.Settings -> menuComponent(componentContext)
         }
     }
 
@@ -61,8 +61,11 @@ class BottomNavigationComponentComponentImpl(
             )
         )
 
+    private fun chatComponent(componentContext: ComponentContext): Child =
+        Child.ChatChild(ChatComponentImpl(componentContext = componentContext))
+
     private fun menuComponent(componentContext: ComponentContext): Child =
-        Child.MenuChild(MenuComponentImpl(componentContext = componentContext))
+        Child.SettingsChild(SettingsComponentImpl(componentContext = componentContext))
 
     @Serializable
     private sealed interface Config {
@@ -71,6 +74,9 @@ class BottomNavigationComponentComponentImpl(
         data object Home : Config
 
         @Serializable
-        data object Menu : Config
+        data object Chat: Config
+
+        @Serializable
+        data object Settings : Config
     }
 }

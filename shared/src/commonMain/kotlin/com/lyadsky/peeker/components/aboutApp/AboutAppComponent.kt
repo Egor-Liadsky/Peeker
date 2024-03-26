@@ -1,4 +1,4 @@
-package com.lyadsky.moneychecker.components.aboutApp
+package com.lyadsky.peeker.components.aboutApp
 
 interface AboutAppComponent {
 

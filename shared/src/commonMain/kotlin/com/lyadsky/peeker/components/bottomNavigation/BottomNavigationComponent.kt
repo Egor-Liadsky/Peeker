@@ -1,9 +1,10 @@
-package com.lyadsky.moneychecker.components.bottomNavigation
+package com.lyadsky.peeker.components.bottomNavigation
 
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
-import com.lyadsky.moneychecker.components.home.HomeComponent
-import com.lyadsky.moneytracker.components.menu.MenuComponent
+import com.lyadsky.peeker.components.chat.ChatComponent
+import com.lyadsky.peeker.components.home.HomeComponent
+import com.lyadsky.peeker.components.settings.SettingsComponent
 
 interface BottomNavigationComponent {
 
@@ -14,12 +15,17 @@ interface BottomNavigationComponent {
     fun onBackClicked(toIndex: Int)
 
     sealed class Child {
+
         class HomeChild(val component: HomeComponent): Child()
-        class MenuChild(val component: MenuComponent): Child()
+
+        class ChatChild(val component: ChatComponent): Child()
+
+        class SettingsChild(val component: SettingsComponent): Child()
     }
 }
 
 enum class MainNavTab {
     HOME,
-    MENU
+    CHAT,
+    SETTINGS
 }

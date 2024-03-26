@@ -36,6 +36,8 @@ kotlin {
         commonMain.dependencies {
             api(libs.decompose)
             api(libs.essenty.lifecycle)
+            
+            implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
         }
         commonTest.dependencies {

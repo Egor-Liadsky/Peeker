@@ -1,9 +1,9 @@
-package com.lyadsky.moneychecker.components.root
+package com.lyadsky.peeker.components.root
 
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
-import com.lyadsky.moneychecker.components.aboutApp.AboutAppComponent
-import com.lyadsky.moneychecker.components.bottomNavigation.BottomNavigationComponent
+import com.lyadsky.peeker.components.aboutApp.AboutAppComponent
+import com.lyadsky.peeker.components.bottomNavigation.BottomNavigationComponent
 
 interface RootComponent{
     

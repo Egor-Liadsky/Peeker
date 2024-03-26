@@ -1,14 +1,14 @@
-package com.lyadsky.moneychecker.android.components.aboutApp
+package com.lyadsky.peeker.android.components.aboutApp
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.lyadsky.moneychecker.components.aboutApp.AboutAppComponent
+import com.lyadsky.peeker.components.aboutApp.AboutAppComponent
 
 @Composable
 fun AboutAppScreen(component: AboutAppComponent) {

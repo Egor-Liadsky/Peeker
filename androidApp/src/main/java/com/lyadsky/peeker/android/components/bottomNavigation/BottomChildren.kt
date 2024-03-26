@@ -1,13 +1,14 @@
-package com.lyadsky.moneychecker.android.components.bottomNavigation
+package com.lyadsky.peeker.android.components.bottomNavigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
-import com.lyadsky.moneychecker.android.components.home.HomeScreen
-import com.lyadsky.moneychecker.android.components.menu.MenuScreen
-import com.lyadsky.moneychecker.components.bottomNavigation.BottomNavigationComponent
+import com.lyadsky.peeker.android.components.home.HomeScreen
+import com.lyadsky.peeker.android.components.chat.ChatScreen
+import com.lyadsky.peeker.android.components.settings.SettingsScreen
+import com.lyadsky.peeker.components.bottomNavigation.BottomNavigationComponent
 
 @Composable
 fun BottomNavigationChildren(
@@ -19,9 +20,10 @@ fun BottomNavigationChildren(
         modifier = modifier,
         animation = stackAnimation(fade())
     ) {
-        when(val child = it.instance) {
+        when (val child = it.instance) {
             is BottomNavigationComponent.Child.HomeChild -> HomeScreen(component = child.component)
-            is BottomNavigationComponent.Child.MenuChild -> MenuScreen(component = child.component)
+            is BottomNavigationComponent.Child.ChatChild -> ChatScreen(component = child.component)
+            is BottomNavigationComponent.Child.SettingsChild -> SettingsScreen(component = child.component)
         }
     }
 }

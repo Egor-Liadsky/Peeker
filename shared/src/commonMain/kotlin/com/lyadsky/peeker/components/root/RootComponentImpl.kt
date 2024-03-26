@@ -1,4 +1,4 @@
-package com.lyadsky.moneychecker.components.root
+package com.lyadsky.peeker.components.root
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
@@ -8,8 +8,8 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.popTo
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
-import com.lyadsky.moneychecker.components.aboutApp.AboutAppComponentImpl
-import com.lyadsky.moneychecker.components.bottomNavigation.BottomNavigationComponentComponentImpl
+import com.lyadsky.peeker.components.aboutApp.AboutAppComponentImpl
+import com.lyadsky.peeker.components.bottomNavigation.BottomNavigationComponentComponentImpl
 import kotlinx.serialization.Serializable
 
 

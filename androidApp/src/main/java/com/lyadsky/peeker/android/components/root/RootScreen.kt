@@ -1,23 +1,29 @@
-package com.lyadsky.moneychecker.android.components.root
+package com.lyadsky.peeker.android.components.root
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.lyadsky.moneychecker.components.root.RootComponent
+import com.lyadsky.peeker.components.root.RootComponent
 
 @Composable
 fun RootScreen(component: RootComponent, modifier: Modifier = Modifier) {
 
-    MaterialTheme {
-        Surface (modifier = modifier) {
-            Column(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                RootChildren(component = component, modifier = Modifier.weight(1f))
-            }
+    Surface(modifier = modifier) {
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.systemBars))
+
+            RootChildren(component = component, modifier = Modifier.weight(1f))
+
+            Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
         }
     }
 }

@@ -1,15 +1,15 @@
-package com.lyadsky.moneychecker.android.components.menu
+package com.lyadsky.peeker.android.components.chat
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.lyadsky.moneytracker.components.menu.MenuComponent
+import com.lyadsky.peeker.components.chat.ChatComponent
 
 @Composable
-fun MenuScreen(component: MenuComponent) {
+fun ChatScreen(component: ChatComponent) {
     Column(Modifier.fillMaxSize()) {
-        Text(text = "Menu Screen")
+        Text(text = "Chat Screen")
     }
 }
