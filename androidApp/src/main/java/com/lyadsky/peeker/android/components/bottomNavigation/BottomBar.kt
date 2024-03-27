@@ -14,7 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.lyadsky.peeker.android.R
-import com.lyadsky.peeker.android.theme.Color
+import com.lyadsky.peeker.android.ui.theme.Color
 import com.lyadsky.peeker.components.bottomNavigation.BottomNavigationComponent
 import com.lyadsky.peeker.components.bottomNavigation.BottomNavigationComponent.Child
 import com.lyadsky.peeker.components.bottomNavigation.MainNavTab

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PEEKER.ME</string>
+
+    <!-- Home -->
+    <string name="ai_banner">НАЧНИТЕ ПОИСК, ИСПОЛЬЗУЯ ТОЧНОЕ НАЗВАНИЕ, КЛЮЧЕВЫЕ СЛОВА, ССЫЛКУ ИЛИ ПРОСТО ОТСКАНИРУЙТЕ QR-КОД!</string>
+    <string name="select_city_default">Выберите город</string>
+    <string name="personal_selection">Персональная подборка</string>
+    <string name="search_product_placeholder">наименование или ссылка</string>
+
+    <!-- Search -->
+    <string name="set_range_price">Установите диапазон цены:</string>
+    <string name="set_range_price_from">от</string>
+    <string name="set_range_price_to">до</string>
+    <string name="search_all_marketplaces">Поиск во всех маркетплейсах</string>
+    <string name="marketplace_or">ИЛИ</string>
+
+    <!-- Layout state -->
+    <string name="not_found_state">По вашему запросу ничего не найдено</string>
+    <string name="network_error_state">Проверьте соединение и обновите страницу</string>
+
+    <!-- Chat -->
+    <string name="ai_assistant_top_bar">ИИ-АССИСТЕНТ</string>
+    <string name="what_looking_placeholder">Что ищем?</string>
+
+    <!-- Settings -->
+    <string name="settings_top_bar">НАСТРОЙКИ</string>
+    <string name="feedback">Обратная связь</string>
+    <string name="faq">FAQ</string>
+    <string name="terms_of_service">Условия обслуживания</string>
+    <string name="privacy_policy">Политика конфиденциальности</string>
+    <string name="all_rights_reserved">©  2024 «PEEKER.ME»</string>
+    <string name="app_version">Версия приложения</string>
+
+    <!-- FAQ -->
+    <string name="faq_top_bar">FAQ</string>
+    <string name="faq_description">Здесь вы можете найти ответы на часто задаваемые вопросы</string>
+
+    <!-- Feedback -->
+    <string name="feedback_top_bar">ОБРАТНАЯ СВЯЗЬ</string>
+    <string name="feedback_description">У вас появились вопрос, предложение или жалоба? Напишите нам!</string>
+    <string name="feedback_name_placeholder">Имя</string>
+    <string name="feedback_phone_placeholder">Телефон</string>
+    <string name="feedback_mail_placeholder">E-mail</string>
+    <string name="feedback_message_placeholder">Сообщение</string>
+    <string name="accept_policy">Нажимая кнопку “Отправить”, вы соглашаетесь с Пользовательским соглашением и Политикой конфиденциальности</string>
+    <string name="send">Отправить</string>
+
+    <!-- OnBoarding -->
+    <string name="onboarding_title_1">PEEKER - ЭТО БЫСТРЫЙ ПОИСК ВЫГОДНЫХ ТОВАРОВ НА ТОПОВЫХ МАРКЕТПЛЕЙСАХ</string>
+    <string name="onboarding_title_2">ОПТИМИЗИРОВАННЫЙ ПОИСК ПО ТОЧНОМУ НАЗВАНИЮ, ССЫЛКЕ, КЛЮЧЕВЫМ СЛОВАМ ИЛИ QR-КОДУ</string>
+    <string name="onboarding_title_3">ИННОВАЦИОННЫЙ НЕЙРОСЕТЕВОЙ АССИСТЕНТ ДЛЯ УЛУЧШЕННОГО ПОИСКА</string>
+    <string name="next">Далее</string>
+    <string name="start">Начать</string>
+
+</resources>

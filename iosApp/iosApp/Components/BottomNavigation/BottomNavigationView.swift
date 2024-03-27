@@ -101,24 +101,3 @@ struct BottomNavigationChildrenView: View {
         }
     }
 }
-
-struct Test1: View {
-    
-    var body: some View {
-        Text("Body1")
-    }
-}
-
-struct Test2: View {
-    
-    var body: some View {
-        Text("Body2")
-    }
-}
-
-struct Test3: View {
-    
-    var body: some View {
-        Text("Body3")
-    }
-}
