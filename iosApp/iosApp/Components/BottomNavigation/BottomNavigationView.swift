@@ -39,7 +39,7 @@ struct BottomNavigationView: View {
                 Spacer()
 
                 Button(action: { component.onTabClicked(tab: MainNavTab.home) }) {
-                    Label("Главная", systemImage:  "house")
+                    Label("home_navbar", systemImage:  "house")
                         .labelStyle(VerticalLabelStyle())
                         .opacity(isSelectedHome ? 1 : 0.5)
                         .foregroundStyle(isSelectedHome ? Color.BottomBar.selectedNavigationItem : Color.BottomBar.unselectedNavigationItem)
@@ -49,7 +49,7 @@ struct BottomNavigationView: View {
                 Spacer()
                 
                 Button(action: { component.onTabClicked(tab: MainNavTab.chat) }) {
-                    Label("Чат", systemImage: "message")
+                    Label("chat_navbar", systemImage: "message")
                         .labelStyle(VerticalLabelStyle())
                         .opacity(isSelectedChat ? 1 : 0.5)
                         .foregroundStyle(isSelectedChat ? Color.BottomBar.selectedNavigationItem : Color.BottomBar.unselectedNavigationItem)
@@ -59,7 +59,7 @@ struct BottomNavigationView: View {
                 Spacer()
                     
                 Button(action: { component.onTabClicked(tab: MainNavTab.settings) }) {
-                    Label("Настройки", systemImage: "gearshape")
+                    Label("settings_navbar", systemImage: "gearshape")
                         .labelStyle(VerticalLabelStyle())
                         .opacity(isSelectedSettings ? 1 : 0.5)
                         .foregroundStyle(isSelectedSettings ? Color.BottomBar.selectedNavigationItem : Color.BottomBar.unselectedNavigationItem)

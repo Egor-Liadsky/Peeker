@@ -16,7 +16,7 @@ struct HomeView: View {
     var body: some View {
     
         VStack {
-            Text("Home view")
+            Text("app_version")
             
             Button(action: { component.navigateToAboutApp() }, label: { Text("Navigate to about app view") })
         }
