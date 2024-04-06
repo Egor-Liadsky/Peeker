@@ -46,7 +46,11 @@ dependencies {
     // Navigation
     implementation(libs.decompose.compose)
 
+    // DI
+    implementation(libs.koin.compose)
+
     // UI
+    implementation(libs.coil)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material)

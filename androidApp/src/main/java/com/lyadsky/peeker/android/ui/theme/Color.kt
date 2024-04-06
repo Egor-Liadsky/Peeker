@@ -21,4 +21,10 @@ object Color {
         val input = Color(0xFF2A2F33)
         val background = Color(0x05395673)
     }
+
+    object SearchBanner {
+        val defaultText = Color(0xFF2A2F33)
+        val highlightText = Color(0xFF8338EC)
+        val background = Color(0xFFE7DFFF)
+    }
 }

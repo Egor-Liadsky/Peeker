@@ -1,7 +1,10 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.buildKonfig)
     id("kotlinx-serialization")
 }
 
@@ -33,16 +36,36 @@ kotlin {
     }
 
     sourceSets {
+
         commonMain.dependencies {
             api(libs.decompose)
             api(libs.essenty.lifecycle)
-            
+
+            implementation(libs.bundles.ktor.common)
             implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.koin.core)
             implementation(libs.kotlinx.serialization.json)
         }
+
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
+
+        androidMain.dependencies {
+            implementation(libs.ktor.client.android)
+        }
+
+        iosMain.dependencies {
+            implementation(libs.ktor.client.ios)
+        }
+    }
+}
+
+buildkonfig {
+    packageName = "com.lyadsky.peeker"
+
+    defaultConfigs {
+        buildConfigField(Type.STRING, "BASE_URL", "http://188.165.18.190:7812/api/")
     }
 }
 

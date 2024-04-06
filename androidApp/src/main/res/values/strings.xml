@@ -3,7 +3,11 @@
     <string name="app_name">PEEKER.ME</string>
 
     <!-- Home -->
-    <string name="ai_banner">НАЧНИТЕ ПОИСК, ИСПОЛЬЗУЯ ТОЧНОЕ НАЗВАНИЕ, КЛЮЧЕВЫЕ СЛОВА, ССЫЛКУ ИЛИ ПРОСТО ОТСКАНИРУЙТЕ QR-КОД!</string>
+    <string name="ai_banner1">НАЧНИТЕ</string>
+    <string name="ai_banner2">ПОИСК</string>
+    <string name="ai_banner3">, ИСПОЛЬЗУЯ ТОЧНОЕ НАЗВАНИЕ, КЛЮЧЕВЫЕ СЛОВА, ССЫЛКУ ИЛИ ПРОСТО </string>
+    <string name="ai_banner4">ОТСКАНИРУЙТЕ</string>
+    <string name="ai_banner5">QR-КОД!</string>
     <string name="select_city_default">Выберите город</string>
     <string name="personal_selection">Персональная подборка</string>
     <string name="search_product_placeholder">наименование или ссылка</string>
