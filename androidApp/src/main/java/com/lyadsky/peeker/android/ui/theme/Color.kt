@@ -7,6 +7,7 @@ object Color {
     object Base {
         val white = Color(0xFFFFFFFF)
         val black = Color(0xFF2A2F33)
+        val purplePrimary = Color(0xFF8338EC)
     }
 
     object BottomBar {

@@ -12,6 +12,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -26,7 +27,11 @@ import com.lyadsky.peeker.android.ui.views.button.SelectCityButton
 import com.lyadsky.peeker.android.ui.views.textField.CommonTextField
 
 @Composable
-fun HomeTopBar(modifier: Modifier = Modifier) {
+fun HomeTopBar(
+    modifier: Modifier = Modifier,
+    searchTextInput: String,
+    onSearchTextFieldClick: () -> Unit
+) {
 
     val context = LocalContext.current
 
@@ -57,6 +62,7 @@ fun HomeTopBar(modifier: Modifier = Modifier) {
 
             CommonTextField(
                 Modifier.padding(vertical = 20.dp),
+                textInput = searchTextInput,
                 enabled = false,
                 placeholder = {
                     Text(
@@ -80,11 +86,9 @@ fun HomeTopBar(modifier: Modifier = Modifier) {
                     }
                 },
                 onClick = {
-                    println("qwer")
+                    onSearchTextFieldClick()
                 }
-            ) {
-                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-            }
+            ) { }
         }
     }
 }

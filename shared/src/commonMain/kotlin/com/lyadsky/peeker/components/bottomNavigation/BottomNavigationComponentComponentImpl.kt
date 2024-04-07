@@ -8,9 +8,9 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.popTo
 import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.bottomNavigation.BottomNavigationComponent.*
-import com.lyadsky.peeker.components.chat.ChatComponentImpl
-import com.lyadsky.peeker.components.home.HomeComponentImpl
-import com.lyadsky.peeker.components.settings.SettingsComponentImpl
+import com.lyadsky.peeker.components.screen.chat.ChatComponentImpl
+import com.lyadsky.peeker.components.screen.home.HomeComponentImpl
+import com.lyadsky.peeker.components.screen.settings.SettingsComponentImpl
 import kotlinx.serialization.Serializable
 
 class BottomNavigationComponentComponentImpl(

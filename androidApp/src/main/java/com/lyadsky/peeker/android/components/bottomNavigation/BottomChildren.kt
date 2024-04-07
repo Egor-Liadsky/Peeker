@@ -5,9 +5,9 @@ import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
-import com.lyadsky.peeker.android.components.home.HomeScreen
-import com.lyadsky.peeker.android.components.chat.ChatScreen
-import com.lyadsky.peeker.android.components.settings.SettingsScreen
+import com.lyadsky.peeker.android.components.screen.home.HomeScreen
+import com.lyadsky.peeker.android.components.screen.chat.ChatScreen
+import com.lyadsky.peeker.android.components.screen.settings.SettingsScreen
 import com.lyadsky.peeker.components.bottomNavigation.BottomNavigationComponent
 
 @Composable

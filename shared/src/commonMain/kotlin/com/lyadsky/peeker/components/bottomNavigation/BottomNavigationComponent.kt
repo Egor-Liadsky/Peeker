@@ -2,9 +2,9 @@ package com.lyadsky.peeker.components.bottomNavigation
 
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
-import com.lyadsky.peeker.components.chat.ChatComponent
-import com.lyadsky.peeker.components.home.HomeComponent
-import com.lyadsky.peeker.components.settings.SettingsComponent
+import com.lyadsky.peeker.components.screen.chat.ChatComponent
+import com.lyadsky.peeker.components.screen.home.HomeComponent
+import com.lyadsky.peeker.components.screen.settings.SettingsComponent
 
 interface BottomNavigationComponent {
 
