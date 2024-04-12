@@ -52,7 +52,8 @@ fun HomeTopBar(
             ) {
                 Text(
                     text = stringResource(id = R.string.app_name),
-                    style = despairBold
+                    style = despairBold,
+                    color = Color.Base.black,
                 )
 
                 SelectCityButton {

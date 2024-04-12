@@ -9,10 +9,7 @@ import com.arkivanov.decompose.router.slot.dismiss
 import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.BaseComponent
 import com.lyadsky.peeker.components.dialog.searchDialog.SearchDialogComponentImpl
-import com.lyadsky.peeker.components.screen.home.HomeComponent
-import com.lyadsky.peeker.components.screen.root.RootComponent
-import com.lyadsky.peeker.components.screen.root.RootComponentImpl
-import com.lyadsky.peeker.data.network.repository.SearchRepository
+import com.lyadsky.peeker.data.network.repository.HomeRepository
 import com.lyadsky.peeker.utils.LoadingState
 import com.lyadsky.peeker.utils.exceptionHandleable
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +24,7 @@ class HomeComponentImpl(
     private val navigateToAboutAppComponent: () -> Unit
 ) : HomeComponent, BaseComponent<HomeState>(componentContext, HomeState()), KoinComponent {
 
-    private val searchRepository: SearchRepository by inject()
+    private val homeRepository: HomeRepository by inject()
 
     private val slotNavigation = SlotNavigation<SlotConfig>()
 
@@ -71,6 +68,19 @@ class HomeComponentImpl(
         viewState = viewState.copy(searchTextField = value)
     }
 
+    override fun onRangeFromTextFieldValueChanged(value: String) {
+        viewState = viewState.copy(rangeFromTextField = value)
+    }
+
+    override fun onRangeToTextFieldValueChanged(value: String) {
+        viewState = viewState.copy(rangeToTextField = value)
+    }
+
+    override fun onSearchAllMarketplacesCheckboxValueChanged() {
+        viewState =
+            viewState.copy(searchAllMarketplacesCheckbox = !viewState.searchAllMarketplacesCheckbox)
+    }
+
     override fun onClearedSearchTextField() {
         viewState = viewState.copy(searchTextField = "")
     }
@@ -79,7 +89,7 @@ class HomeComponentImpl(
         scope.launch(Dispatchers.IO) {
             exceptionHandleable(
                 executionBlock = {
-                    val products = searchRepository.getProducts("вино")
+                    val products = homeRepository.searchProducts("вино")
                     viewState = viewState.copy(
                         products = products,
                         productsLoadingState = LoadingState.Success

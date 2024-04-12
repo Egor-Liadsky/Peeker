@@ -7,22 +7,20 @@ import androidx.compose.ui.unit.sp
 val despairBold = TextStyle(
     fontSize = 14.sp,
     fontFamily = despairDisplay,
-    color = Color.Base.black,
     fontWeight = FontWeight.Bold
 )
 
 
-val header = TextStyle(
+val headerBold = TextStyle(
     fontSize = 16.sp,
     fontFamily = gilroy,
     fontWeight = FontWeight.Bold,
-    color = Color.Base.black
 )
 
 val marketplaceHeader = TextStyle(
     fontSize = 14.sp,
-//    fontFamily = ,
-    color = Color.Base.black
+    fontFamily = gilroy,
+    fontWeight = FontWeight.Bold
 )
 
 val textField = TextStyle(
@@ -38,6 +36,12 @@ val defaultMedium = TextStyle(
 
 val defaultSemibold = TextStyle(
     fontSize = 12.sp,
+    fontFamily = gilroy,
+    fontWeight = FontWeight.SemiBold
+)
+
+val headerSemibold = TextStyle(
+    fontSize = 14.sp,
     fontFamily = gilroy,
     fontWeight = FontWeight.SemiBold
 )

@@ -38,7 +38,7 @@ fun SelectCityButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
                 Text(
                     text = stringResource(id = R.string.select_city_default),
                     style = defaultSemibold,
-                    color = Color.Base.black
+                    color = Color.Base.black,
                 )
 
                 DashedDivider(

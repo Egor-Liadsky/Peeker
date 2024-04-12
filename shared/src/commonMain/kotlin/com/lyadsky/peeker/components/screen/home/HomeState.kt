@@ -7,5 +7,9 @@ data class HomeState(
     val products: List<Product>? = null,
     val productsLoadingState: LoadingState = LoadingState.Loading,
 
-    val searchTextField: String = ""
+    val searchTextField: String = "",
+    val rangeFromTextField: String = "",
+    val rangeToTextField: String = "",
+
+    val searchAllMarketplacesCheckbox: Boolean = false,
 )

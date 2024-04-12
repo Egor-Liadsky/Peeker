@@ -7,6 +7,7 @@ object Color {
     object Base {
         val white = Color(0xFFFFFFFF)
         val black = Color(0xFF2A2F33)
+        val gray = Color(0xFFDBDBDB)
         val purplePrimary = Color(0xFF8338EC)
     }
 
@@ -27,5 +28,14 @@ object Color {
         val defaultText = Color(0xFF2A2F33)
         val highlightText = Color(0xFF8338EC)
         val background = Color(0xFFE7DFFF)
+    }
+
+    object Checkbox {
+        val checked = Color(0xFF7E2EFF)
+        val unchecked = Color(0xFF7E2EFF)
+    }
+
+    object Divider {
+        val background = Color(0xFFDBDBDB)
     }
 }

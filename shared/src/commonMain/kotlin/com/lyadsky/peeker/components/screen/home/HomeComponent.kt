@@ -17,6 +17,12 @@ interface HomeComponent {
 
     fun onSearchTextFieldValueChanged(value: String)
 
+    fun onRangeFromTextFieldValueChanged(value: String)
+
+    fun onRangeToTextFieldValueChanged(value: String)
+
+    fun onSearchAllMarketplacesCheckboxValueChanged()
+
     fun onClearedSearchTextField()
 
     sealed class SlotChild {

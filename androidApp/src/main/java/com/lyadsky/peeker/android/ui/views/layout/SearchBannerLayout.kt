@@ -54,6 +54,7 @@ fun SearchBannerLayout(modifier: Modifier = Modifier) {
                 }
             },
             style = despairBold,
+            color = Color.Base.black,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(16.dp),
             lineHeight = 20.sp

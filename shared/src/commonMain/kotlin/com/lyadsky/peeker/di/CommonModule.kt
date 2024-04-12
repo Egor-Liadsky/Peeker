@@ -1,6 +1,6 @@
 package com.lyadsky.peeker.di
 
-import com.lyadsky.peeker.data.network.repository.SearchRepository
+import com.lyadsky.peeker.data.network.repository.HomeRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
@@ -41,5 +41,5 @@ fun commonModule(): Module = module {
     }
 
     // Repository
-    single { SearchRepository() }
+    single { HomeRepository() }
 }

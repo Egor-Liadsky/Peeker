@@ -25,7 +25,6 @@ fun HomeScreen(component: HomeComponent) {
 
     Column(Modifier.fillMaxSize()) {
 
-
         slotNavigation.child?.instance?.let { instance ->
             when (instance) {
 
@@ -33,7 +32,13 @@ fun HomeScreen(component: HomeComponent) {
                     component = instance.component,
                     searchTextInput = state.searchTextField,
                     searchTextFieldValueChanged = { component.onSearchTextFieldValueChanged(it) },
-                    onClearedSearchTextField = { component.onClearedSearchTextField() }
+                    onClearedSearchTextField = { component.onClearedSearchTextField() },
+                    rangeFromTextInput = state.rangeFromTextField,
+                    rangeFromTextFieldValueChanged = { component.onRangeFromTextFieldValueChanged(it) },
+                    rangeToTextInput = state.rangeToTextField,
+                    rangeToTextFieldValueChanged = { component.onRangeToTextFieldValueChanged(it) },
+                    searchAllMarketplacesCheckbox = state.searchAllMarketplacesCheckbox,
+                    searchAllMarketplacesCheckboxValueChanged = { component.onSearchAllMarketplacesCheckboxValueChanged() }
                 )
             }
         }
