@@ -7,7 +7,8 @@ import com.lyadsky.peeker.android.R
 
 val gilroy = FontFamily(
     Font(R.font.gilroy_bold, FontWeight.Bold),
-    Font(R.font.gilroy_semibold, FontWeight.SemiBold)
+    Font(R.font.gilroy_semibold, FontWeight.SemiBold),
+    Font(R.font.gilroy_extrabold, FontWeight.ExtraBold)
 )
 
 val despairDisplay = FontFamily(

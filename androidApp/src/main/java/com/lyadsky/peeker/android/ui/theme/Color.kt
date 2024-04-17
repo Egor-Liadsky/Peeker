@@ -38,4 +38,9 @@ object Color {
     object Divider {
         val background = Color(0xFFDBDBDB)
     }
+
+    object ProductCard {
+        val imageBackground = Color(0x05395673)
+        val background = Color(0xFFFFFFFF)
+    }
 }

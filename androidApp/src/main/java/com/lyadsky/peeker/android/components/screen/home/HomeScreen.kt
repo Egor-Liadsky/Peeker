@@ -1,22 +1,31 @@
 package com.lyadsky.peeker.android.components.screen.home
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import com.lyadsky.peeker.android.R
 import com.lyadsky.peeker.android.components.dialog.SearchDialog
+import com.lyadsky.peeker.android.ui.theme.headerBold
+import com.lyadsky.peeker.android.ui.views.card.ProductCardView
 import com.lyadsky.peeker.android.ui.views.layout.SearchBannerLayout
 import com.lyadsky.peeker.android.ui.views.topBar.HomeTopBar
 import com.lyadsky.peeker.components.screen.home.HomeComponent
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun HomeScreen(component: HomeComponent) {
 
@@ -48,19 +57,39 @@ fun HomeScreen(component: HomeComponent) {
             onSearchTextFieldClick = { component.onSearchTextFieldClick() }
         )
 
-        LazyColumn(Modifier.fillMaxSize()) {
+        LazyColumn(
+            Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp)
+        ) {
 
             item {
-                SearchBannerLayout(Modifier.padding(horizontal = 16.dp))
+                SearchBannerLayout()
             }
 
-            items(items = state.products ?: listOf()) { product ->
-                AsyncImage(
-                    model = product.photo,
-                    contentDescription = "product image",
-                    modifier = Modifier.size(104.dp),
-                    onError = { println("COIL  " + it.result.throwable) }
+            item {
+                Text(
+                    text = stringResource(id = R.string.personal_selection),
+                    style = headerBold,
+                    modifier = Modifier.padding(top = 30.dp)
                 )
+            }
+
+            item {
+                FlowRow(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = 20.dp),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        16.dp,
+                        alignment = Alignment.CenterHorizontally
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    state.products?.forEach { product ->
+                        ProductCardView(Modifier.weight(1f), product = product)
+                    }
+                }
             }
         }
     }

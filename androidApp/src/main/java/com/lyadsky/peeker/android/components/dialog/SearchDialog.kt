@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -62,11 +62,10 @@ fun SearchDialog(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Base.white)
-                .padding(horizontal = 16.dp)
         ) {
 
             CommonTextField(
-                Modifier.padding(top = 10.dp),
+                Modifier.padding(top = 10.dp, bottom = 20.dp, end = 16.dp),
                 textInput = searchTextInput,
                 placeholder = {
                     Text(
@@ -76,7 +75,10 @@ fun SearchDialog(
                     )
                 },
                 trailingIcon = {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(
+                        Modifier.padding(end = 10.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         IconButton(onClick = { onClearedSearchTextField() }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_close),
@@ -101,22 +103,30 @@ fun SearchDialog(
             }
 
             RangePriceView(
-                Modifier.padding(top = 20.dp),
+                Modifier.padding(start = 16.dp, end = 16.dp),
                 rangeFromTextInput = rangeFromTextInput,
                 rangeFromTextFieldValueChanged = rangeFromTextFieldValueChanged,
                 rangeToTextInput = rangeToTextInput,
                 rangeToTextFieldValueChanged = rangeToTextFieldValueChanged
             )
 
-            SearchAllMarketplaces(
-                Modifier.padding(top = 20.dp),
+            SearchAllMarketplacesView(
+                Modifier.padding(top = 20.dp, start = 16.dp, end = 16.dp),
                 searchAllMarketplacesCheckbox = searchAllMarketplacesCheckbox,
                 searchAllMarketplacesCheckboxValueChanged = searchAllMarketplacesCheckboxValueChanged
             )
 
-            SelectMarketplaces(
-                Modifier.padding(top = 20.dp)
-            )
+            OrItemView(Modifier.padding(vertical = 20.dp, horizontal = 16.dp))
+
+            LazyColumn(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            ) {
+                item {
+                    SelectMarketplacesView()
+                }
+            }
         }
     }
 }
@@ -181,7 +191,7 @@ private fun RangePriceView(
 }
 
 @Composable
-private fun SearchAllMarketplaces(
+private fun SearchAllMarketplacesView(
     modifier: Modifier = Modifier,
     searchAllMarketplacesCheckbox: Boolean,
     searchAllMarketplacesCheckboxValueChanged: () -> Unit
@@ -211,27 +221,9 @@ private fun SearchAllMarketplaces(
 }
 
 @Composable
-private fun SelectMarketplaces(modifier: Modifier = Modifier) {
+private fun SelectMarketplacesView(modifier: Modifier = Modifier) {
 
     Column(modifier.fillMaxSize()) {
-
-        Row(
-            Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(5.dp)
-        ) {
-
-            CommonDivider(Modifier.weight(1f))
-
-            Text(
-                text = stringResource(id = R.string.marketplace_or),
-                style = headerSemibold,
-                color = Color.Base.gray
-            )
-
-            CommonDivider(Modifier.weight(1f))
-        }
-
         val marketplaces: List<Marketplace> = listOf(
             Marketplace(1, "Яндекс.Маркет", ""),
             Marketplace(2, "МегаМаркет", ""),
@@ -240,8 +232,28 @@ private fun SelectMarketplaces(modifier: Modifier = Modifier) {
         )
 
         marketplaces.forEach {
-            MarketplaceItemView(Modifier.padding(top = 10.dp), marketplace = it)
+            MarketplaceItemView(Modifier.padding(bottom = 10.dp), marketplace = it)
         }
+    }
+}
+
+@Composable
+fun OrItemView(modifier: Modifier = Modifier) {
+    Row(
+        modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(5.dp)
+    ) {
+
+        CommonDivider(Modifier.weight(1f))
+
+        Text(
+            text = stringResource(id = R.string.marketplace_or),
+            style = headerSemibold,
+            color = Color.Base.gray
+        )
+
+        CommonDivider(Modifier.weight(1f))
     }
 }
 

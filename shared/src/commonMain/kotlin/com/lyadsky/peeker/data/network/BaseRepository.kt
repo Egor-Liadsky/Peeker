@@ -22,9 +22,9 @@ abstract class BaseRepository : KoinComponent {
 
     private val httpClient: HttpClient by inject()
 
-    private val defaultHeaders = StringValues.build {
-        "Content-Type" to "application/json"
-    }
+    private val defaultHeaders = mapOf(
+        "Content-Type" to "application/json",
+    )
 
     protected suspend fun executeCall(
         type: HttpMethod,
@@ -37,7 +37,7 @@ abstract class BaseRepository : KoinComponent {
             return execute(type, path, parameters, headers, body)
         } catch (e: SocketException) {
             throw AppError(code = Code.SERVER_ERROR, description = e.message)
-        } catch (e: ServerException){
+        } catch (e: ServerException) {
             throw AppError(code = Code.SERVER_ERROR, description = e.message)
         }
     }
@@ -58,15 +58,15 @@ abstract class BaseRepository : KoinComponent {
                 }
                 method = type
                 headers?.forEach { this.headers.append(it.key, it.value) }
-                this.headers.appendAll(defaultHeaders)
+                defaultHeaders.forEach { this.headers.append(it.key, it.value) }
                 body?.let { setBody(it) }
             }
         } catch (e: SocketTimeoutException) {
             throw SocketException()
-        } catch (e: IOException){
+        } catch (e: IOException) {
             throw SocketException()
         }
-        if (response.status.value !in 200..299){
+        if (response.status.value !in 200..299) {
             throw ServerException(response.status.value, response.status.description)
         }
         return response.body()
