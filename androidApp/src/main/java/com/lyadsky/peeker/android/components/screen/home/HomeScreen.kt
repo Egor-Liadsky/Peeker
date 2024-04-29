@@ -47,7 +47,8 @@ fun HomeScreen(component: HomeComponent) {
                     rangeToTextInput = state.rangeToTextField,
                     rangeToTextFieldValueChanged = { component.onRangeToTextFieldValueChanged(it) },
                     searchAllMarketplacesCheckbox = state.searchAllMarketplacesCheckbox,
-                    searchAllMarketplacesCheckboxValueChanged = { component.onSearchAllMarketplacesCheckboxValueChanged() }
+                    searchAllMarketplacesCheckboxValueChanged = { component.onSearchAllMarketplacesCheckboxValueChanged() },
+                    markets = state.markets ?: listOf()
                 )
             }
         }

@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.lyadsky.peeker.android.R
 import com.lyadsky.peeker.android.ui.theme.Color
 import com.lyadsky.peeker.android.ui.theme.gilroy
@@ -67,13 +68,14 @@ fun ProductCardView(modifier: Modifier = Modifier, product: Product) {
                     horizontalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
 
-                    Image(
-                        painter = painterResource(id = R.drawable.market_icon),
+                    AsyncImage(
+                        model = product.market.icon,
                         contentDescription = "market icon",
                         modifier = Modifier.size(15.dp)
                     )
+
                     Text(
-                        text = "Яндекс.Маркет",
+                        text = product.market.name,
                         style = TextStyle(
                             color = Color.Base.black,
                             fontFamily = gilroy,

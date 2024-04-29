@@ -29,6 +29,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import coil.compose.AsyncImage
 import com.lyadsky.peeker.android.R
 import com.lyadsky.peeker.android.ui.theme.Color
 import com.lyadsky.peeker.android.ui.theme.headerBold
@@ -38,7 +39,7 @@ import com.lyadsky.peeker.android.ui.theme.textField
 import com.lyadsky.peeker.android.ui.views.divider.CommonDivider
 import com.lyadsky.peeker.android.ui.views.textField.CommonTextField
 import com.lyadsky.peeker.components.dialog.searchDialog.SearchDialogComponent
-import com.lyadsky.peeker.data.model.Marketplace
+import com.lyadsky.peeker.data.model.Market
 
 @Composable
 fun SearchDialog(
@@ -51,7 +52,8 @@ fun SearchDialog(
     rangeToTextInput: String,
     rangeToTextFieldValueChanged: (String) -> Unit,
     searchAllMarketplacesCheckbox: Boolean,
-    searchAllMarketplacesCheckboxValueChanged: () -> Unit
+    searchAllMarketplacesCheckboxValueChanged: () -> Unit,
+    markets: List<Market>
 ) {
 
     Dialog(
@@ -124,7 +126,7 @@ fun SearchDialog(
                     .padding(horizontal = 16.dp)
             ) {
                 item {
-                    SelectMarketplacesView()
+                    SelectMarketplacesView(markets = markets)
                 }
             }
         }
@@ -221,18 +223,10 @@ private fun SearchAllMarketplacesView(
 }
 
 @Composable
-private fun SelectMarketplacesView(modifier: Modifier = Modifier) {
-
+private fun SelectMarketplacesView(modifier: Modifier = Modifier, markets: List<Market>) {
     Column(modifier.fillMaxSize()) {
-        val marketplaces: List<Marketplace> = listOf(
-            Marketplace(1, "Яндекс.Маркет", ""),
-            Marketplace(2, "МегаМаркет", ""),
-            Marketplace(3, "OZON", ""),
-            Marketplace(4, "WILDBERRIES", ""),
-        )
-
-        marketplaces.forEach {
-            MarketplaceItemView(Modifier.padding(bottom = 10.dp), marketplace = it)
+        markets.forEach {
+            MarketplaceItemView(Modifier.padding(bottom = 10.dp), market = it)
         }
     }
 }
@@ -258,19 +252,17 @@ fun OrItemView(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun MarketplaceItemView(modifier: Modifier = Modifier, marketplace: Marketplace) {
-
+fun MarketplaceItemView(modifier: Modifier = Modifier, market: Market) {
     Row(
         modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
 
-        Box(
-            modifier = Modifier
-                .size(24.dp)
-                .clip(CircleShape)
-                .background(Color.Base.black)
+        AsyncImage(
+            model = market.icon,
+            contentDescription = "market icon",
+            modifier = Modifier.size(24.dp)
         )
 
         Column(
@@ -284,7 +276,7 @@ fun MarketplaceItemView(modifier: Modifier = Modifier, marketplace: Marketplace)
             ) {
 
                 Text(
-                    text = marketplace.name,
+                    text = market.name,
                     style = marketplaceHeader,
                     color = Color.Base.black
                 )

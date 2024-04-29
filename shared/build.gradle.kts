@@ -5,7 +5,8 @@ plugins {
     alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.buildKonfig)
-    id("kotlinx-serialization")
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.sqldelight)
 }
 
 kotlin {
@@ -45,6 +46,10 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.koin.core)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.androidx.datastore.preferences)
+
+            implementation("com.squareup.sqldelight:runtime:1.5.4")
+//            implementation(libs.sqldelight.native.driver)
         }
 
         commonTest.dependencies {
@@ -53,6 +58,7 @@ kotlin {
 
         androidMain.dependencies {
             implementation(libs.ktor.client.android)
+            implementation(libs.sqldelight.android.driver)
         }
 
         iosMain.dependencies {
@@ -78,5 +84,14 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+
+sqldelight {
+    databases {
+        create("AppDatabase") {
+            packageName.set("com.lyadsky")
+
+        }
     }
 }

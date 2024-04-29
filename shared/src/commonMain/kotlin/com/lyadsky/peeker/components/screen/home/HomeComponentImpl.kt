@@ -10,6 +10,7 @@ import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.BaseComponent
 import com.lyadsky.peeker.components.dialog.searchDialog.SearchDialogComponentImpl
 import com.lyadsky.peeker.data.network.repository.HomeRepository
+import com.lyadsky.peeker.data.network.services.HomeService
 import com.lyadsky.peeker.utils.LoadingState
 import com.lyadsky.peeker.utils.exceptionHandleable
 import kotlinx.coroutines.Dispatchers
@@ -24,11 +25,22 @@ class HomeComponentImpl(
     private val navigateToAboutAppComponent: () -> Unit
 ) : HomeComponent, BaseComponent<HomeState>(componentContext, HomeState()), KoinComponent {
 
-    private val homeRepository: HomeRepository by inject()
+    private val homeService: HomeService by inject()
 
     private val slotNavigation = SlotNavigation<SlotConfig>()
 
     init {
+        scope.launch(Dispatchers.IO) {
+            exceptionHandleable(
+                executionBlock = {
+                    homeService.saveMarkets()
+                    homeService.searchProducts("вино")
+                },
+                failureBlock = {
+
+                }
+            )
+        }
         getProducts()
     }
 
@@ -62,6 +74,7 @@ class HomeComponentImpl(
 
     override fun onSearchTextFieldClick() {
         slotNavigation.activate(SlotConfig.SearchDialog)
+        getMarkets()
     }
 
     override fun onSearchTextFieldValueChanged(value: String) {
@@ -89,7 +102,7 @@ class HomeComponentImpl(
         scope.launch(Dispatchers.IO) {
             exceptionHandleable(
                 executionBlock = {
-                    val products = homeRepository.searchProducts("вино")
+                    val products = homeService.searchProducts("вино")
                     viewState = viewState.copy(
                         products = products,
                         productsLoadingState = LoadingState.Success
@@ -100,6 +113,14 @@ class HomeComponentImpl(
                         viewState.copy(productsLoadingState = LoadingState.Error(it.message.toString()))
                 }
             )
+        }
+    }
+
+    private fun getMarkets() {
+        scope.launch(Dispatchers.IO) {
+            exceptionHandleable(executionBlock = {
+                viewState = viewState.copy(markets = homeService.getMarkets())
+            })
         }
     }
 

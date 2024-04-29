@@ -1,0 +1,15 @@
+CREATE TABLE Market (
+    id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    icon TEXT NOT NULL
+);
+
+insertMarket:
+INSERT INTO Market (id, name, icon)
+VALUES (?, ?, ?);
+
+getMarkets:
+SELECT * FROM Market;
+
+deleteMarkets:
+DELETE FROM Market;
