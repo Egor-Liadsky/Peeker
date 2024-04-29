@@ -5,11 +5,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,6 +26,7 @@ import com.lyadsky.peeker.android.R
 import com.lyadsky.peeker.android.components.dialog.SearchDialog
 import com.lyadsky.peeker.android.ui.theme.headerBold
 import com.lyadsky.peeker.android.ui.views.card.ProductCardView
+import com.lyadsky.peeker.android.ui.views.layout.EmptyLayout
 import com.lyadsky.peeker.android.ui.views.layout.ErrorLayout
 import com.lyadsky.peeker.android.ui.views.layout.LoadingLayout
 import com.lyadsky.peeker.android.ui.views.layout.SearchBannerLayout
@@ -54,7 +58,9 @@ fun HomeScreen(component: HomeComponent) {
                     searchAllMarketplacesCheckbox = state.searchAllMarketplacesCheckbox,
                     searchAllMarketplacesCheckboxValueChanged = { component.onSearchAllMarketplacesCheckboxValueChanged() },
                     markets = state.markets ?: listOf(),
-                    onSearchClick = { component.onSearchClick() }
+                    onSearchClick = { component.onSearchClick() },
+                    marketsLoadingState = state.marketsLoadingState,
+                    refreshMarkets = { component.onMarketsRefreshClick() }
                 )
             }
         }
@@ -64,14 +70,16 @@ fun HomeScreen(component: HomeComponent) {
             onSearchTextFieldClick = { component.onSearchTextFieldClick() }
         )
 
-        LazyColumn(
-            Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.Center
-        ) {
-            when (state.productsLoadingState) {
-                LoadingState.Success -> {
+        when (state.productsLoadingState) {
+            LoadingState.Success -> {
+
+                LazyColumn(
+                    Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 16.dp),
+                    verticalArrangement = Arrangement.Top
+                ) {
+
                     item {
                         SearchBannerLayout()
                     }
@@ -85,47 +93,33 @@ fun HomeScreen(component: HomeComponent) {
                     }
 
                     item {
-                        Column(
+                        FlowRow(
                             Modifier
-                                .fillMaxSize()
-                                .weight(1f),
-                            verticalArrangement = Arrangement.Center
+                                .fillMaxWidth()
+                                .padding(top = 20.dp),
+                            horizontalArrangement = Arrangement.spacedBy(
+                                16.dp,
+                                alignment = Alignment.CenterHorizontally
+                            ),
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
-                            FlowRow(
-                                Modifier
-                                    .fillMaxWidth()
-                                    .padding(top = 20.dp),
-                                horizontalArrangement = Arrangement.spacedBy(
-                                    16.dp,
-                                    alignment = Alignment.CenterHorizontally
-                                ),
-                                verticalArrangement = Arrangement.spacedBy(16.dp)
-                            ) {
-                                state.products?.forEach { product ->
-                                    ProductCardView(Modifier.weight(1f), product = product)
-                                }
+                            state.products?.forEach { product ->
+                                ProductCardView(Modifier.weight(1f), product = product)
+                            }
+                            if (state.products?.size == 1) {
+                                Spacer(modifier = Modifier.weight(1f))
                             }
                         }
                     }
                 }
+            }
 
-                LoadingState.Loading -> {
-                    item {
-                        LoadingLayout(Modifier.fillMaxWidth())
-                    }
-                }
+            LoadingState.Loading -> LoadingLayout(Modifier.fillMaxSize())
 
-                LoadingState.Empty -> {
+            LoadingState.Empty -> EmptyLayout(Modifier.fillMaxSize())
 
-                }
-
-                is LoadingState.Error -> {
-                    item {
-                        ErrorLayout(Modifier.fillMaxWidth()) {
-                            component.onRefreshClick()
-                        }
-                    }
-                }
+            is LoadingState.Error -> ErrorLayout(Modifier.fillMaxSize()) {
+                component.onProductRefreshClick()
             }
         }
     }

@@ -3,8 +3,6 @@ package com.lyadsky.peeker.android.ui.views.layout
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
@@ -20,24 +18,21 @@ import com.lyadsky.peeker.android.ui.theme.headerBold
 import com.lyadsky.peeker.android.ui.views.button.CommonButton
 
 @Composable
-fun ErrorLayout(modifier: Modifier = Modifier, onRefreshClick: () -> Unit) {
+fun EmptyLayout(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_error),
-            contentDescription = "error icon",
+            painter = painterResource(id = R.drawable.ic_not_found),
+            contentDescription = "not found icon",
             Modifier.size(249.dp, 209.dp)
         )
         Text(
-            text = stringResource(id = R.string.network_error_state),
+            text = stringResource(id = R.string.not_found_state),
             style = headerBold,
             color = Color.Base.black
         )
-        CommonButton(Modifier.width(250.dp), title = stringResource(id = R.string.refresh)) {
-            onRefreshClick()
-        }
     }
 }

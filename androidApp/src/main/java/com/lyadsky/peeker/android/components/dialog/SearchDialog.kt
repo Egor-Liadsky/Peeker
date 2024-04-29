@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -33,10 +34,15 @@ import com.lyadsky.peeker.android.ui.theme.headerBold
 import com.lyadsky.peeker.android.ui.theme.headerSemibold
 import com.lyadsky.peeker.android.ui.theme.marketplaceHeader
 import com.lyadsky.peeker.android.ui.theme.textField
+import com.lyadsky.peeker.android.ui.views.button.CommonButton
 import com.lyadsky.peeker.android.ui.views.divider.CommonDivider
+import com.lyadsky.peeker.android.ui.views.layout.EmptyLayout
+import com.lyadsky.peeker.android.ui.views.layout.ErrorLayout
+import com.lyadsky.peeker.android.ui.views.layout.LoadingLayout
 import com.lyadsky.peeker.android.ui.views.textField.CommonTextField
 import com.lyadsky.peeker.components.dialog.searchDialog.SearchDialogComponent
 import com.lyadsky.peeker.data.model.Market
+import com.lyadsky.peeker.utils.LoadingState
 
 @Composable
 fun SearchDialog(
@@ -51,7 +57,9 @@ fun SearchDialog(
     searchAllMarketplacesCheckbox: Boolean,
     searchAllMarketplacesCheckboxValueChanged: () -> Unit,
     markets: List<Market>,
-    onSearchClick: () -> Unit
+    onSearchClick: () -> Unit,
+    marketsLoadingState: LoadingState,
+    refreshMarkets: () -> Unit
 ) {
 
     Dialog(
@@ -61,11 +69,11 @@ fun SearchDialog(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Base.white)
+                .background(Color.Base.white),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
-            CommonTextField(
-                Modifier.padding(top = 10.dp, bottom = 20.dp, end = 16.dp),
+            CommonTextField(Modifier.padding(top = 10.dp, bottom = 20.dp, end = 16.dp),
                 textInput = searchTextInput,
                 placeholder = {
                     Text(
@@ -98,13 +106,12 @@ fun SearchDialog(
                     component.onDismiss()
                     onSearchClick()
                 }),
-                onBackButtonClick = { component.onDismiss() }
-            ) {
+                onBackButtonClick = { component.onDismiss() }) {
                 searchTextFieldValueChanged(it)
             }
 
             RangePriceView(
-                Modifier.padding(start = 16.dp, end = 16.dp),
+                Modifier.padding(horizontal = 16.dp),
                 rangeFromTextInput = rangeFromTextInput,
                 rangeFromTextFieldValueChanged = rangeFromTextFieldValueChanged,
                 rangeToTextInput = rangeToTextInput,
@@ -112,21 +119,52 @@ fun SearchDialog(
             )
 
             SearchAllMarketplacesView(
-                Modifier.padding(top = 20.dp, start = 16.dp, end = 16.dp),
+                Modifier.padding(start = 16.dp, end = 16.dp),
                 searchAllMarketplacesCheckbox = searchAllMarketplacesCheckbox,
                 searchAllMarketplacesCheckboxValueChanged = searchAllMarketplacesCheckboxValueChanged
             )
 
-            OrItemView(Modifier.padding(vertical = 20.dp, horizontal = 16.dp))
+            OrItemView(Modifier.padding(horizontal = 16.dp))
 
-            LazyColumn(
+            when (marketsLoadingState) {
+                LoadingState.Success -> LazyColumn(
+                    Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .padding(horizontal = 16.dp),
+                ) {
+                    item {
+                        SelectMarketplacesView(markets = markets) // TODO
+                    }
+                }
+
+                LoadingState.Loading -> LoadingLayout(
+                    Modifier
+                        .fillMaxWidth()
+                        .weight(1f))
+
+                LoadingState.Empty -> EmptyLayout(
+                    Modifier
+                        .fillMaxWidth()
+                        .weight(1f))
+
+                is LoadingState.Error -> ErrorLayout(
+                    Modifier
+                        .fillMaxWidth()
+                        .weight(1f)) {
+                    refreshMarkets()
+                }
+            }
+
+            CommonButton(
                 Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
+                    .padding(bottom = 16.dp),
+                title = stringResource(id = R.string.search)
             ) {
-                item {
-                    SelectMarketplacesView(markets = markets)
-                }
+                component.onDismiss()
+                onSearchClick()
             }
         }
     }
@@ -214,8 +252,7 @@ private fun SearchAllMarketplacesView(
             checked = searchAllMarketplacesCheckbox,
             onCheckedChange = { searchAllMarketplacesCheckboxValueChanged() },
             colors = CheckboxDefaults.colors(
-                checkedColor = Color.Checkbox.checked,
-                uncheckedColor = Color.Checkbox.unchecked
+                checkedColor = Color.Checkbox.checked, uncheckedColor = Color.Checkbox.unchecked
             )
         )
     }
@@ -259,14 +296,11 @@ fun MarketplaceItemView(modifier: Modifier = Modifier, market: Market) {
     ) {
 
         AsyncImage(
-            model = market.icon,
-            contentDescription = "market icon",
-            modifier = Modifier.size(24.dp)
+            model = market.icon, contentDescription = "market icon", modifier = Modifier.size(24.dp)
         )
 
         Column(
-            Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.Center
+            Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Center
         ) {
             Row(
                 Modifier.fillMaxWidth(),
@@ -275,15 +309,11 @@ fun MarketplaceItemView(modifier: Modifier = Modifier, market: Market) {
             ) {
 
                 Text(
-                    text = market.code,
-                    style = marketplaceHeader,
-                    color = Color.Base.black
+                    text = market.code, style = marketplaceHeader, color = Color.Base.black
                 )
 
                 Checkbox(
-                    checked = true,
-                    onCheckedChange = { },
-                    colors = CheckboxDefaults.colors(
+                    checked = true, onCheckedChange = { }, colors = CheckboxDefaults.colors(
                         checkedColor = Color.Checkbox.checked,
                         uncheckedColor = Color.Checkbox.unchecked
                     )

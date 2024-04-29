@@ -30,17 +30,7 @@ class HomeComponentImpl(
     private val slotNavigation = SlotNavigation<SlotConfig>()
 
     init {
-        scope.launch(Dispatchers.IO) {
-            exceptionHandleable(
-                executionBlock = {
-                    homeService.saveMarkets()
-                    getProducts()
-                },
-                failureBlock = {
-
-                }
-            )
-        }
+        getMarkets()
         getProducts()
     }
 
@@ -74,7 +64,14 @@ class HomeComponentImpl(
 
     override fun onSearchTextFieldClick() {
         slotNavigation.activate(SlotConfig.SearchDialog)
-        getMarkets()
+        scope.launch(Dispatchers.IO) {
+            viewState = viewState.copy(marketsLoadingState = LoadingState.Loading)
+            val markets = homeService.getMarkets()
+            viewState = viewState.copy(
+                markets = markets,
+                marketsLoadingState = if (markets.isEmpty()) LoadingState.Error("empty") else LoadingState.Success
+            )
+        }
     }
 
     override fun onSearchTextFieldValueChanged(value: String) {
@@ -102,15 +99,19 @@ class HomeComponentImpl(
         getProducts()
     }
 
-    override fun onRefreshClick() {
+    override fun onProductRefreshClick() {
         getProducts()
+    }
+
+    override fun onMarketsRefreshClick() {
+        getMarkets()
     }
 
     private fun getProducts() {
         scope.launch(Dispatchers.IO) {
             exceptionHandleable(
                 executionBlock = {
-                     viewState = viewState.copy(productsLoadingState = LoadingState.Loading)
+                    viewState = viewState.copy(productsLoadingState = LoadingState.Loading)
                     val products = homeService.searchProducts(viewState.searchTextField)
                     viewState = viewState.copy(
                         products = products,
@@ -127,9 +128,21 @@ class HomeComponentImpl(
 
     private fun getMarkets() {
         scope.launch(Dispatchers.IO) {
-            exceptionHandleable(executionBlock = {
-                viewState = viewState.copy(markets = homeService.getMarkets())
-            })
+            exceptionHandleable(
+                executionBlock = {
+                    viewState = viewState.copy(marketsLoadingState = LoadingState.Loading)
+                    homeService.saveMarkets()
+                    val markets = homeService.getMarkets()
+                    viewState = viewState.copy(
+                        markets = markets,
+                        marketsLoadingState = LoadingState.Success
+                    )
+                },
+                failureBlock = {
+                    viewState =
+                        viewState.copy(marketsLoadingState = LoadingState.Error(it.message.toString()))
+                }
+            )
         }
     }
 

@@ -3,7 +3,6 @@ package com.lyadsky.peeker.components.screen.home
 import com.arkivanov.decompose.router.slot.ChildSlot
 import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.dialog.searchDialog.SearchDialogComponent
-import com.lyadsky.peeker.components.screen.root.RootComponent
 
 interface HomeComponent {
 
@@ -27,7 +26,9 @@ interface HomeComponent {
 
     fun onSearchClick()
 
-    fun onRefreshClick()
+    fun onProductRefreshClick()
+
+    fun onMarketsRefreshClick()
 
     sealed class SlotChild {
         data class SearchDialogChild(val component: SearchDialogComponent): SlotChild()
