@@ -21,7 +21,7 @@
 
     <!-- Layout state -->
     <string name="not_found_state">По вашему запросу ничего не найдено</string>
-    <string name="network_error_state">Проверьте соединение и обновите страницу</string>
+    <string name="network_error_state">Проверьте соединение</string>
 
     <!-- Chat -->
     <string name="ai_assistant_top_bar">ИИ-АССИСТЕНТ</string>
@@ -56,5 +56,8 @@
     <string name="onboarding_title_3">ИННОВАЦИОННЫЙ НЕЙРОСЕТЕВОЙ АССИСТЕНТ ДЛЯ УЛУЧШЕННОГО ПОИСКА</string>
     <string name="next">Далее</string>
     <string name="start">Начать</string>
+
+    <!-- Button -->
+    <string name="refresh">Обновить</string>
 
 </resources>

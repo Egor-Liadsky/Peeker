@@ -1,5 +1,6 @@
 package com.lyadsky.peeker.android.components.screen.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -14,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
@@ -21,9 +23,12 @@ import com.lyadsky.peeker.android.R
 import com.lyadsky.peeker.android.components.dialog.SearchDialog
 import com.lyadsky.peeker.android.ui.theme.headerBold
 import com.lyadsky.peeker.android.ui.views.card.ProductCardView
+import com.lyadsky.peeker.android.ui.views.layout.ErrorLayout
+import com.lyadsky.peeker.android.ui.views.layout.LoadingLayout
 import com.lyadsky.peeker.android.ui.views.layout.SearchBannerLayout
 import com.lyadsky.peeker.android.ui.views.topBar.HomeTopBar
 import com.lyadsky.peeker.components.screen.home.HomeComponent
+import com.lyadsky.peeker.utils.LoadingState
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -48,7 +53,8 @@ fun HomeScreen(component: HomeComponent) {
                     rangeToTextFieldValueChanged = { component.onRangeToTextFieldValueChanged(it) },
                     searchAllMarketplacesCheckbox = state.searchAllMarketplacesCheckbox,
                     searchAllMarketplacesCheckboxValueChanged = { component.onSearchAllMarketplacesCheckboxValueChanged() },
-                    markets = state.markets ?: listOf()
+                    markets = state.markets ?: listOf(),
+                    onSearchClick = { component.onSearchClick() }
                 )
             }
         }
@@ -61,34 +67,63 @@ fun HomeScreen(component: HomeComponent) {
         LazyColumn(
             Modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.Center
         ) {
+            when (state.productsLoadingState) {
+                LoadingState.Success -> {
+                    item {
+                        SearchBannerLayout()
+                    }
 
-            item {
-                SearchBannerLayout()
-            }
+                    item {
+                        Text(
+                            text = stringResource(id = R.string.personal_selection),
+                            style = headerBold,
+                            modifier = Modifier.padding(top = 30.dp)
+                        )
+                    }
 
-            item {
-                Text(
-                    text = stringResource(id = R.string.personal_selection),
-                    style = headerBold,
-                    modifier = Modifier.padding(top = 30.dp)
-                )
-            }
+                    item {
+                        Column(
+                            Modifier
+                                .fillMaxSize()
+                                .weight(1f),
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            FlowRow(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 20.dp),
+                                horizontalArrangement = Arrangement.spacedBy(
+                                    16.dp,
+                                    alignment = Alignment.CenterHorizontally
+                                ),
+                                verticalArrangement = Arrangement.spacedBy(16.dp)
+                            ) {
+                                state.products?.forEach { product ->
+                                    ProductCardView(Modifier.weight(1f), product = product)
+                                }
+                            }
+                        }
+                    }
+                }
 
-            item {
-                FlowRow(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(top = 20.dp),
-                    horizontalArrangement = Arrangement.spacedBy(
-                        16.dp,
-                        alignment = Alignment.CenterHorizontally
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    state.products?.forEach { product ->
-                        ProductCardView(Modifier.weight(1f), product = product)
+                LoadingState.Loading -> {
+                    item {
+                        LoadingLayout(Modifier.fillMaxWidth())
+                    }
+                }
+
+                LoadingState.Empty -> {
+
+                }
+
+                is LoadingState.Error -> {
+                    item {
+                        ErrorLayout(Modifier.fillMaxWidth()) {
+                            component.onRefreshClick()
+                        }
                     }
                 }
             }

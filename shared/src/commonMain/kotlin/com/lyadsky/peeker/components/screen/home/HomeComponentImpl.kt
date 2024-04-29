@@ -34,7 +34,7 @@ class HomeComponentImpl(
             exceptionHandleable(
                 executionBlock = {
                     homeService.saveMarkets()
-                    homeService.searchProducts("вино")
+                    getProducts()
                 },
                 failureBlock = {
 
@@ -98,11 +98,20 @@ class HomeComponentImpl(
         viewState = viewState.copy(searchTextField = "")
     }
 
+    override fun onSearchClick() {
+        getProducts()
+    }
+
+    override fun onRefreshClick() {
+        getProducts()
+    }
+
     private fun getProducts() {
         scope.launch(Dispatchers.IO) {
             exceptionHandleable(
                 executionBlock = {
-                    val products = homeService.searchProducts("вино")
+                     viewState = viewState.copy(productsLoadingState = LoadingState.Loading)
+                    val products = homeService.searchProducts(viewState.searchTextField)
                     viewState = viewState.copy(
                         products = products,
                         productsLoadingState = LoadingState.Success

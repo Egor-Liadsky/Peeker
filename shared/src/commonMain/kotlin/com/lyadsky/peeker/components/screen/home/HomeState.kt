@@ -11,7 +11,7 @@ data class HomeState(
     val markets: List<Market>? = null,
     val marketsLoadingState: LoadingState = LoadingState.Loading,
 
-    val searchTextField: String = "",
+    val searchTextField: String = "вино",
     val rangeFromTextField: String = "",
     val rangeToTextField: String = "",
 

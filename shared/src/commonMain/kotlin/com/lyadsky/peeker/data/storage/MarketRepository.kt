@@ -9,12 +9,12 @@ class MarketRepository(database: AppDatabase) {
 
     fun saveMarkets(markets: List<Market>) {
         queries.deleteMarkets()
-        markets.forEach { market -> // FIXME лучше сделать одним запросом, чтобы не наполнять стек вызовов
-            queries.insertMarket(market.id, market.name, market.icon)
+        markets.forEach { market ->
+            queries.insertMarket(market.id, market.code, market.name, market.icon)
         }
     }
 
     fun getMarkets(): List<Market> = queries.getMarkets().executeAsList().map { market ->
-        Market(market.id, market.name, market.icon)
+        Market(market.id, market.code, market.name, market.icon)
     }
 }

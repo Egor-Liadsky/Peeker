@@ -23,6 +23,12 @@ val marketplaceHeader = TextStyle(
     fontWeight = FontWeight.Bold
 )
 
+val buttonTitle = TextStyle(
+    fontSize = 14.sp,
+    fontFamily = gilroy,
+    fontWeight = FontWeight.Bold
+)
+
 val textField = TextStyle(
     fontSize = 14.sp,
     fontFamily = gilroy,

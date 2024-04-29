@@ -3,7 +3,6 @@ package com.lyadsky.peeker.android.components.dialog
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Checkbox
@@ -22,7 +20,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -53,7 +50,8 @@ fun SearchDialog(
     rangeToTextFieldValueChanged: (String) -> Unit,
     searchAllMarketplacesCheckbox: Boolean,
     searchAllMarketplacesCheckboxValueChanged: () -> Unit,
-    markets: List<Market>
+    markets: List<Market>,
+    onSearchClick: () -> Unit
 ) {
 
     Dialog(
@@ -97,7 +95,8 @@ fun SearchDialog(
                 },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                 keyboardActions = KeyboardActions(onSearch = {
-                    Log.e("TAGTAG", "ok")
+                    component.onDismiss()
+                    onSearchClick()
                 }),
                 onBackButtonClick = { component.onDismiss() }
             ) {
@@ -276,7 +275,7 @@ fun MarketplaceItemView(modifier: Modifier = Modifier, market: Market) {
             ) {
 
                 Text(
-                    text = market.name,
+                    text = market.code,
                     style = marketplaceHeader,
                     color = Color.Base.black
                 )

@@ -43,4 +43,9 @@ object Color {
         val imageBackground = Color(0x05395673)
         val background = Color(0xFFFFFFFF)
     }
+
+    object CommonButton {
+        val title = Color(0xFFFFFFFF)
+        val background = Color(0xFF1E1E1E)
+    }
 }

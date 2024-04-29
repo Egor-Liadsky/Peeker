@@ -15,7 +15,7 @@ class HomeService(
         return homeRepository.searchProducts(name).map { product ->
             val market = markets.first { it.id == product.market }
             Product(
-                market = Market(id = market.id, name = market.name, icon = market.icon),
+                market = Market(market.id, market.code, market.name, market.icon),
                 item_id = product.item_id,
                 name = product.name,
                 url = product.url,
@@ -29,8 +29,8 @@ class HomeService(
     }
 
     suspend fun saveMarkets() {
-        val markets = homeRepository.getMarketplaces().markets.map { market ->
-            Market(market.id, market.name, market.photo)
+        val markets = homeRepository.getMarketplaces().map { market ->
+            Market(market.id, market.code, market.name, market.icon)
         }
         marketRepository.saveMarkets(markets)
     }

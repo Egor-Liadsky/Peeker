@@ -1,12 +1,13 @@
 CREATE TABLE Market (
     id INTEGER NOT NULL,
+    code TEXT NOT NULL,
     name TEXT NOT NULL,
     icon TEXT NOT NULL
 );
 
 insertMarket:
-INSERT INTO Market (id, name, icon)
-VALUES (?, ?, ?);
+INSERT INTO Market (id, code, name, icon)
+VALUES (?, ?, ?, ?);
 
 getMarkets:
 SELECT * FROM Market;

@@ -17,10 +17,10 @@ class HomeRepository: BaseRepository() {
         return Json.decodeFromString(response)
     }
 
-    suspend fun getMarketplaces(): MarketResponse {
+    suspend fun getMarketplaces(): List<MarketResponse> {
         val response = executeCall(
             type = HttpMethod.Get,
-            path = "market"
+            path = "market/list"
         )
         return Json.decodeFromString(response)
     }

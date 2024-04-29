@@ -25,6 +25,10 @@ interface HomeComponent {
 
     fun onClearedSearchTextField()
 
+    fun onSearchClick()
+
+    fun onRefreshClick()
+
     sealed class SlotChild {
         data class SearchDialogChild(val component: SearchDialogComponent): SlotChild()
     }
