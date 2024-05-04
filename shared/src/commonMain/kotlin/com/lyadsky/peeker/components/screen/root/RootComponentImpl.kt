@@ -9,7 +9,10 @@ import com.arkivanov.decompose.router.stack.popTo
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.bottomNavigation.BottomNavigationComponentComponentImpl
-import com.lyadsky.peeker.components.screen.aboutApp.AboutAppComponentImpl
+import com.lyadsky.peeker.components.screen.faq.FaqComponentImpl
+import com.lyadsky.peeker.components.screen.feedback.FeedbackComponentImpl
+import com.lyadsky.peeker.components.screen.privacyPolicy.PrivacyPolicyComponentImpl
+import com.lyadsky.peeker.components.screen.termsOfService.TermsOfServiceComponentImpl
 import kotlinx.serialization.Serializable
 
 
@@ -33,20 +36,50 @@ class RootComponentImpl(
     ): RootComponent.Child =
         when (config) {
             Config.BottomNavigation -> bottomNavigationComponent(componentContext)
-            Config.AboutApp -> aboutAppComponent(componentContext)
+            Config.Faq -> faqComponent(componentContext)
+            Config.Feedback -> feedbackComponent(componentContext)
+            Config.PrivacyPolicy -> privacyPolicyComponent(componentContext)
+            Config.TermsOfService -> termsOfServiceComponent(componentContext)
         }
 
     private fun bottomNavigationComponent(componentContext: ComponentContext): RootComponent.Child =
         RootComponent.Child.BottomNavigationChild(
             BottomNavigationComponentComponentImpl(
                 componentContext = componentContext,
-                navigateToAboutAppComponent = { navigation.push(Config.AboutApp) }
+                navigateToFeedbackComponent = { navigation.push(Config.Feedback) },
+                navigateToFaqComponent = { navigation.push(Config.Faq) },
+                navigateToTermsOfServiceComponent = { navigation.push(Config.TermsOfService) },
+                navigateToPrivacyPolicyComponent = { navigation.push(Config.PrivacyPolicy) },
             )
         )
 
-    private fun aboutAppComponent(componentContext: ComponentContext): RootComponent.Child =
-        RootComponent.Child.AboutAppChild(
-            AboutAppComponentImpl(
+    private fun feedbackComponent(componentContext: ComponentContext): RootComponent.Child =
+        RootComponent.Child.FeedbackChild(
+            FeedbackComponentImpl(
+                componentContext = componentContext,
+                onBackButtonClicked = navigation::pop
+            )
+        )
+
+    private fun faqComponent(componentContext: ComponentContext): RootComponent.Child =
+        RootComponent.Child.FaqChild(
+            FaqComponentImpl(
+                componentContext = componentContext,
+                onBackButtonClicked = navigation::pop
+            )
+        )
+
+    private fun termsOfServiceComponent(componentContext: ComponentContext): RootComponent.Child =
+        RootComponent.Child.TermsOfServiceChild(
+            TermsOfServiceComponentImpl(
+                componentContext = componentContext,
+                onBackButtonClicked = navigation::pop
+            )
+        )
+
+    private fun privacyPolicyComponent(componentContext: ComponentContext): RootComponent.Child =
+        RootComponent.Child.PrivacyPolicyChild(
+            PrivacyPolicyComponentImpl(
                 componentContext = componentContext,
                 onBackButtonClicked = navigation::pop
             )
@@ -58,11 +91,19 @@ class RootComponentImpl(
 
     @Serializable
     private sealed interface Config {
-
         @Serializable
         data object BottomNavigation : Config
 
         @Serializable
-        data object AboutApp : Config
+        data object Feedback : Config
+
+        @Serializable
+        data object Faq : Config
+
+        @Serializable
+        data object TermsOfService : Config
+
+        @Serializable
+        data object PrivacyPolicy : Config
     }
 }

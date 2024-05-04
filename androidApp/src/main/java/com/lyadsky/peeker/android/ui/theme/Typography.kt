@@ -4,12 +4,44 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-val despairBold = TextStyle(
+object Typography {
+
+    object AboutApp {
+
+        val peekerTitle = TextStyle(
+            fontSize = 16.sp,
+            fontFamily = despairDisplay,
+            fontWeight = FontWeight.Bold,
+            color = Color.Base.black
+        )
+
+        val copyright = TextStyle(
+            fontSize = 16.sp,
+            fontFamily = gilroy,
+            fontWeight = FontWeight.Medium,
+            color = Color.AboutApp.copyright
+        )
+
+        val version = TextStyle(
+            fontSize = 16.sp,
+            fontFamily = gilroy,
+            fontWeight = FontWeight.Normal,
+            color = Color.AboutApp.version
+        )
+    }
+}
+
+val titleHomeTopBar = TextStyle(
     fontSize = 14.sp,
     fontFamily = despairDisplay,
     fontWeight = FontWeight.Bold
 )
 
+val titleTopBar = TextStyle(
+    fontSize = 16.sp,
+    fontFamily = despairDisplay,
+    fontWeight = FontWeight.Bold
+)
 
 val headerBold = TextStyle(
     fontSize = 16.sp,
@@ -47,6 +79,12 @@ val defaultSemibold = TextStyle(
 )
 
 val headerSemibold = TextStyle(
+    fontSize = 14.sp,
+    fontFamily = gilroy,
+    fontWeight = FontWeight.SemiBold
+)
+
+val settingTitleItemView = TextStyle(
     fontSize = 14.sp,
     fontFamily = gilroy,
     fontWeight = FontWeight.SemiBold

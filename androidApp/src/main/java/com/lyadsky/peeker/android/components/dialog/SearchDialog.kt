@@ -134,24 +134,29 @@ fun SearchDialog(
                         .padding(horizontal = 16.dp),
                 ) {
                     item {
-                        SelectMarketplacesView(markets = markets) // TODO
+                        markets.forEach {
+                            MarketplaceItemView(Modifier.padding(bottom = 10.dp), market = it)
+                        }
                     }
                 }
 
                 LoadingState.Loading -> LoadingLayout(
                     Modifier
                         .fillMaxWidth()
-                        .weight(1f))
+                        .weight(1f)
+                )
 
                 LoadingState.Empty -> EmptyLayout(
                     Modifier
                         .fillMaxWidth()
-                        .weight(1f))
+                        .weight(1f)
+                )
 
                 is LoadingState.Error -> ErrorLayout(
                     Modifier
                         .fillMaxWidth()
-                        .weight(1f)) {
+                        .weight(1f)
+                ) {
                     refreshMarkets()
                 }
             }
@@ -259,15 +264,6 @@ private fun SearchAllMarketplacesView(
 }
 
 @Composable
-private fun SelectMarketplacesView(modifier: Modifier = Modifier, markets: List<Market>) {
-    Column(modifier.fillMaxSize()) {
-        markets.forEach {
-            MarketplaceItemView(Modifier.padding(bottom = 10.dp), market = it)
-        }
-    }
-}
-
-@Composable
 fun OrItemView(modifier: Modifier = Modifier) {
     Row(
         modifier.fillMaxWidth(),
@@ -309,7 +305,7 @@ fun MarketplaceItemView(modifier: Modifier = Modifier, market: Market) {
             ) {
 
                 Text(
-                    text = market.code, style = marketplaceHeader, color = Color.Base.black
+                    text = market.name, style = marketplaceHeader, color = Color.Base.black
                 )
 
                 Checkbox(

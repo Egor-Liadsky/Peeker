@@ -48,4 +48,9 @@ object Color {
         val title = Color(0xFFFFFFFF)
         val background = Color(0xFF1E1E1E)
     }
+
+    object AboutApp {
+        val copyright = Color(0xFF677178)
+        val version = Color(0xFF9E9C9F)
+    }
 }

@@ -34,7 +34,7 @@ fun SelectCityButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
                 tint = Color.Base.black
             )
 
-            Column {
+            Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
                 Text(
                     text = stringResource(id = R.string.select_city_default),
                     style = defaultSemibold,
@@ -42,9 +42,7 @@ fun SelectCityButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
                 )
 
                 DashedDivider(
-                    Modifier
-                        .fillMaxWidth(0.5f) //TODO на планшетах будет плохо смотреться
-                        .padding(top = 5.dp),
+                    Modifier.fillMaxWidth(0.5f), //TODO на планшетах будет плохо смотреться
                     color = Color.Base.black,
                     thickness = 1.dp,
                     phase = 5f,

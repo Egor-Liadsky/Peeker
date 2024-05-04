@@ -10,8 +10,6 @@ interface HomeComponent {
 
     val slotStack: Value<ChildSlot<*, SlotChild>>
 
-    fun navigateToAboutApp()
-
     fun onSearchTextFieldClick()
 
     fun onSearchTextFieldValueChanged(value: String)

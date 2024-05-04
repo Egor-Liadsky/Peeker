@@ -1,6 +1,5 @@
 package com.lyadsky.peeker.android.ui.views.topBar
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,17 +11,17 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.lyadsky.peeker.android.R
 import com.lyadsky.peeker.android.ui.theme.Color
-import com.lyadsky.peeker.android.ui.theme.despairBold
+import com.lyadsky.peeker.android.ui.theme.titleTopBar
 import com.lyadsky.peeker.android.ui.theme.textField
+import com.lyadsky.peeker.android.ui.theme.titleHomeTopBar
 import com.lyadsky.peeker.android.ui.views.button.SelectCityButton
 import com.lyadsky.peeker.android.ui.views.textField.CommonTextField
 
@@ -32,9 +31,6 @@ fun HomeTopBar(
     searchTextInput: String,
     onSearchTextFieldClick: () -> Unit
 ) {
-
-    val context = LocalContext.current
-
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -51,9 +47,10 @@ fun HomeTopBar(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = stringResource(id = R.string.app_name),
-                    style = despairBold,
+                    text = stringResource(id = R.string.app_name_full),
+                    style = titleHomeTopBar,
                     color = Color.Base.black,
+                    fontSize = 14.sp
                 )
 
                 SelectCityButton {
@@ -62,7 +59,7 @@ fun HomeTopBar(
             }
 
             CommonTextField(
-                Modifier.padding(vertical = 20.dp),
+                Modifier.padding(vertical = 16.dp),
                 textInput = searchTextInput,
                 enabled = false,
                 placeholder = {

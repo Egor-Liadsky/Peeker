@@ -72,6 +72,9 @@ buildkonfig {
 
     defaultConfigs {
         buildConfigField(Type.STRING, "BASE_URL", "http://188.165.18.190:7812/api/")
+        buildConfigField(Type.STRING, "APP_VERSION", "1.0")
+        buildConfigField(Type.STRING, "VK_GROUP", "https://vk.com/")
+        buildConfigField(Type.STRING, "TELEGRAM_GROUP", "https://web.telegram.org/k/")
     }
 }
 
@@ -91,7 +94,6 @@ sqldelight {
     databases {
         create("AppDatabase") {
             packageName.set("com.lyadsky")
-
         }
     }
 }

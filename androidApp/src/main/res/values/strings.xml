@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">PEEKER.ME</string>
+    <string name="app_name">PEEKER</string>
+    <string name="app_name_full">PEEKER.ME</string>
 
     <!-- Home -->
     <string name="ai_banner1">НАЧНИТЕ</string>
@@ -39,6 +40,12 @@
     <!-- FAQ -->
     <string name="faq_top_bar">FAQ</string>
     <string name="faq_description">Здесь вы можете найти ответы на часто задаваемые вопросы</string>
+
+    <!-- Privacy policy -->
+    <string name="privacy_policy_top_bar">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</string>
+
+    <!-- Terms of service -->
+    <string name="terms_of_service_top_bar">УСЛОВИЯ ОБСЛУЖИВАНИЯ</string>
 
     <!-- Feedback -->
     <string name="feedback_top_bar">ОБРАТНАЯ СВЯЗЬ</string>

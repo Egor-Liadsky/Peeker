@@ -7,7 +7,7 @@ import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.popTo
 import com.arkivanov.decompose.value.Value
-import com.lyadsky.peeker.components.bottomNavigation.BottomNavigationComponent.*
+import com.lyadsky.peeker.components.bottomNavigation.BottomNavigationComponent.Child
 import com.lyadsky.peeker.components.screen.chat.ChatComponentImpl
 import com.lyadsky.peeker.components.screen.home.HomeComponentImpl
 import com.lyadsky.peeker.components.screen.settings.SettingsComponentImpl
@@ -15,7 +15,10 @@ import kotlinx.serialization.Serializable
 
 class BottomNavigationComponentComponentImpl(
     componentContext: ComponentContext,
-    private val navigateToAboutAppComponent: () -> Unit
+    private val navigateToFeedbackComponent: () -> Unit,
+    private val navigateToFaqComponent: () -> Unit,
+    private val navigateToTermsOfServiceComponent: () -> Unit,
+    private val navigateToPrivacyPolicyComponent: () -> Unit
 ) : BottomNavigationComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
@@ -29,7 +32,7 @@ class BottomNavigationComponentComponentImpl(
         )
 
     override fun onTabClicked(tab: MainNavTab) {
-        when(tab) {
+        when (tab) {
             MainNavTab.HOME -> navigation.bringToFront(Config.Home)
             MainNavTab.CHAT -> navigation.bringToFront(Config.Chat)
             MainNavTab.SETTINGS -> navigation.bringToFront(Config.Settings)
@@ -47,7 +50,7 @@ class BottomNavigationComponentComponentImpl(
         return when (config) {
             Config.Home -> homeComponent(componentContext)
             Config.Chat -> chatComponent(componentContext)
-            Config.Settings -> menuComponent(componentContext)
+            Config.Settings -> settingsComponent(componentContext)
         }
     }
 
@@ -55,17 +58,22 @@ class BottomNavigationComponentComponentImpl(
         Child.HomeChild(
             HomeComponentImpl(
                 componentContext = componentContext,
-                navigateToAboutAppComponent = {
-                    navigateToAboutAppComponent()
-                }
             )
         )
 
     private fun chatComponent(componentContext: ComponentContext): Child =
         Child.ChatChild(ChatComponentImpl(componentContext = componentContext))
 
-    private fun menuComponent(componentContext: ComponentContext): Child =
-        Child.SettingsChild(SettingsComponentImpl(componentContext = componentContext))
+    private fun settingsComponent(componentContext: ComponentContext): Child =
+        Child.SettingsChild(
+            SettingsComponentImpl(
+                componentContext = componentContext,
+                navigateToFeedbackComponent = navigateToFeedbackComponent,
+                navigateToFaqComponent = navigateToFaqComponent,
+                navigateToTermsOfServiceComponent = navigateToTermsOfServiceComponent,
+                navigateToPrivacyPolicyComponent = navigateToPrivacyPolicyComponent,
+            )
+        )
 
     @Serializable
     private sealed interface Config {
@@ -74,7 +82,7 @@ class BottomNavigationComponentComponentImpl(
         data object Home : Config
 
         @Serializable
-        data object Chat: Config
+        data object Chat : Config
 
         @Serializable
         data object Settings : Config

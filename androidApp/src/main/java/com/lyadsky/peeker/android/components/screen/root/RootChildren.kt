@@ -2,12 +2,15 @@ package com.lyadsky.peeker.android.components.screen.root
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
-import com.lyadsky.peeker.components.screen.root.RootComponent
-import com.arkivanov.decompose.extensions.compose.stack.Children
-import com.lyadsky.peeker.android.components.screen.aboutApp.AboutAppScreen
 import com.lyadsky.peeker.android.components.bottomNavigation.BottomNavigationScreen
+import com.lyadsky.peeker.android.components.screen.faq.FaqScreen
+import com.lyadsky.peeker.android.components.screen.feedback.FeedbackScreen
+import com.lyadsky.peeker.android.components.screen.privacyPolicy.PrivacyPolicyScreen
+import com.lyadsky.peeker.android.components.screen.termsOfService.TermsOfServiceScreen
+import com.lyadsky.peeker.components.screen.root.RootComponent
 
 @Composable
 fun RootChildren(component: RootComponent, modifier: Modifier = Modifier) {
@@ -18,7 +21,10 @@ fun RootChildren(component: RootComponent, modifier: Modifier = Modifier) {
     ) {
         when (val child = it.instance) {
             is RootComponent.Child.BottomNavigationChild -> BottomNavigationScreen(component = child.component)
-            is RootComponent.Child.AboutAppChild -> AboutAppScreen(component = child.component)
+            is RootComponent.Child.FaqChild -> FaqScreen(component = child.component)
+            is RootComponent.Child.FeedbackChild -> FeedbackScreen(component = child.component)
+            is RootComponent.Child.PrivacyPolicyChild -> PrivacyPolicyScreen(component = child.component)
+            is RootComponent.Child.TermsOfServiceChild -> TermsOfServiceScreen(component = child.component)
         }
     }
 }

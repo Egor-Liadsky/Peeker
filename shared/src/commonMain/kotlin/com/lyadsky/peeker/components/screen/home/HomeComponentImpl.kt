@@ -22,7 +22,6 @@ import org.koin.core.component.inject
 
 class HomeComponentImpl(
     componentContext: ComponentContext,
-    private val navigateToAboutAppComponent: () -> Unit
 ) : HomeComponent, BaseComponent<HomeState>(componentContext, HomeState()), KoinComponent {
 
     private val homeService: HomeService by inject()
@@ -57,10 +56,6 @@ class HomeComponentImpl(
                 onDismissed = { slotNavigation.dismiss() }
             )
         )
-
-    override fun navigateToAboutApp() {
-        navigateToAboutAppComponent()
-    }
 
     override fun onSearchTextFieldClick() {
         slotNavigation.activate(SlotConfig.SearchDialog)
