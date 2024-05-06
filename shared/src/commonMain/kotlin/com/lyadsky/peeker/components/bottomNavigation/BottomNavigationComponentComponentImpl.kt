@@ -8,17 +8,19 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.popTo
 import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.bottomNavigation.BottomNavigationComponent.Child
-import com.lyadsky.peeker.components.screen.chat.ChatComponentImpl
-import com.lyadsky.peeker.components.screen.home.HomeComponentImpl
-import com.lyadsky.peeker.components.screen.settings.SettingsComponentImpl
+import com.lyadsky.peeker.di.createChatComponent
+import com.lyadsky.peeker.di.createHomeComponent
+import com.lyadsky.peeker.di.createSettingsComponent
+import com.lyadsky.peeker.utils.ComponentFactory
 import kotlinx.serialization.Serializable
 
 class BottomNavigationComponentComponentImpl(
     componentContext: ComponentContext,
+    private val componentFactory: ComponentFactory,
     private val navigateToFeedbackComponent: () -> Unit,
     private val navigateToFaqComponent: () -> Unit,
     private val navigateToTermsOfServiceComponent: () -> Unit,
-    private val navigateToPrivacyPolicyComponent: () -> Unit
+    private val navigateToPrivacyPolicyComponent: () -> Unit,
 ) : BottomNavigationComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
@@ -48,25 +50,21 @@ class BottomNavigationComponentComponentImpl(
         componentContext: ComponentContext
     ): Child {
         return when (config) {
-            Config.Home -> homeComponent(componentContext)
-            Config.Chat -> chatComponent(componentContext)
-            Config.Settings -> settingsComponent(componentContext)
+            Config.Home -> getHomeComponent(componentContext)
+            Config.Chat -> getChatComponent(componentContext)
+            Config.Settings -> getSettingsComponent(componentContext)
         }
     }
 
-    private fun homeComponent(componentContext: ComponentContext): Child =
-        Child.HomeChild(
-            HomeComponentImpl(
-                componentContext = componentContext,
-            )
-        )
+    private fun getHomeComponent(componentContext: ComponentContext): Child =
+        Child.HomeChild(componentFactory.createHomeComponent(componentContext))
 
-    private fun chatComponent(componentContext: ComponentContext): Child =
-        Child.ChatChild(ChatComponentImpl(componentContext = componentContext))
+    private fun getChatComponent(componentContext: ComponentContext): Child =
+        Child.ChatChild(componentFactory.createChatComponent(componentContext = componentContext))
 
-    private fun settingsComponent(componentContext: ComponentContext): Child =
+    private fun getSettingsComponent(componentContext: ComponentContext): Child =
         Child.SettingsChild(
-            SettingsComponentImpl(
+            componentFactory.createSettingsComponent(
                 componentContext = componentContext,
                 navigateToFeedbackComponent = navigateToFeedbackComponent,
                 navigateToFaqComponent = navigateToFaqComponent,

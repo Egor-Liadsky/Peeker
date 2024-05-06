@@ -8,16 +8,18 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.popTo
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
-import com.lyadsky.peeker.components.bottomNavigation.BottomNavigationComponentComponentImpl
-import com.lyadsky.peeker.components.screen.faq.FaqComponentImpl
-import com.lyadsky.peeker.components.screen.feedback.FeedbackComponentImpl
-import com.lyadsky.peeker.components.screen.privacyPolicy.PrivacyPolicyComponentImpl
-import com.lyadsky.peeker.components.screen.termsOfService.TermsOfServiceComponentImpl
+import com.lyadsky.peeker.di.createBottomNavigationComponent
+import com.lyadsky.peeker.di.createFaqComponent
+import com.lyadsky.peeker.di.createFeedbackComponent
+import com.lyadsky.peeker.di.createPrivacyPolicyComponent
+import com.lyadsky.peeker.di.createTermsOfServiceComponent
+import com.lyadsky.peeker.utils.ComponentFactory
 import kotlinx.serialization.Serializable
 
 
 class RootComponentImpl(
-    componentContext: ComponentContext
+    componentContext: ComponentContext,
+    private val componentFactory: ComponentFactory,
 ) : RootComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
@@ -44,7 +46,7 @@ class RootComponentImpl(
 
     private fun bottomNavigationComponent(componentContext: ComponentContext): RootComponent.Child =
         RootComponent.Child.BottomNavigationChild(
-            BottomNavigationComponentComponentImpl(
+            componentFactory.createBottomNavigationComponent(
                 componentContext = componentContext,
                 navigateToFeedbackComponent = { navigation.push(Config.Feedback) },
                 navigateToFaqComponent = { navigation.push(Config.Faq) },
@@ -55,7 +57,7 @@ class RootComponentImpl(
 
     private fun feedbackComponent(componentContext: ComponentContext): RootComponent.Child =
         RootComponent.Child.FeedbackChild(
-            FeedbackComponentImpl(
+            componentFactory.createFeedbackComponent(
                 componentContext = componentContext,
                 onBackButtonClicked = navigation::pop
             )
@@ -63,7 +65,7 @@ class RootComponentImpl(
 
     private fun faqComponent(componentContext: ComponentContext): RootComponent.Child =
         RootComponent.Child.FaqChild(
-            FaqComponentImpl(
+            componentFactory.createFaqComponent(
                 componentContext = componentContext,
                 onBackButtonClicked = navigation::pop
             )
@@ -71,7 +73,7 @@ class RootComponentImpl(
 
     private fun termsOfServiceComponent(componentContext: ComponentContext): RootComponent.Child =
         RootComponent.Child.TermsOfServiceChild(
-            TermsOfServiceComponentImpl(
+            componentFactory.createTermsOfServiceComponent(
                 componentContext = componentContext,
                 onBackButtonClicked = navigation::pop
             )
@@ -79,7 +81,7 @@ class RootComponentImpl(
 
     private fun privacyPolicyComponent(componentContext: ComponentContext): RootComponent.Child =
         RootComponent.Child.PrivacyPolicyChild(
-            PrivacyPolicyComponentImpl(
+            componentFactory.createPrivacyPolicyComponent(
                 componentContext = componentContext,
                 onBackButtonClicked = navigation::pop
             )

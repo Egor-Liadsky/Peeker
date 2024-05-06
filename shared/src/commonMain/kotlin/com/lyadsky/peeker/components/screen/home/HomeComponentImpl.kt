@@ -8,9 +8,9 @@ import com.arkivanov.decompose.router.slot.childSlot
 import com.arkivanov.decompose.router.slot.dismiss
 import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.BaseComponent
-import com.lyadsky.peeker.components.dialog.searchDialog.SearchDialogComponentImpl
-import com.lyadsky.peeker.data.network.repository.HomeRepository
 import com.lyadsky.peeker.data.network.services.HomeService
+import com.lyadsky.peeker.di.createSearchDialogComponent
+import com.lyadsky.peeker.utils.ComponentFactory
 import com.lyadsky.peeker.utils.LoadingState
 import com.lyadsky.peeker.utils.exceptionHandleable
 import kotlinx.coroutines.Dispatchers
@@ -18,13 +18,12 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
 class HomeComponentImpl(
     componentContext: ComponentContext,
+    private val componentFactory: ComponentFactory,
+    private val homeService: HomeService
 ) : HomeComponent, BaseComponent<HomeState>(componentContext, HomeState()), KoinComponent {
-
-    private val homeService: HomeService by inject()
 
     private val slotNavigation = SlotNavigation<SlotConfig>()
 
@@ -51,7 +50,7 @@ class HomeComponentImpl(
 
     private fun searchDialogComponent(componentContext: ComponentContext): HomeComponent.SlotChild =
         HomeComponent.SlotChild.SearchDialogChild(
-            SearchDialogComponentImpl(
+            componentFactory.createSearchDialogComponent(
                 componentContext,
                 onDismissed = { slotNavigation.dismiss() }
             )
