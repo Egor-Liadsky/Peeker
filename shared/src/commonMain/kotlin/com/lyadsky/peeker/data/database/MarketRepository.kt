@@ -1,4 +1,4 @@
-package com.lyadsky.peeker.data.storage
+package com.lyadsky.peeker.data.database
 
 import com.lyadsky.AppDatabase
 import com.lyadsky.peeker.data.model.Market

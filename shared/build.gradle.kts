@@ -48,8 +48,7 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.androidx.datastore.preferences)
 
-            implementation("com.squareup.sqldelight:runtime:1.5.4")
-//            implementation(libs.sqldelight.native.driver)
+            implementation(libs.sqldelight.runtime)
         }
 
         commonTest.dependencies {

@@ -12,23 +12,13 @@ interface HomeComponent {
 
     fun onSearchTextFieldClick()
 
-    fun onSearchTextFieldValueChanged(value: String)
-
-    fun onRangeFromTextFieldValueChanged(value: String)
-
-    fun onRangeToTextFieldValueChanged(value: String)
-
-    fun onSearchAllMarketplacesCheckboxValueChanged()
-
-    fun onClearedSearchTextField()
-
-    fun onSearchClick()
-
     fun onProductRefreshClick()
 
-    fun onMarketsRefreshClick()
+//    fun onSearchTextFieldValueChanged(value: String)
+//
+//    fun onClearedSearchTextField()
 
     sealed class SlotChild {
-        data class SearchDialogChild(val component: SearchDialogComponent): SlotChild()
+        data class SearchDialogChild(val component: SearchDialogComponent) : SlotChild()
     }
 }

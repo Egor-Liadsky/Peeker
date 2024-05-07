@@ -5,7 +5,6 @@ import com.lyadsky.peeker.di.initKoin
 import com.lyadsky.peeker.utils.ComponentFactory
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
-import org.koin.core.Koin
 import org.koin.core.logger.Level
 
 class PeekerApp : Application(){

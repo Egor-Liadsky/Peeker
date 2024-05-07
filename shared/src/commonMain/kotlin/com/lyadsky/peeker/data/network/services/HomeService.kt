@@ -3,7 +3,7 @@ package com.lyadsky.peeker.data.network.services
 import com.lyadsky.peeker.data.model.Market
 import com.lyadsky.peeker.data.model.Product
 import com.lyadsky.peeker.data.network.repository.HomeRepository
-import com.lyadsky.peeker.data.storage.MarketRepository
+import com.lyadsky.peeker.data.database.MarketRepository
 
 class HomeService(
     private val homeRepository: HomeRepository,

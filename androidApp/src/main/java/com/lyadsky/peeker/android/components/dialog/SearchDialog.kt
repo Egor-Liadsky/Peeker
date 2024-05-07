@@ -1,20 +1,14 @@
 package com.lyadsky.peeker.android.components.dialog
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Checkbox
-import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -27,40 +21,20 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import coil.compose.AsyncImage
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.lyadsky.peeker.android.R
+import com.lyadsky.peeker.android.components.dialog.layout.OnboardingSearchLayout
 import com.lyadsky.peeker.android.ui.theme.Color
-import com.lyadsky.peeker.android.ui.theme.headerBold
-import com.lyadsky.peeker.android.ui.theme.headerSemibold
-import com.lyadsky.peeker.android.ui.theme.marketplaceHeader
 import com.lyadsky.peeker.android.ui.theme.textField
-import com.lyadsky.peeker.android.ui.views.button.CommonButton
-import com.lyadsky.peeker.android.ui.views.divider.CommonDivider
-import com.lyadsky.peeker.android.ui.views.layout.EmptyLayout
-import com.lyadsky.peeker.android.ui.views.layout.ErrorLayout
-import com.lyadsky.peeker.android.ui.views.layout.LoadingLayout
 import com.lyadsky.peeker.android.ui.views.textField.CommonTextField
 import com.lyadsky.peeker.components.dialog.searchDialog.SearchDialogComponent
-import com.lyadsky.peeker.data.model.Market
-import com.lyadsky.peeker.utils.LoadingState
 
 @Composable
 fun SearchDialog(
     component: SearchDialogComponent,
     searchTextInput: String,
-    searchTextFieldValueChanged: (String) -> Unit,
-    onClearedSearchTextField: () -> Unit,
-    rangeFromTextInput: String,
-    rangeFromTextFieldValueChanged: (String) -> Unit,
-    rangeToTextInput: String,
-    rangeToTextFieldValueChanged: (String) -> Unit,
-    searchAllMarketplacesCheckbox: Boolean,
-    searchAllMarketplacesCheckboxValueChanged: () -> Unit,
-    markets: List<Market>,
-    onSearchClick: () -> Unit,
-    marketsLoadingState: LoadingState,
-    refreshMarkets: () -> Unit
 ) {
+    val state = component.viewStates.subscribeAsState()
 
     Dialog(
         onDismissRequest = { component.onDismiss() },
@@ -87,7 +61,7 @@ fun SearchDialog(
                         Modifier.padding(end = 10.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        IconButton(onClick = { onClearedSearchTextField() }) {
+                        IconButton(onClick = { component.onClearedSearchTextField() }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_close),
                                 contentDescription = "QrCodeScanner"
@@ -103,220 +77,19 @@ fun SearchDialog(
                 },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                 keyboardActions = KeyboardActions(onSearch = {
-                    component.onDismiss()
-                    onSearchClick()
+                    component.onSearchClick()
                 }),
                 onBackButtonClick = { component.onDismiss() }) {
-                searchTextFieldValueChanged(it)
+                component.onSearchTextFieldValueChanged(it)
             }
 
-            RangePriceView(
-                Modifier.padding(horizontal = 16.dp),
-                rangeFromTextInput = rangeFromTextInput,
-                rangeFromTextFieldValueChanged = rangeFromTextFieldValueChanged,
-                rangeToTextInput = rangeToTextInput,
-                rangeToTextFieldValueChanged = rangeToTextFieldValueChanged
-            )
-
-            SearchAllMarketplacesView(
-                Modifier.padding(start = 16.dp, end = 16.dp),
-                searchAllMarketplacesCheckbox = searchAllMarketplacesCheckbox,
-                searchAllMarketplacesCheckboxValueChanged = searchAllMarketplacesCheckboxValueChanged
-            )
-
-            OrItemView(Modifier.padding(horizontal = 16.dp))
-
-            when (marketsLoadingState) {
-                LoadingState.Success -> LazyColumn(
-                    Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                        .padding(horizontal = 16.dp),
-                ) {
-                    item {
-                        markets.forEach {
-                            MarketplaceItemView(Modifier.padding(bottom = 10.dp), market = it)
-                        }
-                    }
+            when(state.value.searchedProduct) {
+                true -> Column {
+                    Text("search")
                 }
-
-                LoadingState.Loading -> LoadingLayout(
-                    Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                )
-
-                LoadingState.Empty -> EmptyLayout(
-                    Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                )
-
-                is LoadingState.Error -> ErrorLayout(
-                    Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                ) {
-                    refreshMarkets()
-                }
-            }
-
-            CommonButton(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .padding(bottom = 16.dp),
-                title = stringResource(id = R.string.search)
-            ) {
-                component.onDismiss()
-                onSearchClick()
+                false -> OnboardingSearchLayout(component = component)
             }
         }
     }
 }
 
-@Composable
-private fun RangePriceView(
-    modifier: Modifier = Modifier,
-    rangeFromTextInput: String,
-    rangeFromTextFieldValueChanged: (String) -> Unit,
-    rangeToTextInput: String,
-    rangeToTextFieldValueChanged: (String) -> Unit,
-) {
-    Column(modifier.fillMaxWidth()) {
-        Text(
-            text = stringResource(id = R.string.set_range_price),
-            style = headerBold,
-            color = Color.Base.black
-        )
-
-        Row(
-            Modifier.padding(top = 20.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            CommonTextField(
-                Modifier.weight(1f),
-                textInput = rangeFromTextInput,
-                placeholder = {
-                    Text(
-                        text = stringResource(id = R.string.set_range_price_from),
-                        style = textField,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                keyboardActions = KeyboardActions(onNext = {
-                    Log.e("TAGTAG", "ok")
-                }),
-            ) {
-                rangeFromTextFieldValueChanged(it)
-            }
-
-            CommonTextField(
-                Modifier.weight(1f),
-                textInput = rangeToTextInput,
-                placeholder = {
-                    Text(
-                        text = stringResource(id = R.string.set_range_price_to),
-                        style = textField,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                keyboardActions = KeyboardActions(onDone = {
-                    Log.e("TAGTAG", "ok")
-                }),
-            ) {
-                rangeToTextFieldValueChanged(it)
-            }
-        }
-    }
-}
-
-@Composable
-private fun SearchAllMarketplacesView(
-    modifier: Modifier = Modifier,
-    searchAllMarketplacesCheckbox: Boolean,
-    searchAllMarketplacesCheckboxValueChanged: () -> Unit
-) {
-
-    Row(
-        modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-
-        Text(
-            text = stringResource(id = R.string.search_all_marketplaces),
-            style = headerBold,
-            color = Color.Base.black
-        )
-
-        Checkbox(
-            checked = searchAllMarketplacesCheckbox,
-            onCheckedChange = { searchAllMarketplacesCheckboxValueChanged() },
-            colors = CheckboxDefaults.colors(
-                checkedColor = Color.Checkbox.checked, uncheckedColor = Color.Checkbox.unchecked
-            )
-        )
-    }
-}
-
-@Composable
-fun OrItemView(modifier: Modifier = Modifier) {
-    Row(
-        modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(5.dp)
-    ) {
-
-        CommonDivider(Modifier.weight(1f))
-
-        Text(
-            text = stringResource(id = R.string.marketplace_or),
-            style = headerSemibold,
-            color = Color.Base.gray
-        )
-
-        CommonDivider(Modifier.weight(1f))
-    }
-}
-
-@Composable
-fun MarketplaceItemView(modifier: Modifier = Modifier, market: Market) {
-    Row(
-        modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-
-        AsyncImage(
-            model = market.icon, contentDescription = "market icon", modifier = Modifier.size(24.dp)
-        )
-
-        Column(
-            Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Center
-        ) {
-            Row(
-                Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-
-                Text(
-                    text = market.name, style = marketplaceHeader, color = Color.Base.black
-                )
-
-                Checkbox(
-                    checked = true, onCheckedChange = { }, colors = CheckboxDefaults.colors(
-                        checkedColor = Color.Checkbox.checked,
-                        uncheckedColor = Color.Checkbox.unchecked
-                    )
-                )
-            }
-
-            CommonDivider(Modifier.fillMaxWidth())
-        }
-    }
-}

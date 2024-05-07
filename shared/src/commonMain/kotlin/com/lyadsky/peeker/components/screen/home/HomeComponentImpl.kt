@@ -52,53 +52,28 @@ class HomeComponentImpl(
         HomeComponent.SlotChild.SearchDialogChild(
             componentFactory.createSearchDialogComponent(
                 componentContext,
-                onDismissed = { slotNavigation.dismiss() }
+                searchTextFieldValueChanged = {
+                    viewState = viewState.copy(searchTextField = it)
+                },
+                clearedSearchTextField = { viewState = viewState.copy(searchTextField = "") },
+                onDismissed = { slotNavigation.dismiss() },
             )
         )
 
     override fun onSearchTextFieldClick() {
         slotNavigation.activate(SlotConfig.SearchDialog)
-        scope.launch(Dispatchers.IO) {
-            viewState = viewState.copy(marketsLoadingState = LoadingState.Loading)
-            val markets = homeService.getMarkets()
-            viewState = viewState.copy(
-                markets = markets,
-                marketsLoadingState = if (markets.isEmpty()) LoadingState.Error("empty") else LoadingState.Success
-            )
-        }
-    }
-
-    override fun onSearchTextFieldValueChanged(value: String) {
-        viewState = viewState.copy(searchTextField = value)
-    }
-
-    override fun onRangeFromTextFieldValueChanged(value: String) {
-        viewState = viewState.copy(rangeFromTextField = value)
-    }
-
-    override fun onRangeToTextFieldValueChanged(value: String) {
-        viewState = viewState.copy(rangeToTextField = value)
-    }
-
-    override fun onSearchAllMarketplacesCheckboxValueChanged() {
-        viewState =
-            viewState.copy(searchAllMarketplacesCheckbox = !viewState.searchAllMarketplacesCheckbox)
-    }
-
-    override fun onClearedSearchTextField() {
-        viewState = viewState.copy(searchTextField = "")
-    }
-
-    override fun onSearchClick() {
-        getProducts()
+//        scope.launch(Dispatchers.IO) {
+//            viewState = viewState.copy(marketsLoadingState = LoadingState.Loading)
+//            val markets = homeService.getMarkets()
+//            viewState = viewState.copy(
+//                markets = markets,
+//                marketsLoadingState = if (markets.isEmpty()) LoadingState.Error("empty") else LoadingState.Success
+//            )
+//        }
     }
 
     override fun onProductRefreshClick() {
         getProducts()
-    }
-
-    override fun onMarketsRefreshClick() {
-        getMarkets()
     }
 
     private fun getProducts() {
@@ -124,17 +99,9 @@ class HomeComponentImpl(
         scope.launch(Dispatchers.IO) {
             exceptionHandleable(
                 executionBlock = {
-                    viewState = viewState.copy(marketsLoadingState = LoadingState.Loading)
                     homeService.saveMarkets()
                     val markets = homeService.getMarkets()
-                    viewState = viewState.copy(
-                        markets = markets,
-                        marketsLoadingState = LoadingState.Success
-                    )
-                },
-                failureBlock = {
-                    viewState =
-                        viewState.copy(marketsLoadingState = LoadingState.Error(it.message.toString()))
+                    viewState = viewState.copy(markets = markets)
                 }
             )
         }
