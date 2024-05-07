@@ -29,6 +29,12 @@ object Typography {
             color = Color.AboutApp.version
         )
     }
+
+    val filterViewTitle = TextStyle(
+        fontSize = 14.sp,
+        fontFamily = gilroy,
+        fontWeight = FontWeight.Medium
+    )
 }
 
 val titleHomeTopBar = TextStyle(

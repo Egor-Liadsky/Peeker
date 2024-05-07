@@ -19,6 +19,8 @@
     <string name="set_range_price_to">до</string>
     <string name="search_all_marketplaces">Поиск во всех маркетплейсах</string>
     <string name="marketplace_or">ИЛИ</string>
+    <string name="sorting">Сортировка</string>
+    <string name="filter">Фильтры</string>
 
     <!-- Layout state -->
     <string name="not_found_state">По вашему запросу\nничего не найдено</string>

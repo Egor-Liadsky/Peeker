@@ -48,7 +48,7 @@ fun commonModule(): Module = module {
     single { MarketRepository(get()) }
 
     // Services
-    single { HomeService(get(), get()) }
+    single { HomeService(get(), get(), get()) }
 
     // Storage
     single { Storage(get()) }

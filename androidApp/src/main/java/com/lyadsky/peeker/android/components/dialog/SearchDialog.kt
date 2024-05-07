@@ -24,6 +24,7 @@ import androidx.compose.ui.window.DialogProperties
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.lyadsky.peeker.android.R
 import com.lyadsky.peeker.android.components.dialog.layout.OnboardingSearchLayout
+import com.lyadsky.peeker.android.components.dialog.layout.SearchLayout
 import com.lyadsky.peeker.android.ui.theme.Color
 import com.lyadsky.peeker.android.ui.theme.textField
 import com.lyadsky.peeker.android.ui.views.textField.CommonTextField
@@ -44,7 +45,6 @@ fun SearchDialog(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Base.white),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
             CommonTextField(Modifier.padding(top = 10.dp, bottom = 20.dp, end = 16.dp),
@@ -77,17 +77,15 @@ fun SearchDialog(
                 },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                 keyboardActions = KeyboardActions(onSearch = {
-                    component.onSearchClick()
+                    component.onSearchClick(searchTextInput)
                 }),
                 onBackButtonClick = { component.onDismiss() }) {
                 component.onSearchTextFieldValueChanged(it)
             }
 
-            when(state.value.searchedProduct) {
-                true -> Column {
-                    Text("search")
-                }
-                false -> OnboardingSearchLayout(component = component)
+            when (state.value.searchedProduct) {
+                true -> SearchLayout(component = component, searchTextInput) //FIXME вынести стейт в компонент
+                false -> OnboardingSearchLayout(component = component, searchTextInput)
             }
         }
     }

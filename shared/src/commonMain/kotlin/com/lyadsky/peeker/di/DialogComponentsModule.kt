@@ -16,7 +16,6 @@ fun ComponentFactory.createSearchDialogComponent(
     SearchDialogComponentImpl(
         componentContext = componentContext,
         homeService = get(),
-        storage = get(),
         searchTextFieldValueChanged = searchTextFieldValueChanged,
         clearedSearchTextField = clearedSearchTextField,
         onDismissed = onDismissed

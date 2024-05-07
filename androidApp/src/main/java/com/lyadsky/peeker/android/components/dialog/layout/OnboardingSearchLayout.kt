@@ -22,7 +22,7 @@ import com.lyadsky.peeker.components.dialog.searchDialog.SearchDialogComponent
 import com.lyadsky.peeker.utils.LoadingState
 
 @Composable
-fun OnboardingSearchLayout(component: SearchDialogComponent) {
+fun OnboardingSearchLayout(component: SearchDialogComponent, searchTextInput: String) {
 
     val state = component.viewStates.subscribeAsState()
 
@@ -86,7 +86,7 @@ fun OnboardingSearchLayout(component: SearchDialogComponent) {
                 .padding(bottom = 16.dp),
             title = stringResource(id = R.string.search)
         ) {
-            component.onSearchClick()
+            component.onSearchClick(searchTextInput)
         }
     }
 }

@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 class SearchDialogComponentImpl(
     componentContext: ComponentContext,
     private val homeService: HomeService,
-    private val storage: Storage,
     private val searchTextFieldValueChanged: (String) -> Unit,
     private val clearedSearchTextField: () -> Unit,
     private val onDismissed: () -> Unit,
@@ -23,7 +22,7 @@ class SearchDialogComponentImpl(
 
         scope.launch(Dispatchers.IO) {
             getMarkets()
-            val isSearchedProduct = storage.getSearchedProduct()
+            val isSearchedProduct = homeService.getSearchedProduct()
             viewState = viewState.copy(searchedProduct = isSearchedProduct)
         }
     }
@@ -41,19 +40,19 @@ class SearchDialogComponentImpl(
             viewState.copy(searchAllMarketplacesCheckbox = !viewState.searchAllMarketplacesCheckbox)
     }
 
-    override fun onSearchClick() {
+    override fun onSearchClick(value: String) {
         scope.launch(Dispatchers.IO) {
-            getProducts("")
-            val isSearchedProduct = storage.getSearchedProduct()
+            getProducts(value)
+            val isSearchedProduct = homeService.getSearchedProduct()
             if (!isSearchedProduct) {
-                storage.setSearchedProduct(true)
+                homeService.setSearchedProduct(true)
                 viewState = viewState.copy(searchedProduct = true)
             }
         }
     }
 
-    override fun onProductRefreshClick() {
-        getProducts("")
+    override fun onProductRefreshClick(value: String) {
+        getProducts(value)
     }
 
     override fun onMarketsRefreshClick() {

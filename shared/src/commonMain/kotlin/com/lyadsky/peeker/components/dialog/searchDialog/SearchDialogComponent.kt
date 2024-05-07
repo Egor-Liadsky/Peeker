@@ -12,9 +12,9 @@ interface SearchDialogComponent {
 
     fun onSearchAllMarketplacesCheckboxValueChanged()
 
-    fun onSearchClick()
+    fun onSearchClick(value: String)
 
-    fun onProductRefreshClick()
+    fun onProductRefreshClick(value: String)
 
     fun onMarketsRefreshClick()
 

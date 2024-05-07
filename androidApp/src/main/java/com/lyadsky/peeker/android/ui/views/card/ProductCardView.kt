@@ -33,11 +33,11 @@ import com.lyadsky.peeker.data.model.Product
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ProductCardView(modifier: Modifier = Modifier, product: Product) {
+fun ProductCardView(modifier: Modifier = Modifier, product: Product, onClick: () -> Unit) {
 
     Card(
         modifier = modifier.height(260.dp),
-        onClick = {},
+        onClick = { onClick() },
         elevation = 0.dp,
         shape = RoundedCornerShape(10.dp)
     ) {

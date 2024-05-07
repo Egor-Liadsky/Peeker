@@ -4,10 +4,12 @@ import com.lyadsky.peeker.data.model.Market
 import com.lyadsky.peeker.data.model.Product
 import com.lyadsky.peeker.data.network.repository.HomeRepository
 import com.lyadsky.peeker.data.database.MarketRepository
+import com.lyadsky.peeker.data.storage.Storage
 
 class HomeService(
     private val homeRepository: HomeRepository,
-    private val marketRepository: MarketRepository
+    private val marketRepository: MarketRepository,
+    private val storage: Storage
 ) {
 
     suspend fun searchProducts(name: String): List<Product> {
@@ -36,4 +38,8 @@ class HomeService(
     }
 
     fun getMarkets(): List<Market> = marketRepository.getMarkets()
+
+    suspend fun getSearchedProduct(): Boolean = storage.getSearchedProduct()
+
+    suspend fun setSearchedProduct(value: Boolean) = storage.setSearchedProduct(value)
 }
