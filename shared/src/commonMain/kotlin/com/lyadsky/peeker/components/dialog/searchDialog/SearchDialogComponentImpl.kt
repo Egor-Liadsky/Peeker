@@ -94,13 +94,17 @@ class SearchDialogComponentImpl(
                 getProducts(viewState.searchTextField)
             }
         } else {
-            viewState = viewState.copy(productsLoadingState = LoadingState.Empty(EmptyType.EmptyTextField))
+            viewState =
+                viewState.copy(productsLoadingState = LoadingState.Empty(EmptyType.EmptyTextField))
         }
     }
 
     override fun onClearedSearchTextField() {
         clearedSearchTextField()
-        viewState = viewState.copy(searchTextField = "")
+        viewState = viewState.copy(
+            searchTextField = "",
+            productsLoadingState = LoadingState.Empty(EmptyType.EmptyTextField)
+        )
     }
 
     private fun getProducts(value: String) {

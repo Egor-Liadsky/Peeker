@@ -24,6 +24,7 @@
 
     <!-- Layout state -->
     <string name="not_found_state">По вашему запросу ничего не\nнайдено</string>
+    <string name="enter_text_for_search">Введите запрос для поиска</string>
     <string name="network_error_state">Проверьте соединение</string>
 
     <!-- Chat -->

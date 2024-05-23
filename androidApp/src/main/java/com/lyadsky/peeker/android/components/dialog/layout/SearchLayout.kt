@@ -17,6 +17,7 @@ import com.lyadsky.peeker.android.R
 import com.lyadsky.peeker.android.components.dialog.view.FilterView
 import com.lyadsky.peeker.android.ui.theme.Color
 import com.lyadsky.peeker.android.ui.views.layout.EmptyLayout
+import com.lyadsky.peeker.android.ui.views.layout.EnterTextForSearchLayout
 import com.lyadsky.peeker.android.ui.views.layout.ErrorLayout
 import com.lyadsky.peeker.android.ui.views.layout.LoadingLayout
 import com.lyadsky.peeker.android.ui.views.layout.ProductsFlowRowLayout
@@ -37,7 +38,9 @@ fun SearchLayout(component: SearchDialogComponent) {
     ) {
 
         Row(
-            Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -79,7 +82,7 @@ fun SearchLayout(component: SearchDialogComponent) {
 
             is LoadingState.Empty -> {
                 when ((state.productsLoadingState as LoadingState.Empty).type) {
-                    EmptyType.EmptyTextField -> Text(text = "Введите название\nдля поиска")
+                    EmptyType.EmptyTextField -> EnterTextForSearchLayout(Modifier.fillMaxSize())
                     EmptyType.NotFound -> EmptyLayout(Modifier.fillMaxSize())
                 }
             }
