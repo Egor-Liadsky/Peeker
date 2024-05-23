@@ -65,7 +65,7 @@ fun OnboardingSearchLayout(component: SearchDialogComponent) {
                     .weight(1f)
             )
 
-            LoadingState.Empty -> EmptyLayout(
+            is LoadingState.Empty -> EmptyLayout(
                 Modifier
                     .fillMaxWidth()
                     .weight(1f)

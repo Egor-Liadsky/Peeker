@@ -7,7 +7,7 @@ data class Product(
     val url: String,
     val price: Double,
     val rating: Double? = null,
-    val photo: String,
+    val image: String,
     val time_ship: String? = null,
     val datetime_ship: String? = null,
     val geo: String? = null

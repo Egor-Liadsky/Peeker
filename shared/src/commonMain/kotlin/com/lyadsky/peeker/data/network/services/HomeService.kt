@@ -24,7 +24,7 @@ class HomeService(
                 url = product.url,
                 price = product.price,
                 rating = product.rating,
-                photo = product.picture,
+                image = product.picture,
                 time_ship = product.time_ship,
                 datetime_ship = product.datetime_ship,
                 geo = product.geo
@@ -43,7 +43,7 @@ class HomeService(
                 url = product.url,
                 price = product.price,
                 rating = product.rating,
-                photo = product.picture,
+                image = product.picture,
                 time_ship = product.time_ship,
                 datetime_ship = product.datetime_ship,
                 geo = product.geo

@@ -2,15 +2,7 @@ package com.lyadsky.peeker.android.components.dialog.layout
 
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -24,14 +16,14 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.lyadsky.peeker.android.R
 import com.lyadsky.peeker.android.components.dialog.view.FilterView
 import com.lyadsky.peeker.android.ui.theme.Color
-import com.lyadsky.peeker.android.ui.views.card.ProductCardView
 import com.lyadsky.peeker.android.ui.views.layout.EmptyLayout
 import com.lyadsky.peeker.android.ui.views.layout.ErrorLayout
 import com.lyadsky.peeker.android.ui.views.layout.LoadingLayout
+import com.lyadsky.peeker.android.ui.views.layout.ProductsFlowRowLayout
 import com.lyadsky.peeker.components.dialog.searchDialog.SearchDialogComponent
+import com.lyadsky.peeker.utils.EmptyType
 import com.lyadsky.peeker.utils.LoadingState
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SearchLayout(component: SearchDialogComponent) {
 
@@ -69,29 +61,15 @@ fun SearchLayout(component: SearchDialogComponent) {
                     verticalArrangement = Arrangement.Top
                 ) {
                     item {
-                        FlowRow(
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(top = 20.dp, start = 16.dp, end = 16.dp),
-                            horizontalArrangement = Arrangement.spacedBy(
-                                16.dp,
-                                alignment = Alignment.CenterHorizontally
-                            ),
-                            verticalArrangement = Arrangement.spacedBy(16.dp)
-                        ) {
-                            state.products?.forEach { product ->
-                                ProductCardView(Modifier.weight(1f), product = product) {
-                                    context.startActivity(
-                                        Intent(
-                                            Intent.ACTION_VIEW,
-                                            Uri.parse(product.url)
-                                        )
-                                    )
-                                }
-                            }
-                            if (state.products?.size == 1) {
-                                Spacer(modifier = Modifier.weight(1f))
-                            }
+                        ProductsFlowRowLayout(
+                            modifier = Modifier.padding(top = 20.dp, start = 16.dp, end = 16.dp),
+                            products = state.products ?: listOf()) {
+                            context.startActivity(
+                                Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse(it.url)
+                                )
+                            )
                         }
                     }
                 }
@@ -99,11 +77,10 @@ fun SearchLayout(component: SearchDialogComponent) {
 
             LoadingState.Loading -> LoadingLayout(Modifier.fillMaxSize())
 
-            LoadingState.Empty -> {
-                if (state.searchTextField.isEmpty()) {
-                    Text(text = "Введите название\nдля поиска") //TODO move to resourced, add style
-                } else {
-                    EmptyLayout(Modifier.fillMaxSize())
+            is LoadingState.Empty -> {
+                when ((state.productsLoadingState as LoadingState.Empty).type) {
+                    EmptyType.EmptyTextField -> Text(text = "Введите название\nдля поиска")
+                    EmptyType.NotFound -> EmptyLayout(Modifier.fillMaxSize())
                 }
             }
 

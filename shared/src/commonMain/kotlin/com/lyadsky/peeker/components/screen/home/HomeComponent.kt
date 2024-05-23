@@ -10,13 +10,11 @@ interface HomeComponent {
 
     val slotStack: Value<ChildSlot<*, SlotChild>>
 
+    val searchDialogComponent: SlotChild
+
     fun onSearchTextFieldClick()
 
     fun onProductRefreshClick()
-
-//    fun onSearchTextFieldValueChanged(value: String)
-//
-//    fun onClearedSearchTextField()
 
     sealed class SlotChild {
         data class SearchDialogChild(val component: SearchDialogComponent) : SlotChild()

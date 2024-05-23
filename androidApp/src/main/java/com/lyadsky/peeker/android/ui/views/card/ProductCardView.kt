@@ -47,7 +47,6 @@ fun ProductCardView(modifier: Modifier = Modifier, product: Product, onClick: ()
                 .padding(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             Box(
                 modifier = Modifier
                     .size(136.dp)
@@ -55,11 +54,11 @@ fun ProductCardView(modifier: Modifier = Modifier, product: Product, onClick: ()
                     .background(Color.ProductCard.imageBackground),
                 contentAlignment = Alignment.Center
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.iphone),
-                    contentDescription = "iphone",
+                AsyncImage(
+                    model = product.image,
+                    contentDescription = "product image",
                     modifier = Modifier.size(104.dp)
-                )
+                    )
             }
 
             Column(

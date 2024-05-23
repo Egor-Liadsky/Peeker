@@ -1,11 +1,8 @@
 package com.lyadsky.peeker.components.screen.home
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.router.slot.ChildSlot
-import com.arkivanov.decompose.router.slot.SlotNavigation
-import com.arkivanov.decompose.router.slot.activate
-import com.arkivanov.decompose.router.slot.childSlot
-import com.arkivanov.decompose.router.slot.dismiss
+import com.arkivanov.decompose.childContext
+import com.arkivanov.decompose.router.slot.*
 import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.BaseComponent
 import com.lyadsky.peeker.data.network.services.HomeService
@@ -17,13 +14,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
-import org.koin.core.component.KoinComponent
 
 class HomeComponentImpl(
     componentContext: ComponentContext,
     private val componentFactory: ComponentFactory,
     private val homeService: HomeService
-) : HomeComponent, BaseComponent<HomeState>(componentContext, HomeState()), KoinComponent {
+) : HomeComponent, BaseComponent<HomeState>(componentContext, HomeState()) {
 
     private val slotNavigation = SlotNavigation<SlotConfig>()
 
@@ -40,29 +36,24 @@ class HomeComponentImpl(
             childFactory = ::slotChildFactory
         )
 
+    override val searchDialogComponent: HomeComponent.SlotChild =
+        HomeComponent.SlotChild.SearchDialogChild(
+            componentFactory.createSearchDialogComponent(
+                componentContext = childContext(key = "SearchComponent"),
+                searchTextFieldValue = viewState.searchTextField,
+                searchTextFieldValueChanged = { viewState = viewState.copy(searchTextField = it) },
+                clearedSearchTextField = { viewState = viewState.copy(searchTextField = "") },
+                onDismissed = { slotNavigation.dismiss() },
+            )
+        )
+
     private fun slotChildFactory(
         config: SlotConfig,
         componentContext: ComponentContext
     ): HomeComponent.SlotChild =
         when (config) {
-            is SlotConfig.SearchDialog -> searchDialogComponent(componentContext, config.searchTextFieldValue)
+            is SlotConfig.SearchDialog -> searchDialogComponent
         }
-
-    private fun searchDialogComponent(
-        componentContext: ComponentContext,
-        searchTextFieldValue: String
-    ): HomeComponent.SlotChild =
-        HomeComponent.SlotChild.SearchDialogChild(
-            componentFactory.createSearchDialogComponent(
-                componentContext,
-                searchTextFieldValue = searchTextFieldValue,
-                searchTextFieldValueChanged = {
-                    viewState = viewState.copy(searchTextField = it)
-                },
-                clearedSearchTextField = { viewState = viewState.copy(searchTextField = "") },
-                onDismissed = { slotNavigation.dismiss() },
-            )
-        )
 
     override fun onSearchTextFieldClick() {
         slotNavigation.activate(SlotConfig.SearchDialog(viewState.searchTextField))

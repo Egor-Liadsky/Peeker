@@ -1,16 +1,12 @@
 package com.lyadsky.peeker.components.dialog.searchDialog
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.router.slot.activate
 import com.lyadsky.peeker.components.BaseComponent
-import com.lyadsky.peeker.components.screen.home.HomeComponentImpl
 import com.lyadsky.peeker.data.network.services.HomeService
-import com.lyadsky.peeker.data.storage.Storage
+import com.lyadsky.peeker.utils.EmptyType
 import com.lyadsky.peeker.utils.LoadingState
 import com.lyadsky.peeker.utils.exceptionHandleable
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class SearchDialogComponentImpl(
     componentContext: ComponentContext,
@@ -20,6 +16,8 @@ class SearchDialogComponentImpl(
     private val clearedSearchTextField: () -> Unit,
     private val onDismissed: () -> Unit,
 ) : SearchDialogComponent, BaseComponent<SearchDialogState>(componentContext, SearchDialogState()) {
+
+    private var searchJob: Job? = null
 
     init {
         scope.launch(Dispatchers.IO) {
@@ -87,10 +85,22 @@ class SearchDialogComponentImpl(
     override fun onSearchTextFieldValueChanged(value: String) {
         viewState = viewState.copy(searchTextField = value)
         searchTextFieldValueChanged(value)
+
+        searchJob?.cancel()
+
+        if (viewState.searchTextField.isNotEmpty()) {
+            searchJob = scope.launch(Dispatchers.IO) {
+                delay(500)
+                getProducts(viewState.searchTextField)
+            }
+        } else {
+            viewState = viewState.copy(productsLoadingState = LoadingState.Empty(EmptyType.EmptyTextField))
+        }
     }
 
     override fun onClearedSearchTextField() {
         clearedSearchTextField()
+        viewState = viewState.copy(searchTextField = "")
     }
 
     private fun getProducts(value: String) {

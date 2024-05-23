@@ -3,7 +3,6 @@ package com.lyadsky.peeker.di
 import com.arkivanov.decompose.ComponentContext
 import com.lyadsky.peeker.components.dialog.searchDialog.SearchDialogComponent
 import com.lyadsky.peeker.components.dialog.searchDialog.SearchDialogComponentImpl
-import com.lyadsky.peeker.data.network.services.HomeService
 import com.lyadsky.peeker.utils.ComponentFactory
 import org.koin.core.component.get
 
