@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -32,21 +33,19 @@ import com.lyadsky.peeker.utils.LoadingState
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun SearchLayout(component: SearchDialogComponent, searchedText: String) {
+fun SearchLayout(component: SearchDialogComponent) {
 
     val state by component.viewStates.subscribeAsState()
 
     val context = LocalContext.current
 
     Column(
-        Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+        Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
 
         Row(
-            Modifier.fillMaxWidth(),
+            Modifier.fillMaxWidth().padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -66,16 +65,14 @@ fun SearchLayout(component: SearchDialogComponent, searchedText: String) {
         when (state.productsLoadingState) {
             LoadingState.Success -> {
                 LazyColumn(
-                    Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 16.dp),
+                    Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Top
                 ) {
                     item {
                         FlowRow(
                             Modifier
                                 .fillMaxWidth()
-                                .padding(top = 20.dp),
+                                .padding(top = 20.dp, start = 16.dp, end = 16.dp),
                             horizontalArrangement = Arrangement.spacedBy(
                                 16.dp,
                                 alignment = Alignment.CenterHorizontally
@@ -84,7 +81,12 @@ fun SearchLayout(component: SearchDialogComponent, searchedText: String) {
                         ) {
                             state.products?.forEach { product ->
                                 ProductCardView(Modifier.weight(1f), product = product) {
-                                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(product.url)))
+                                    context.startActivity(
+                                        Intent(
+                                            Intent.ACTION_VIEW,
+                                            Uri.parse(product.url)
+                                        )
+                                    )
                                 }
                             }
                             if (state.products?.size == 1) {
@@ -97,10 +99,16 @@ fun SearchLayout(component: SearchDialogComponent, searchedText: String) {
 
             LoadingState.Loading -> LoadingLayout(Modifier.fillMaxSize())
 
-            LoadingState.Empty -> EmptyLayout(Modifier.fillMaxSize())
+            LoadingState.Empty -> {
+                if (state.searchTextField.isEmpty()) {
+                    Text(text = "Введите название\nдля поиска") //TODO move to resourced, add style
+                } else {
+                    EmptyLayout(Modifier.fillMaxSize())
+                }
+            }
 
             is LoadingState.Error -> ErrorLayout(Modifier.fillMaxSize()) {
-                component.onProductRefreshClick(searchedText)
+                component.onProductRefreshClick()
             }
         }
     }

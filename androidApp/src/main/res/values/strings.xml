@@ -23,7 +23,7 @@
     <string name="filter">Фильтры</string>
 
     <!-- Layout state -->
-    <string name="not_found_state">По вашему запросу\nничего не найдено</string>
+    <string name="not_found_state">По вашему запросу ничего не\nнайдено</string>
     <string name="network_error_state">Проверьте соединение</string>
 
     <!-- Chat -->

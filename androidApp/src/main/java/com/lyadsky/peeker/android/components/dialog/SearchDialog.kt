@@ -33,7 +33,7 @@ import com.lyadsky.peeker.components.dialog.searchDialog.SearchDialogComponent
 @Composable
 fun SearchDialog(
     component: SearchDialogComponent,
-    searchTextInput: String,
+//    searchTextInput: String,
 ) {
     val state = component.viewStates.subscribeAsState()
 
@@ -48,7 +48,7 @@ fun SearchDialog(
         ) {
 
             CommonTextField(Modifier.padding(top = 10.dp, bottom = 20.dp, end = 16.dp),
-                textInput = searchTextInput,
+                textInput = state.value.searchTextField,
                 placeholder = {
                     Text(
                         text = stringResource(id = R.string.search_product_placeholder),
@@ -77,15 +77,15 @@ fun SearchDialog(
                 },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                 keyboardActions = KeyboardActions(onSearch = {
-                    component.onSearchClick(searchTextInput)
+                    component.onSearchClick(state.value.searchTextField)
                 }),
                 onBackButtonClick = { component.onDismiss() }) {
                 component.onSearchTextFieldValueChanged(it)
             }
 
             when (state.value.searchedProduct) {
-                true -> SearchLayout(component = component, searchTextInput) //FIXME вынести стейт в компонент
-                false -> OnboardingSearchLayout(component = component, searchTextInput)
+                true -> SearchLayout(component = component)
+                false -> OnboardingSearchLayout(component = component)
             }
         }
     }

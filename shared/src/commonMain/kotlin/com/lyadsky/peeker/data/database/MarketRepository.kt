@@ -1,7 +1,8 @@
 package com.lyadsky.peeker.data.database
 
 import com.lyadsky.AppDatabase
-import com.lyadsky.peeker.data.model.Market
+import com.lyadsky.peeker.data.model.MarketResponse
+import com.lyadsky.peeker.models.Market
 
 class MarketRepository(database: AppDatabase) {
 

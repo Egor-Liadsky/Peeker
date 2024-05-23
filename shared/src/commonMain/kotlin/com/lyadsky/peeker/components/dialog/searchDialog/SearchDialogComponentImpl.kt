@@ -1,7 +1,9 @@
 package com.lyadsky.peeker.components.dialog.searchDialog
 
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.router.slot.activate
 import com.lyadsky.peeker.components.BaseComponent
+import com.lyadsky.peeker.components.screen.home.HomeComponentImpl
 import com.lyadsky.peeker.data.network.services.HomeService
 import com.lyadsky.peeker.data.storage.Storage
 import com.lyadsky.peeker.utils.LoadingState
@@ -13,17 +15,20 @@ import kotlinx.coroutines.launch
 class SearchDialogComponentImpl(
     componentContext: ComponentContext,
     private val homeService: HomeService,
+    private val searchTextFieldValue: String,
     private val searchTextFieldValueChanged: (String) -> Unit,
     private val clearedSearchTextField: () -> Unit,
     private val onDismissed: () -> Unit,
 ) : SearchDialogComponent, BaseComponent<SearchDialogState>(componentContext, SearchDialogState()) {
 
     init {
-
         scope.launch(Dispatchers.IO) {
             getMarkets()
             val isSearchedProduct = homeService.getSearchedProduct()
-            viewState = viewState.copy(searchedProduct = isSearchedProduct)
+            viewState = viewState.copy(
+                searchedProduct = isSearchedProduct,
+                searchTextField = searchTextFieldValue
+            )
         }
     }
 
@@ -51,8 +56,8 @@ class SearchDialogComponentImpl(
         }
     }
 
-    override fun onProductRefreshClick(value: String) {
-        getProducts(value)
+    override fun onProductRefreshClick() {
+        getProducts(viewState.searchTextField)
     }
 
     override fun onMarketsRefreshClick() {
@@ -80,6 +85,7 @@ class SearchDialogComponentImpl(
     }
 
     override fun onSearchTextFieldValueChanged(value: String) {
+        viewState = viewState.copy(searchTextField = value)
         searchTextFieldValueChanged(value)
     }
 

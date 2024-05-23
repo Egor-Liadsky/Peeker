@@ -46,10 +46,7 @@ fun HomeScreen(component: HomeComponent) {
         slotNavigation.child?.instance?.let { instance ->
             when (instance) {
 
-                is HomeComponent.SlotChild.SearchDialogChild -> SearchDialog(
-                    component = instance.component,
-                    searchTextInput = state.searchTextField
-                )
+                is HomeComponent.SlotChild.SearchDialogChild -> SearchDialog(component = instance.component)
             }
         }
 

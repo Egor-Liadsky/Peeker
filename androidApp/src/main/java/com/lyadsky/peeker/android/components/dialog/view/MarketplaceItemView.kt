@@ -16,7 +16,7 @@ import coil.compose.AsyncImage
 import com.lyadsky.peeker.android.ui.theme.Color
 import com.lyadsky.peeker.android.ui.theme.marketplaceHeader
 import com.lyadsky.peeker.android.ui.views.divider.CommonDivider
-import com.lyadsky.peeker.data.model.Market
+import com.lyadsky.peeker.models.Market
 
 @Composable
 fun MarketplaceItemView(modifier: Modifier = Modifier, market: Market) {

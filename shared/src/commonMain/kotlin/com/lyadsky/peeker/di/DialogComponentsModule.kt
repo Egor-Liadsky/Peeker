@@ -11,11 +11,13 @@ fun ComponentFactory.createSearchDialogComponent(
     componentContext: ComponentContext,
     searchTextFieldValueChanged: (String) -> Unit,
     clearedSearchTextField: () -> Unit,
-    onDismissed: () -> Unit
+    searchTextFieldValue: String,
+    onDismissed: () -> Unit,
 ): SearchDialogComponent =
     SearchDialogComponentImpl(
         componentContext = componentContext,
         homeService = get(),
+        searchTextFieldValue = searchTextFieldValue,
         searchTextFieldValueChanged = searchTextFieldValueChanged,
         clearedSearchTextField = clearedSearchTextField,
         onDismissed = onDismissed

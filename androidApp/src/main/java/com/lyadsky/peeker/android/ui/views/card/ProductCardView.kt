@@ -29,7 +29,7 @@ import coil.compose.AsyncImage
 import com.lyadsky.peeker.android.R
 import com.lyadsky.peeker.android.ui.theme.Color
 import com.lyadsky.peeker.android.ui.theme.gilroy
-import com.lyadsky.peeker.data.model.Product
+import com.lyadsky.peeker.models.Product
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -113,7 +113,7 @@ fun ProductCardView(modifier: Modifier = Modifier, product: Product, onClick: ()
                     )
 
                     Text(
-                        text = "4.5 (1200)",
+                        text = product.rating.toString(),
                         style = TextStyle(
                             color = Color.Base.gray,
                             fontFamily = gilroy,

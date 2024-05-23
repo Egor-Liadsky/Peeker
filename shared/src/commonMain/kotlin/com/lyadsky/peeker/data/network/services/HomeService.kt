@@ -1,10 +1,11 @@
 package com.lyadsky.peeker.data.network.services
 
-import com.lyadsky.peeker.data.model.Market
-import com.lyadsky.peeker.data.model.Product
-import com.lyadsky.peeker.data.network.repository.HomeRepository
 import com.lyadsky.peeker.data.database.MarketRepository
+import com.lyadsky.peeker.data.model.ProductItem
+import com.lyadsky.peeker.data.network.repository.HomeRepository
 import com.lyadsky.peeker.data.storage.Storage
+import com.lyadsky.peeker.models.Market
+import com.lyadsky.peeker.models.Product
 
 class HomeService(
     private val homeRepository: HomeRepository,
@@ -12,9 +13,9 @@ class HomeService(
     private val storage: Storage
 ) {
 
-    suspend fun searchProducts(name: String): List<Product> {
+    suspend fun getProducts(): List<Product> {
         val markets = marketRepository.getMarkets()
-        return homeRepository.searchProducts(name).map { product ->
+        return homeRepository.getProducts().map { product ->
             val market = markets.first { it.id == product.market }
             Product(
                 market = Market(market.id, market.code, market.name, market.icon),
@@ -22,7 +23,27 @@ class HomeService(
                 name = product.name,
                 url = product.url,
                 price = product.price,
-                photo = product.photo,
+                rating = product.rating,
+                photo = product.picture,
+                time_ship = product.time_ship,
+                datetime_ship = product.datetime_ship,
+                geo = product.geo
+            )
+        }
+    }
+
+    suspend fun searchProducts(name: String): List<Product> {
+        val markets = marketRepository.getMarkets()
+        return homeRepository.searchProducts(name).items.map { product ->
+            val market = markets.first { it.id == product.market }
+            Product(
+                market = Market(market.id, market.code, market.name, market.icon),
+                item_id = product.item_id,
+                name = product.name,
+                url = product.url,
+                price = product.price,
+                rating = product.rating,
+                photo = product.picture,
                 time_ship = product.time_ship,
                 datetime_ship = product.datetime_ship,
                 geo = product.geo

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -22,29 +23,29 @@ import com.lyadsky.peeker.components.dialog.searchDialog.SearchDialogComponent
 import com.lyadsky.peeker.utils.LoadingState
 
 @Composable
-fun OnboardingSearchLayout(component: SearchDialogComponent, searchTextInput: String) {
+fun OnboardingSearchLayout(component: SearchDialogComponent) {
 
-    val state = component.viewStates.subscribeAsState()
+    val state by component.viewStates.subscribeAsState()
 
     Column {
 
         RangePriceView(
             Modifier.padding(horizontal = 16.dp),
-            rangeFromTextInput = state.value.rangeFromTextField,
+            rangeFromTextInput = state.rangeFromTextField,
             rangeFromTextFieldValueChanged = { component.onRangeFromTextFieldValueChanged(it) },
-            rangeToTextInput = state.value.rangeToTextField,
+            rangeToTextInput = state.rangeToTextField,
             rangeToTextFieldValueChanged = { component.onRangeToTextFieldValueChanged(it) }
         )
 
         SearchAllMarketplacesView(
             Modifier.padding(start = 16.dp, end = 16.dp),
-            searchAllMarketplacesCheckbox = state.value.searchAllMarketplacesCheckbox,
+            searchAllMarketplacesCheckbox = state.searchAllMarketplacesCheckbox,
             searchAllMarketplacesCheckboxValueChanged = { component.onSearchAllMarketplacesCheckboxValueChanged() }
         )
 
         OrItemView(Modifier.padding(horizontal = 16.dp))
 
-        when (state.value.marketsLoadingState) {
+        when (state.marketsLoadingState) {
             LoadingState.Success -> LazyColumn(
                 Modifier
                     .fillMaxWidth()
@@ -52,7 +53,7 @@ fun OnboardingSearchLayout(component: SearchDialogComponent, searchTextInput: St
                     .padding(horizontal = 16.dp),
             ) {
                 item {
-                    state.value.markets?.forEach {
+                    state.markets?.forEach {
                         MarketplaceItemView(Modifier.padding(bottom = 10.dp), market = it)
                     }
                 }
@@ -86,7 +87,7 @@ fun OnboardingSearchLayout(component: SearchDialogComponent, searchTextInput: St
                 .padding(bottom = 16.dp),
             title = stringResource(id = R.string.search)
         ) {
-            component.onSearchClick(searchTextInput)
+            component.onSearchClick(state.searchTextField)
         }
     }
 }

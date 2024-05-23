@@ -9,10 +9,3 @@ data class MarketResponse(
     val name: String,
     val icon: String,
 )
-
-data class Market(
-    val id: Long,
-    val code: String,
-    val name: String,
-    val icon: String,
-)

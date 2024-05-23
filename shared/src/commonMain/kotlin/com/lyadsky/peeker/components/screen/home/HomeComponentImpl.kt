@@ -45,13 +45,17 @@ class HomeComponentImpl(
         componentContext: ComponentContext
     ): HomeComponent.SlotChild =
         when (config) {
-            SlotConfig.SearchDialog -> searchDialogComponent(componentContext)
+            is SlotConfig.SearchDialog -> searchDialogComponent(componentContext, config.searchTextFieldValue)
         }
 
-    private fun searchDialogComponent(componentContext: ComponentContext): HomeComponent.SlotChild =
+    private fun searchDialogComponent(
+        componentContext: ComponentContext,
+        searchTextFieldValue: String
+    ): HomeComponent.SlotChild =
         HomeComponent.SlotChild.SearchDialogChild(
             componentFactory.createSearchDialogComponent(
                 componentContext,
+                searchTextFieldValue = searchTextFieldValue,
                 searchTextFieldValueChanged = {
                     viewState = viewState.copy(searchTextField = it)
                 },
@@ -61,15 +65,7 @@ class HomeComponentImpl(
         )
 
     override fun onSearchTextFieldClick() {
-        slotNavigation.activate(SlotConfig.SearchDialog)
-//        scope.launch(Dispatchers.IO) {
-//            viewState = viewState.copy(marketsLoadingState = LoadingState.Loading)
-//            val markets = homeService.getMarkets()
-//            viewState = viewState.copy(
-//                markets = markets,
-//                marketsLoadingState = if (markets.isEmpty()) LoadingState.Error("empty") else LoadingState.Success
-//            )
-//        }
+        slotNavigation.activate(SlotConfig.SearchDialog(viewState.searchTextField))
     }
 
     override fun onProductRefreshClick() {
@@ -81,7 +77,7 @@ class HomeComponentImpl(
             exceptionHandleable(
                 executionBlock = {
                     viewState = viewState.copy(productsLoadingState = LoadingState.Loading)
-                    val products = homeService.searchProducts(viewState.searchTextField)
+                    val products = homeService.getProducts()
                     viewState = viewState.copy(
                         products = products,
                         productsLoadingState = LoadingState.Success
@@ -111,6 +107,6 @@ class HomeComponentImpl(
     private sealed interface SlotConfig {
 
         @Serializable
-        data object SearchDialog : SlotConfig
+        data class SearchDialog(val searchTextFieldValue: String) : SlotConfig
     }
 }

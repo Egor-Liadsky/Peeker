@@ -14,7 +14,7 @@ interface SearchDialogComponent {
 
     fun onSearchClick(value: String)
 
-    fun onProductRefreshClick(value: String)
+    fun onProductRefreshClick()
 
     fun onMarketsRefreshClick()
 
