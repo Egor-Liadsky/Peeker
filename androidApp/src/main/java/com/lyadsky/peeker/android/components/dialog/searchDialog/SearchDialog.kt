@@ -47,13 +47,13 @@ fun SearchDialog(
                 .fillMaxSize()
                 .background(Color.Base.white),
         ) {
-            
             slotNavigation.child?.instance?.let { instance ->
-                when(instance) {
-                    is SearchDialogComponent.SlotChild.FilterBottomSheetChild -> FilterBottomSheetView(
+                when (instance) {
+                    is SearchDialogComponent.SlotChild.SortingBottomSheetChild -> SortingBottomSheetView(
                         component = instance.component
                     )
-                    is SearchDialogComponent.SlotChild.SortingBottomSheetChild -> SortingBottomSheetView(
+
+                    is SearchDialogComponent.SlotChild.FilterBottomSheetChild -> FilterBottomSheetView(
                         component = instance.component
                     )
                 }

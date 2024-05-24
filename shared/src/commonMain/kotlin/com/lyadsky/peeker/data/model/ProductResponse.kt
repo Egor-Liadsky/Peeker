@@ -13,7 +13,7 @@ data class ProductResponse(
 @Serializable
 data class ProductItem(
     val market: Long,
-    val item_id: Int,
+    val item_id: Long,
     val name: String,
     val url: String,
     val price: Double,

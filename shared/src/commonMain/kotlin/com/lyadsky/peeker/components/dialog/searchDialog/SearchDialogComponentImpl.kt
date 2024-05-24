@@ -75,8 +75,8 @@ class SearchDialogComponentImpl(
         componentContext: ComponentContext
     ): SearchDialogComponent.SlotChild =
         when(config) {
-            SlotConfig.FilterBottomSheet -> sortingBottomSheetComponent
-            SlotConfig.SortingBottomSheet -> filterBottomSheetComponent
+            SlotConfig.FilterBottomSheet -> filterBottomSheetComponent
+            SlotConfig.SortingBottomSheet -> sortingBottomSheetComponent
         }
 
     override fun onRangeFromTextFieldValueChanged(value: String) {

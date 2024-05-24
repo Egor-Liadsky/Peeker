@@ -2,6 +2,7 @@ package com.lyadsky.peeker.android.ui.theme
 
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 
 object Typography {
@@ -27,6 +28,24 @@ object Typography {
             fontFamily = gilroy,
             fontWeight = FontWeight.Normal,
             color = Color.AboutApp.version
+        )
+    }
+
+    object SortingBottomSheet {
+
+        val title = TextStyle(
+            fontSize = 20.sp,
+            fontFamily = gilroy,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            color = Color.Base.black
+        )
+
+        val type = TextStyle(
+            fontSize = 16.sp,
+            fontFamily = gilroy,
+            fontWeight = FontWeight.SemiBold,
+            color = Color.Base.black
         )
     }
 

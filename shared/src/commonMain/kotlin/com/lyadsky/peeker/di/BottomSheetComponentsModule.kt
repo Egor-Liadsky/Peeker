@@ -5,12 +5,13 @@ import com.lyadsky.peeker.components.bottomSheet.filter.FilterBottomSheetCompone
 import com.lyadsky.peeker.components.bottomSheet.filter.FilterBottomSheetComponentImpl
 import com.lyadsky.peeker.components.bottomSheet.sorting.SortingBottomSheetComponent
 import com.lyadsky.peeker.components.bottomSheet.sorting.SortingBottomSheetComponentImpl
-import com.lyadsky.peeker.components.bottomSheet.sorting.SortingType
+import com.lyadsky.peeker.models.Sorting
+import com.lyadsky.peeker.models.SortingType
 import com.lyadsky.peeker.utils.ComponentFactory
 
 fun ComponentFactory.createSortingBottomSheetComponent(
     componentContext: ComponentContext,
-    onSelectSortingType: (String) -> Unit,
+    onSelectSortingType: (SortingType) -> Unit,
     onDismiss: () -> Unit
 ): SortingBottomSheetComponent =
     SortingBottomSheetComponentImpl(

@@ -15,6 +15,6 @@ fun FilterBottomSheetView(component: FilterBottomSheetComponent) {
     val state by component.viewStates.subscribeAsState()
 
     ModalBottomSheet(onDismissRequest = { component.onDismissClick() }) {
-        Text(text = "Filter Botttom Sheet")
+        Text(text = "sorting")
     }
 }

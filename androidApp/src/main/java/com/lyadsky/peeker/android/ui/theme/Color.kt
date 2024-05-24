@@ -53,4 +53,9 @@ object Color {
         val copyright = Color(0xFF677178)
         val version = Color(0xFF9E9C9F)
     }
+
+    object RadioButton {
+        val selectedSorting = Color(0xFF5D00F5)
+        val unselectedSorting = Color(0xFF2A2F33)
+    }
 }

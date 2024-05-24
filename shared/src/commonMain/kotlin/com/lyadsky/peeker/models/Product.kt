@@ -2,7 +2,7 @@ package com.lyadsky.peeker.models
 
 data class Product(
     val market: Market,
-    val item_id: Int,
+    val item_id: Long,
     val name: String,
     val url: String,
     val price: Double,
