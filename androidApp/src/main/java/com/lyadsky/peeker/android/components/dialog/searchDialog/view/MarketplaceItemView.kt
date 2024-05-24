@@ -1,4 +1,4 @@
-package com.lyadsky.peeker.android.components.dialog.view
+package com.lyadsky.peeker.android.components.dialog.searchDialog.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -44,7 +44,9 @@ fun MarketplaceItemView(modifier: Modifier = Modifier, market: Market) {
                 )
 
                 Checkbox(
-                    checked = true, onCheckedChange = { }, colors = CheckboxDefaults.colors(
+                    checked = true,
+                    onCheckedChange = { },
+                    colors = CheckboxDefaults.colors(
                         checkedColor = Color.Checkbox.checked,
                         uncheckedColor = Color.Checkbox.unchecked
                     )

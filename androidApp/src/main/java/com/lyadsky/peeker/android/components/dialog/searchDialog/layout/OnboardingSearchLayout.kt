@@ -1,4 +1,4 @@
-package com.lyadsky.peeker.android.components.dialog.layout
+package com.lyadsky.peeker.android.components.dialog.searchDialog.layout
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,10 +11,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.lyadsky.peeker.android.R
-import com.lyadsky.peeker.android.components.dialog.view.MarketplaceItemView
-import com.lyadsky.peeker.android.components.dialog.view.OrItemView
-import com.lyadsky.peeker.android.components.dialog.view.RangePriceView
-import com.lyadsky.peeker.android.components.dialog.view.SearchAllMarketplacesView
+import com.lyadsky.peeker.android.components.dialog.searchDialog.view.MarketplaceItemView
+import com.lyadsky.peeker.android.components.dialog.searchDialog.view.OrItemView
+import com.lyadsky.peeker.android.components.dialog.searchDialog.view.RangePriceView
+import com.lyadsky.peeker.android.components.dialog.searchDialog.view.SearchAllMarketplacesView
 import com.lyadsky.peeker.android.ui.views.button.CommonButton
 import com.lyadsky.peeker.android.ui.views.layout.EmptyLayout
 import com.lyadsky.peeker.android.ui.views.layout.ErrorLayout

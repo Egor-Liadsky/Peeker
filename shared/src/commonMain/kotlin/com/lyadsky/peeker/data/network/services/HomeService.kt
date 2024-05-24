@@ -15,7 +15,7 @@ class HomeService(
 
     suspend fun getProducts(): List<Product> {
         val markets = marketRepository.getMarkets()
-        return homeRepository.getProducts().map { product ->
+        return homeRepository.getProducts().items.map { product ->
             val market = markets.first { it.id == product.market }
             Product(
                 market = Market(market.id, market.code, market.name, market.icon),

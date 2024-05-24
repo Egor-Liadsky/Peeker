@@ -1,4 +1,4 @@
-package com.lyadsky.peeker.android.components.dialog.view
+package com.lyadsky.peeker.android.components.dialog.searchDialog.view
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement

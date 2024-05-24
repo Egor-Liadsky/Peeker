@@ -1,4 +1,4 @@
-package com.lyadsky.peeker.android.components.dialog.view
+package com.lyadsky.peeker.android.components.dialog.searchDialog.view
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.padding
@@ -17,10 +17,11 @@ import com.lyadsky.peeker.android.ui.theme.Typography
 fun FilterView(
     title: String,
     @DrawableRes icon: Int,
-    color: Color
+    color: Color,
+    onClick: () -> Unit
 ) {
     TextButton(
-        onClick = { /*TODO*/ },
+        onClick = { onClick() },
     ) {
         Icon(
             painter = painterResource(id = icon), contentDescription = "filter icon",

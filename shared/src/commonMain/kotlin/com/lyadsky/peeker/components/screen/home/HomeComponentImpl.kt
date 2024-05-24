@@ -39,7 +39,7 @@ class HomeComponentImpl(
     override val searchDialogComponent: HomeComponent.SlotChild =
         HomeComponent.SlotChild.SearchDialogChild(
             componentFactory.createSearchDialogComponent(
-                componentContext = childContext(key = "SearchComponent"),
+                componentContext = childContext(key = "SearchDialogComponent"),
                 searchTextFieldValue = viewState.searchTextField,
                 searchTextFieldValueChanged = { viewState = viewState.copy(searchTextField = it) },
                 clearedSearchTextField = { viewState = viewState.copy(searchTextField = "") },

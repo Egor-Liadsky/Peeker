@@ -13,7 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.lyadsky.peeker.android.R
-import com.lyadsky.peeker.android.components.dialog.SearchDialog
+import com.lyadsky.peeker.android.components.dialog.searchDialog.SearchDialog
 import com.lyadsky.peeker.android.ui.theme.headerBold
 import com.lyadsky.peeker.android.ui.views.layout.*
 import com.lyadsky.peeker.android.ui.views.topBar.HomeTopBar
@@ -66,7 +66,7 @@ fun HomeScreen(component: HomeComponent) {
 
                     item {
                         ProductsFlowRowLayout(
-                            modifier = Modifier.padding(top = 20.dp),
+                            modifier = Modifier.padding(vertical = 20.dp),
                             products = state.products ?: listOf()) {
                             context.startActivity(
                                 Intent(

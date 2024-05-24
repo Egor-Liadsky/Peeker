@@ -1,15 +1,29 @@
 package com.lyadsky.peeker.components.dialog.searchDialog
 
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.childContext
+import com.arkivanov.decompose.router.slot.ChildSlot
+import com.arkivanov.decompose.router.slot.SlotNavigation
+import com.arkivanov.decompose.router.slot.activate
+import com.arkivanov.decompose.router.slot.childSlot
+import com.arkivanov.decompose.router.slot.dismiss
+import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.BaseComponent
+import com.lyadsky.peeker.components.bottomSheet.filter.FilterBottomSheetComponent
+import com.lyadsky.peeker.components.bottomSheet.sorting.SortingBottomSheetComponent
 import com.lyadsky.peeker.data.network.services.HomeService
+import com.lyadsky.peeker.di.createFilterBottomSheetComponent
+import com.lyadsky.peeker.di.createSortingBottomSheetComponent
+import com.lyadsky.peeker.utils.ComponentFactory
 import com.lyadsky.peeker.utils.EmptyType
 import com.lyadsky.peeker.utils.LoadingState
 import com.lyadsky.peeker.utils.exceptionHandleable
 import kotlinx.coroutines.*
+import kotlinx.serialization.Serializable
 
 class SearchDialogComponentImpl(
     componentContext: ComponentContext,
+    componentFactory: ComponentFactory,
     private val homeService: HomeService,
     private val searchTextFieldValue: String,
     private val searchTextFieldValueChanged: (String) -> Unit,
@@ -18,6 +32,8 @@ class SearchDialogComponentImpl(
 ) : SearchDialogComponent, BaseComponent<SearchDialogState>(componentContext, SearchDialogState()) {
 
     private var searchJob: Job? = null
+
+    private val slotNavigation = SlotNavigation<SlotConfig>()
 
     init {
         scope.launch(Dispatchers.IO) {
@@ -29,6 +45,39 @@ class SearchDialogComponentImpl(
             )
         }
     }
+
+    override val slotStack: Value<ChildSlot<*, SearchDialogComponent.SlotChild>> =
+        childSlot(
+            source = slotNavigation,
+            serializer = SlotConfig.serializer(),
+            childFactory = ::childFactory
+        )
+
+    override val sortingBottomSheetComponent: SearchDialogComponent.SlotChild =
+        SearchDialogComponent.SlotChild.SortingBottomSheetChild(
+            componentFactory.createSortingBottomSheetComponent(
+                componentContext = childContext(key = "SortingBottomSheetComponent"),
+                onSelectSortingType = {  },
+                onDismiss = { slotNavigation.dismiss() }
+            )
+        )
+
+    override val filterBottomSheetComponent: SearchDialogComponent.SlotChild =
+        SearchDialogComponent.SlotChild.FilterBottomSheetChild(
+            componentFactory.createFilterBottomSheetComponent(
+                componentContext = childContext(key = "FilterBottomSheetComponent"),
+                onDismiss = { slotNavigation.dismiss() }
+            )
+        )
+
+    private fun childFactory(
+        config: SlotConfig,
+        componentContext: ComponentContext
+    ): SearchDialogComponent.SlotChild =
+        when(config) {
+            SlotConfig.FilterBottomSheet -> sortingBottomSheetComponent
+            SlotConfig.SortingBottomSheet -> filterBottomSheetComponent
+        }
 
     override fun onRangeFromTextFieldValueChanged(value: String) {
         viewState = viewState.copy(rangeFromTextField = value)
@@ -78,7 +127,7 @@ class SearchDialogComponentImpl(
         }
     }
 
-    override fun onDismiss() {
+    override fun onDismissClick() {
         onDismissed()
     }
 
@@ -105,6 +154,14 @@ class SearchDialogComponentImpl(
             searchTextField = "",
             productsLoadingState = LoadingState.Empty(EmptyType.EmptyTextField)
         )
+    }
+
+    override fun onSortingButtonClick() {
+        slotNavigation.activate(SlotConfig.SortingBottomSheet)
+    }
+
+    override fun onFilterButtonClick() {
+        slotNavigation.activate(SlotConfig.FilterBottomSheet)
     }
 
     private fun getProducts(value: String) {
@@ -134,5 +191,15 @@ class SearchDialogComponentImpl(
                 marketsLoadingState = if (markets.isEmpty()) LoadingState.Error("empty") else LoadingState.Success
             )
         }
+    }
+
+    @Serializable
+    private sealed interface SlotConfig {
+
+        @Serializable
+        data object SortingBottomSheet : SlotConfig
+
+        @Serializable
+        data object FilterBottomSheet : SlotConfig
     }
 }

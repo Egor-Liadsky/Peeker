@@ -3,11 +3,8 @@ package com.lyadsky.peeker.android.ui.views.layout
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
@@ -20,7 +17,6 @@ import com.lyadsky.peeker.android.R
 import com.lyadsky.peeker.android.ui.theme.Color
 import com.lyadsky.peeker.android.ui.theme.buttonTitle
 import com.lyadsky.peeker.android.ui.theme.headerBold
-import com.lyadsky.peeker.android.ui.views.button.CommonButton
 
 @Composable
 fun ErrorLayout(modifier: Modifier = Modifier, onRefreshClick: () -> Unit) {

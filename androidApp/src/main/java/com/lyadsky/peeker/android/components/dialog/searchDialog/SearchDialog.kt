@@ -1,12 +1,17 @@
-package com.lyadsky.peeker.android.components.dialog
+package com.lyadsky.peeker.android.components.dialog.searchDialog
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -17,8 +22,10 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.lyadsky.peeker.android.R
-import com.lyadsky.peeker.android.components.dialog.layout.OnboardingSearchLayout
-import com.lyadsky.peeker.android.components.dialog.layout.SearchLayout
+import com.lyadsky.peeker.android.components.bottomSheet.filterBottomSheet.FilterBottomSheetView
+import com.lyadsky.peeker.android.components.bottomSheet.sortingBottomSheet.SortingBottomSheetView
+import com.lyadsky.peeker.android.components.dialog.searchDialog.layout.OnboardingSearchLayout
+import com.lyadsky.peeker.android.components.dialog.searchDialog.layout.SearchLayout
 import com.lyadsky.peeker.android.ui.theme.Color
 import com.lyadsky.peeker.android.ui.theme.textField
 import com.lyadsky.peeker.android.ui.views.textField.CommonTextField
@@ -28,10 +35,11 @@ import com.lyadsky.peeker.components.dialog.searchDialog.SearchDialogComponent
 fun SearchDialog(
     component: SearchDialogComponent,
 ) {
-    val state = component.viewStates.subscribeAsState()
+    val state by component.viewStates.subscribeAsState()
+    val slotNavigation by component.slotStack.subscribeAsState()
 
     Dialog(
-        onDismissRequest = { component.onDismiss() },
+        onDismissRequest = { component.onDismissClick() },
         properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
         Column(
@@ -39,9 +47,20 @@ fun SearchDialog(
                 .fillMaxSize()
                 .background(Color.Base.white),
         ) {
+            
+            slotNavigation.child?.instance?.let { instance ->
+                when(instance) {
+                    is SearchDialogComponent.SlotChild.FilterBottomSheetChild -> FilterBottomSheetView(
+                        component = instance.component
+                    )
+                    is SearchDialogComponent.SlotChild.SortingBottomSheetChild -> SortingBottomSheetView(
+                        component = instance.component
+                    )
+                }
+            }
 
             CommonTextField(Modifier.padding(top = 10.dp, bottom = 20.dp, end = 16.dp),
-                textInput = state.value.searchTextField,
+                textInput = state.searchTextField,
                 placeholder = {
                     Text(
                         text = stringResource(id = R.string.search_product_placeholder),
@@ -69,11 +88,11 @@ fun SearchDialog(
                     }
                 },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                onBackButtonClick = { component.onDismiss() }) {
+                onBackButtonClick = { component.onDismissClick() }) {
                 component.onSearchTextFieldValueChanged(it)
             }
 
-            when (state.value.searchedProduct) {
+            when (state.searchedProduct) {
                 true -> SearchLayout(component = component)
                 false -> OnboardingSearchLayout(component = component)
             }

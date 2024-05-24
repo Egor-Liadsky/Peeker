@@ -10,13 +10,11 @@ import kotlinx.serialization.json.Json
 
 class HomeRepository : BaseRepository() {
 
-    suspend fun getProducts(): List<ProductItem> {
+    suspend fun getProducts(): ProductResponse {
         val response = executeCall(
             type = HttpMethod.Get,
             path = "main",
-//            parameters = mapOf(
-//                "offset" to "30"
-//            ), TODO убрать комментарий когда леша доделает пагинацию
+            parameters = mapOf("offset" to "30")
         )
         return Json.decodeFromString(response)
     }
