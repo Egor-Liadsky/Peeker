@@ -24,8 +24,8 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.lyadsky.peeker.android.R
 import com.lyadsky.peeker.android.components.bottomSheet.filterBottomSheet.FilterBottomSheetView
 import com.lyadsky.peeker.android.components.bottomSheet.sortingBottomSheet.SortingBottomSheetView
-import com.lyadsky.peeker.android.components.dialog.searchDialog.layout.OnboardingSearchLayout
 import com.lyadsky.peeker.android.components.dialog.searchDialog.layout.SearchLayout
+import com.lyadsky.peeker.android.components.layout.filterLayout.FilterLayout
 import com.lyadsky.peeker.android.ui.theme.Color
 import com.lyadsky.peeker.android.ui.theme.textField
 import com.lyadsky.peeker.android.ui.views.textField.CommonTextField
@@ -94,7 +94,7 @@ fun SearchDialog(
 
             when (state.searchedProduct) {
                 true -> SearchLayout(component = component)
-                false -> OnboardingSearchLayout(component = component)
+                false -> FilterLayout(component = component.filterLayoutComponent)
             }
         }
     }

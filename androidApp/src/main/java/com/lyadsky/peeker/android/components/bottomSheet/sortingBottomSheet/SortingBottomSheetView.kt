@@ -25,6 +25,7 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.lyadsky.peeker.android.R
 import com.lyadsky.peeker.android.ui.theme.Color
 import com.lyadsky.peeker.android.ui.theme.Typography
+import com.lyadsky.peeker.android.ui.views.button.CommonButton
 import com.lyadsky.peeker.android.ui.views.divider.CommonDivider
 import com.lyadsky.peeker.components.bottomSheet.sorting.SortingBottomSheetComponent
 import com.lyadsky.peeker.models.Sorting
@@ -38,16 +39,17 @@ fun SortingBottomSheetView(component: SortingBottomSheetComponent) {
 
     val sortingTypesList = listOf(
         Sorting(name = stringResource(id = R.string.filter_by_price), type = SortingType.Price),
-        Sorting(name = stringResource(id = R.string.filter_by_marketplaces), type = SortingType.Marketplace),
+        Sorting(
+            name = stringResource(id = R.string.filter_by_marketplaces),
+            type = SortingType.Marketplace
+        ),
         Sorting(name = stringResource(id = R.string.filter_by_rating), type = SortingType.Rating)
     )
 
     ModalBottomSheet(onDismissRequest = { component.onDismissClick() }) {
 
         LazyColumn(
-            Modifier
-                .fillMaxWidth()
-                .padding(bottom = 36.dp)
+            Modifier.fillMaxWidth()
         ) {
 
             item {
@@ -69,6 +71,17 @@ fun SortingBottomSheetView(component: SortingBottomSheetComponent) {
             items(items = sortingTypesList) { sorting ->
                 SortingTypeItemView(sorting = sorting, selectedSorting = state.selectSorting) {
                     component.onSelectSortingClick(sorting)
+                }
+            }
+
+            item {
+                CommonButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    title = stringResource(id = R.string.apply)
+                ) {
+                    component.onApplyClick()
                 }
             }
         }

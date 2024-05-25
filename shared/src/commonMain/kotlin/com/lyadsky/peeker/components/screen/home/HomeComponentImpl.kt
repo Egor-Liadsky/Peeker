@@ -6,7 +6,7 @@ import com.arkivanov.decompose.router.slot.*
 import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.BaseComponent
 import com.lyadsky.peeker.data.network.services.HomeService
-import com.lyadsky.peeker.di.createSearchDialogComponent
+import com.lyadsky.peeker.di.components.createSearchDialogComponent
 import com.lyadsky.peeker.utils.ComponentFactory
 import com.lyadsky.peeker.utils.LoadingState
 import com.lyadsky.peeker.utils.exceptionHandleable
@@ -17,7 +17,7 @@ import kotlinx.serialization.Serializable
 
 class HomeComponentImpl(
     componentContext: ComponentContext,
-    private val componentFactory: ComponentFactory,
+    componentFactory: ComponentFactory,
     private val homeService: HomeService
 ) : HomeComponent, BaseComponent<HomeState>(componentContext, HomeState()) {
 
@@ -75,6 +75,7 @@ class HomeComponentImpl(
                     )
                 },
                 failureBlock = {
+                    println("TAGTAG $it")
                     viewState =
                         viewState.copy(productsLoadingState = LoadingState.Error(it.message.toString()))
                 }

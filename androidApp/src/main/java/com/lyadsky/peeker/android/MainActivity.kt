@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.arkivanov.decompose.defaultComponentContext
 import com.lyadsky.peeker.android.components.screen.root.RootScreen
-import com.lyadsky.peeker.di.createRootComponent
+import com.lyadsky.peeker.di.components.createRootComponent
 import com.lyadsky.peeker.utils.ComponentFactory
 import org.koin.android.ext.android.get
 

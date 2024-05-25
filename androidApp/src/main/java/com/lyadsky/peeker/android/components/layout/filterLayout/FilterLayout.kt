@@ -1,4 +1,4 @@
-package com.lyadsky.peeker.android.components.dialog.searchDialog.layout
+package com.lyadsky.peeker.android.components.layout.filterLayout
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,11 +19,11 @@ import com.lyadsky.peeker.android.ui.views.button.CommonButton
 import com.lyadsky.peeker.android.ui.views.layout.EmptyLayout
 import com.lyadsky.peeker.android.ui.views.layout.ErrorLayout
 import com.lyadsky.peeker.android.ui.views.layout.LoadingLayout
-import com.lyadsky.peeker.components.dialog.searchDialog.SearchDialogComponent
+import com.lyadsky.peeker.components.layout.FilterLayoutComponent
 import com.lyadsky.peeker.utils.LoadingState
 
 @Composable
-fun OnboardingSearchLayout(component: SearchDialogComponent) {
+fun FilterLayout(component: FilterLayoutComponent) {
 
     val state by component.viewStates.subscribeAsState()
 
@@ -87,7 +87,7 @@ fun OnboardingSearchLayout(component: SearchDialogComponent) {
                 .padding(bottom = 16.dp),
             title = stringResource(id = R.string.search)
         ) {
-            component.onSearchClick(state.searchTextField)
+            component.onApplyClick()
         }
     }
 }

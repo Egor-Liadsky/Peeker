@@ -21,6 +21,7 @@
     <string name="marketplace_or">ИЛИ</string>
     <string name="sorting">Сортировка</string>
     <string name="filter">Фильтры</string>
+    <string name="apply">Применить</string>
     <string name="filter_by_price">По цене</string>
     <string name="filter_by_marketplaces">По маркетплейсу</string>
     <string name="filter_by_rating">По рейтингу</string>

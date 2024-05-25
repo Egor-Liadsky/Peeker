@@ -13,8 +13,14 @@ class SortingBottomSheetComponentImpl(
     BaseComponent<SortingBottomSheetState>(componentContext, SortingBottomSheetState()) {
 
     override fun onSelectSortingClick(sorting: Sorting) {
-        onSelectSortingType(sorting.type)
         viewState = viewState.copy(selectSorting = sorting)
+    }
+
+    override fun onApplyClick() {
+        if (viewState.selectSorting != null) {
+            onSelectSortingType(viewState.selectSorting!!.type)
+            onDismiss()
+        }
     }
 
     override fun onDismissClick() {

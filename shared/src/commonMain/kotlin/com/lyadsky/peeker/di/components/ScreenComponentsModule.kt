@@ -1,4 +1,4 @@
-package com.lyadsky.peeker.di
+package com.lyadsky.peeker.di.components
 
 import com.arkivanov.decompose.ComponentContext
 import com.lyadsky.peeker.components.bottomNavigation.BottomNavigationComponent

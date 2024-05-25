@@ -9,16 +9,20 @@ import com.arkivanov.decompose.router.slot.childSlot
 import com.arkivanov.decompose.router.slot.dismiss
 import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.BaseComponent
-import com.lyadsky.peeker.components.bottomSheet.filter.FilterBottomSheetComponent
-import com.lyadsky.peeker.components.bottomSheet.sorting.SortingBottomSheetComponent
+import com.lyadsky.peeker.components.layout.FilterLayoutComponent
 import com.lyadsky.peeker.data.network.services.HomeService
-import com.lyadsky.peeker.di.createFilterBottomSheetComponent
-import com.lyadsky.peeker.di.createSortingBottomSheetComponent
+import com.lyadsky.peeker.di.components.createFilterBottomSheetComponent
+import com.lyadsky.peeker.di.components.createFilterLayoutComponent
+import com.lyadsky.peeker.di.components.createSortingBottomSheetComponent
 import com.lyadsky.peeker.utils.ComponentFactory
 import com.lyadsky.peeker.utils.EmptyType
 import com.lyadsky.peeker.utils.LoadingState
 import com.lyadsky.peeker.utils.exceptionHandleable
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 
 class SearchDialogComponentImpl(
@@ -37,7 +41,6 @@ class SearchDialogComponentImpl(
 
     init {
         scope.launch(Dispatchers.IO) {
-            getMarkets()
             val isSearchedProduct = homeService.getSearchedProduct()
             viewState = viewState.copy(
                 searchedProduct = isSearchedProduct,
@@ -57,7 +60,11 @@ class SearchDialogComponentImpl(
         SearchDialogComponent.SlotChild.SortingBottomSheetChild(
             componentFactory.createSortingBottomSheetComponent(
                 componentContext = childContext(key = "SortingBottomSheetComponent"),
-                onSelectSortingType = {  },
+                onSelectSortingType = {
+                    if (viewState.searchTextField.isNotEmpty()){
+                        getProducts(viewState.searchTextField)
+                    }
+                }, // TODO добавить фильтр
                 onDismiss = { slotNavigation.dismiss() }
             )
         )
@@ -70,61 +77,32 @@ class SearchDialogComponentImpl(
             )
         )
 
+    override val filterLayoutComponent: FilterLayoutComponent =
+        componentFactory.createFilterLayoutComponent(
+            componentContext = childContext(key = "FilterLayoutComponent"),
+            onApplyClick = {
+                scope.launch(Dispatchers.IO) {
+                    getProducts(viewState.searchTextField)
+                    val isSearchedProduct = homeService.getSearchedProduct()
+                    if (!isSearchedProduct) {
+                        homeService.setSearchedProduct(true)
+                        viewState = viewState.copy(searchedProduct = true)
+                    }
+                }
+            }
+        )
+
     private fun childFactory(
         config: SlotConfig,
         componentContext: ComponentContext
     ): SearchDialogComponent.SlotChild =
-        when(config) {
+        when (config) {
             SlotConfig.FilterBottomSheet -> filterBottomSheetComponent
             SlotConfig.SortingBottomSheet -> sortingBottomSheetComponent
         }
 
-    override fun onRangeFromTextFieldValueChanged(value: String) {
-        viewState = viewState.copy(rangeFromTextField = value)
-    }
-
-    override fun onRangeToTextFieldValueChanged(value: String) {
-        viewState = viewState.copy(rangeToTextField = value)
-    }
-
-    override fun onSearchAllMarketplacesCheckboxValueChanged() {
-        viewState =
-            viewState.copy(searchAllMarketplacesCheckbox = !viewState.searchAllMarketplacesCheckbox)
-    }
-
-    override fun onSearchClick(value: String) {
-        scope.launch(Dispatchers.IO) {
-            getProducts(value)
-            val isSearchedProduct = homeService.getSearchedProduct()
-            if (!isSearchedProduct) {
-                homeService.setSearchedProduct(true)
-                viewState = viewState.copy(searchedProduct = true)
-            }
-        }
-    }
-
     override fun onProductRefreshClick() {
         getProducts(viewState.searchTextField)
-    }
-
-    override fun onMarketsRefreshClick() {
-        scope.launch(Dispatchers.IO) {
-            exceptionHandleable(
-                executionBlock = {
-                    viewState = viewState.copy(marketsLoadingState = LoadingState.Loading)
-                    homeService.saveMarkets()
-                    val markets = homeService.getMarkets()
-                    viewState = viewState.copy(
-                        markets = markets,
-                        marketsLoadingState = LoadingState.Success
-                    )
-                },
-                failureBlock = {
-                    viewState =
-                        viewState.copy(marketsLoadingState = LoadingState.Error(it.message.toString()))
-                }
-            )
-        }
     }
 
     override fun onDismissClick() {
@@ -179,16 +157,6 @@ class SearchDialogComponentImpl(
                     viewState =
                         viewState.copy(productsLoadingState = LoadingState.Error(it.message.toString()))
                 }
-            )
-        }
-    }
-
-    private fun getMarkets() {
-        scope.launch(Dispatchers.IO) {
-            val markets = homeService.getMarkets()
-            viewState = viewState.copy(
-                markets = markets,
-                marketsLoadingState = if (markets.isEmpty()) LoadingState.Error("empty") else LoadingState.Success
             )
         }
     }

@@ -9,5 +9,7 @@ interface SortingBottomSheetComponent {
 
     fun onSelectSortingClick(sorting: Sorting)
 
+    fun onApplyClick()
+
     fun onDismissClick()
 }

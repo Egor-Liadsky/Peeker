@@ -8,11 +8,11 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.popTo
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
-import com.lyadsky.peeker.di.createBottomNavigationComponent
-import com.lyadsky.peeker.di.createFaqComponent
-import com.lyadsky.peeker.di.createFeedbackComponent
-import com.lyadsky.peeker.di.createPrivacyPolicyComponent
-import com.lyadsky.peeker.di.createTermsOfServiceComponent
+import com.lyadsky.peeker.di.components.createBottomNavigationComponent
+import com.lyadsky.peeker.di.components.createFaqComponent
+import com.lyadsky.peeker.di.components.createFeedbackComponent
+import com.lyadsky.peeker.di.components.createPrivacyPolicyComponent
+import com.lyadsky.peeker.di.components.createTermsOfServiceComponent
 import com.lyadsky.peeker.utils.ComponentFactory
 import kotlinx.serialization.Serializable
 

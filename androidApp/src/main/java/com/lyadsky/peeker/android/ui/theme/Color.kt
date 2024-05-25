@@ -32,7 +32,7 @@ object Color {
 
     object Checkbox {
         val checked = Color(0xFF7E2EFF)
-        val unchecked = Color(0xFF7E2EFF)
+        val unchecked = Color(0xFF2A2F33)
     }
 
     object Divider {

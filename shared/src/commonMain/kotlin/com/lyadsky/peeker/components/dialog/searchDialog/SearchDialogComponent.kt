@@ -4,6 +4,7 @@ import com.arkivanov.decompose.router.slot.ChildSlot
 import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.bottomSheet.filter.FilterBottomSheetComponent
 import com.lyadsky.peeker.components.bottomSheet.sorting.SortingBottomSheetComponent
+import com.lyadsky.peeker.components.layout.FilterLayoutComponent
 
 interface SearchDialogComponent {
 
@@ -11,21 +12,13 @@ interface SearchDialogComponent {
 
     val slotStack: Value<ChildSlot<*, SlotChild>>
 
-    val sortingBottomSheetComponent: SearchDialogComponent.SlotChild
+    val sortingBottomSheetComponent: SlotChild
 
-    val filterBottomSheetComponent: SearchDialogComponent.SlotChild
+    val filterBottomSheetComponent: SlotChild
 
-    fun onRangeFromTextFieldValueChanged(value: String)
-
-    fun onRangeToTextFieldValueChanged(value: String)
-
-    fun onSearchAllMarketplacesCheckboxValueChanged()
-
-    fun onSearchClick(value: String)
+    val filterLayoutComponent: FilterLayoutComponent
 
     fun onProductRefreshClick()
-
-    fun onMarketsRefreshClick()
 
     fun onSearchTextFieldValueChanged(value: String)
 
