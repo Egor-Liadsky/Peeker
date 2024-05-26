@@ -44,11 +44,11 @@ fun commonModule(): Module = module {
     }
 
     // Repository
-    single { HomeRepository() }
+    single { HomeRepository(get()) }
     single { MarketRepository(get()) }
 
     // Services
-    single { HomeService(get(), get(), get()) }
+    single { HomeService(get(), get()) }
 
     // Storage
     single { Storage(get()) }

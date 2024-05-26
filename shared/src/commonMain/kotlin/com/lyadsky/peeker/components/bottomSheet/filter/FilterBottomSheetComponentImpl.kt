@@ -11,15 +11,16 @@ import com.lyadsky.peeker.utils.ComponentFactory
 class FilterBottomSheetComponentImpl(
     componentContext: ComponentContext,
     componentFactory: ComponentFactory,
-    private val onDismiss: () -> Unit
+    private val onDismiss: () -> Unit,
 ) : FilterBottomSheetComponent,
     BaseComponent<FilterBottomSheetState>(componentContext, FilterBottomSheetState()) {
 
-    override val filterLayoutComponent: FilterLayoutComponent =
+    override val filterLayoutComponent: FilterLayoutComponent by lazy {
         componentFactory.createFilterLayoutComponent(
             componentContext = childContext(key = "FilterLayoutComponent"),
-            onApplyClick = {  }
+            onApplyClick = { onDismiss() }
         )
+    }
 
     override fun onDismissClick() {
         onDismiss()

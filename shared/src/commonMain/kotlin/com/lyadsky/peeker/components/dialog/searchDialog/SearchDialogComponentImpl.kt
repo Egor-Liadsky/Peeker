@@ -61,7 +61,7 @@ class SearchDialogComponentImpl(
             componentFactory.createSortingBottomSheetComponent(
                 componentContext = childContext(key = "SortingBottomSheetComponent"),
                 onSelectSortingType = {
-                    if (viewState.searchTextField.isNotEmpty()){
+                    if (viewState.searchTextField.isNotEmpty()) {
                         getProducts(viewState.searchTextField)
                     }
                 }, // TODO добавить фильтр
@@ -77,20 +77,18 @@ class SearchDialogComponentImpl(
             )
         )
 
-    override val filterLayoutComponent: FilterLayoutComponent =
+    override val filterLayoutComponent: FilterLayoutComponent by lazy {
         componentFactory.createFilterLayoutComponent(
             componentContext = childContext(key = "FilterLayoutComponent"),
             onApplyClick = {
                 scope.launch(Dispatchers.IO) {
+                    homeService.setSearchedProduct(true)
+                    viewState = viewState.copy(searchedProduct = true)
                     getProducts(viewState.searchTextField)
-                    val isSearchedProduct = homeService.getSearchedProduct()
-                    if (!isSearchedProduct) {
-                        homeService.setSearchedProduct(true)
-                        viewState = viewState.copy(searchedProduct = true)
-                    }
                 }
             }
         )
+    }
 
     private fun childFactory(
         config: SlotConfig,
@@ -113,16 +111,18 @@ class SearchDialogComponentImpl(
         viewState = viewState.copy(searchTextField = value)
         searchTextFieldValueChanged(value)
 
-        searchJob?.cancel()
+        if (viewState.searchedProduct) {
+            searchJob?.cancel()
 
-        if (viewState.searchTextField.isNotEmpty()) {
-            searchJob = scope.launch(Dispatchers.IO) {
-                delay(500)
-                getProducts(viewState.searchTextField)
+            if (viewState.searchTextField.isNotEmpty()) {
+                searchJob = scope.launch(Dispatchers.IO) {
+                    delay(500)
+                    getProducts(viewState.searchTextField)
+                }
+            } else {
+                viewState =
+                    viewState.copy(productsLoadingState = LoadingState.Empty(EmptyType.EmptyTextField))
             }
-        } else {
-            viewState =
-                viewState.copy(productsLoadingState = LoadingState.Empty(EmptyType.EmptyTextField))
         }
     }
 

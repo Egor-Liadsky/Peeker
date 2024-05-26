@@ -16,9 +16,7 @@ class FilterLayoutComponentImpl(
 ) : FilterLayoutComponent, BaseComponent<FilterLayoutState>(componentContext, FilterLayoutState()) {
 
     init {
-        scope.launch(Dispatchers.IO) {
-            getMarkets()
-        }
+        getMarkets()
     }
 
     override fun onRangeFromTextFieldValueChanged(value: String) {
@@ -39,31 +37,24 @@ class FilterLayoutComponentImpl(
     }
 
     override fun onMarketsRefreshClick() {
+       getMarkets()
+    }
+
+    private fun getMarkets() {
         scope.launch(Dispatchers.IO) {
             exceptionHandleable(
                 executionBlock = {
                     viewState = viewState.copy(marketsLoadingState = LoadingState.Loading)
-                    homeService.saveMarkets()
                     val markets = homeService.getMarkets()
                     viewState = viewState.copy(
                         markets = markets,
-                        marketsLoadingState = LoadingState.Success
+                        marketsLoadingState = if (markets.isEmpty()) LoadingState.Error("empty") else LoadingState.Success // TODO понять почему тут Error
                     )
                 },
                 failureBlock = {
                     viewState =
                         viewState.copy(marketsLoadingState = LoadingState.Error(it.message.toString()))
                 }
-            )
-        }
-    }
-
-    private fun getMarkets() {
-        scope.launch(Dispatchers.IO) {
-            val markets = homeService.getMarkets()
-            viewState = viewState.copy(
-                markets = markets,
-                marketsLoadingState = if (markets.isEmpty()) LoadingState.Error("empty") else LoadingState.Success
             )
         }
     }

@@ -2,7 +2,11 @@ package com.lyadsky.peeker.components.screen.home
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
-import com.arkivanov.decompose.router.slot.*
+import com.arkivanov.decompose.router.slot.ChildSlot
+import com.arkivanov.decompose.router.slot.SlotNavigation
+import com.arkivanov.decompose.router.slot.activate
+import com.arkivanov.decompose.router.slot.childSlot
+import com.arkivanov.decompose.router.slot.dismiss
 import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.BaseComponent
 import com.lyadsky.peeker.data.network.services.HomeService
@@ -24,19 +28,10 @@ class HomeComponentImpl(
     private val slotNavigation = SlotNavigation<SlotConfig>()
 
     init {
-        getMarkets()
-        getProducts()
+        getData()
     }
 
-    override val slotStack: Value<ChildSlot<*, HomeComponent.SlotChild>> =
-        childSlot(
-            source = slotNavigation,
-            serializer = SlotConfig.serializer(),
-            key = "SlotNavigation",
-            childFactory = ::slotChildFactory
-        )
-
-    override val searchDialogComponent: HomeComponent.SlotChild =
+    override val searchDialogComponent: HomeComponent.SlotChild = //TODO childContext надо заменить
         HomeComponent.SlotChild.SearchDialogChild(
             componentFactory.createSearchDialogComponent(
                 componentContext = childContext(key = "SearchDialogComponent"),
@@ -45,6 +40,14 @@ class HomeComponentImpl(
                 clearedSearchTextField = { viewState = viewState.copy(searchTextField = "") },
                 onDismissed = { slotNavigation.dismiss() },
             )
+        )
+
+    override val slotStack: Value<ChildSlot<*, HomeComponent.SlotChild>> =
+        childSlot(
+            source = slotNavigation,
+            serializer = SlotConfig.serializer(),
+            key = "SlotNavigation",
+            childFactory = ::slotChildFactory
         )
 
     private fun slotChildFactory(
@@ -60,14 +63,15 @@ class HomeComponentImpl(
     }
 
     override fun onProductRefreshClick() {
-        getProducts()
+        getData()
     }
 
-    private fun getProducts() {
+    private fun getData() {
         scope.launch(Dispatchers.IO) {
             exceptionHandleable(
                 executionBlock = {
                     viewState = viewState.copy(productsLoadingState = LoadingState.Loading)
+                    homeService.saveMarkets()
                     val products = homeService.getProducts()
                     viewState = viewState.copy(
                         products = products,
@@ -75,21 +79,8 @@ class HomeComponentImpl(
                     )
                 },
                 failureBlock = {
-                    println("TAGTAG $it")
                     viewState =
                         viewState.copy(productsLoadingState = LoadingState.Error(it.message.toString()))
-                }
-            )
-        }
-    }
-
-    private fun getMarkets() {
-        scope.launch(Dispatchers.IO) {
-            exceptionHandleable(
-                executionBlock = {
-                    homeService.saveMarkets()
-                    val markets = homeService.getMarkets()
-                    viewState = viewState.copy(markets = markets)
                 }
             )
         }

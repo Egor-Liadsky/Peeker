@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -27,10 +28,9 @@ fun FilterLayout(component: FilterLayoutComponent) {
 
     val state by component.viewStates.subscribeAsState()
 
-    Column {
+    Column(Modifier.padding(horizontal = 16.dp)) {
 
         RangePriceView(
-            Modifier.padding(horizontal = 16.dp),
             rangeFromTextInput = state.rangeFromTextField,
             rangeFromTextFieldValueChanged = { component.onRangeFromTextFieldValueChanged(it) },
             rangeToTextInput = state.rangeToTextField,
@@ -38,7 +38,6 @@ fun FilterLayout(component: FilterLayoutComponent) {
         )
 
         SearchAllMarketplacesView(
-            Modifier.padding(start = 16.dp, end = 16.dp),
             searchAllMarketplacesCheckbox = state.searchAllMarketplacesCheckbox,
             searchAllMarketplacesCheckboxValueChanged = { component.onSearchAllMarketplacesCheckboxValueChanged() }
         )
@@ -49,9 +48,7 @@ fun FilterLayout(component: FilterLayoutComponent) {
             LoadingState.Success -> LazyColumn(
                 Modifier
                     .fillMaxWidth()
-                    .weight(1f)
-                    .padding(horizontal = 16.dp),
-            ) {
+                    .weight(1f)) {
                 item {
                     state.markets?.forEach {
                         MarketplaceItemView(Modifier.padding(bottom = 10.dp), market = it)
@@ -83,7 +80,6 @@ fun FilterLayout(component: FilterLayoutComponent) {
         CommonButton(
             Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
                 .padding(bottom = 16.dp),
             title = stringResource(id = R.string.search)
         ) {

@@ -1,14 +1,14 @@
 package com.lyadsky.peeker.data.network.repository
 
-import com.lyadsky.peeker.data.model.MarketResponse
-import com.lyadsky.peeker.data.model.ProductItem
 import com.lyadsky.peeker.data.model.ProductResponse
 import com.lyadsky.peeker.data.network.BaseRepository
-import com.lyadsky.peeker.models.Product
+import com.lyadsky.peeker.data.storage.Storage
 import io.ktor.http.HttpMethod
 import kotlinx.serialization.json.Json
 
-class HomeRepository : BaseRepository() {
+class HomeRepository(
+    private val storage: Storage
+) : BaseRepository() {
 
     suspend fun getProducts(): ProductResponse {
         val response = executeCall(
@@ -31,11 +31,7 @@ class HomeRepository : BaseRepository() {
         return Json.decodeFromString(response)
     }
 
-    suspend fun getMarketplaces(): List<MarketResponse> {
-        val response = executeCall(
-            type = HttpMethod.Get,
-            path = "market/list"
-        )
-        return Json.decodeFromString(response)
-    }
+    suspend fun getSearchedProduct(): Boolean = storage.getSearchedProduct()
+
+    suspend fun setSearchedProduct(value: Boolean) = storage.setSearchedProduct(value)
 }
