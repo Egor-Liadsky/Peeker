@@ -2,7 +2,7 @@ package com.lyadsky.peeker.components.layout
 
 import com.arkivanov.decompose.ComponentContext
 import com.lyadsky.peeker.components.BaseComponent
-import com.lyadsky.peeker.data.network.services.HomeService
+import com.lyadsky.peeker.data.network.service.HomeService
 import com.lyadsky.peeker.utils.LoadingState
 import com.lyadsky.peeker.utils.exceptionHandleable
 import kotlinx.coroutines.Dispatchers

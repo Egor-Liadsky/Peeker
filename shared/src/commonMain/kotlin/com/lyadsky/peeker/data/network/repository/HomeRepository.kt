@@ -19,6 +19,18 @@ class HomeRepository(
         return Json.decodeFromString(response)
     }
 
+    suspend fun getProductsPaging(offset: Int, page: Int): ProductResponse {
+        val response = executeCall(
+            type = HttpMethod.Get,
+            path = "main",
+            parameters = mapOf(
+                "offset" to offset.toString(),
+                "page_number" to page.toString()
+            )
+        )
+        return Json.decodeFromString(response)
+    }
+
     suspend fun searchProducts(name: String): ProductResponse {
         val response = executeCall(
             type = HttpMethod.Get,

@@ -18,6 +18,8 @@ data class ProductItem(
     val url: String,
     val price: Double,
     val rating: Double,
+    val review_count: Int,
+    val buy_count: Int,
     val picture: String,
     val time_ship: String? = null,
     val datetime_ship: String? = null,

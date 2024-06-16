@@ -1,5 +1,7 @@
 package com.lyadsky.peeker.components.screen.home
 
+import app.cash.paging.PagingData
+import app.cash.paging.cachedIn
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
 import com.arkivanov.decompose.router.slot.ChildSlot
@@ -9,20 +11,25 @@ import com.arkivanov.decompose.router.slot.childSlot
 import com.arkivanov.decompose.router.slot.dismiss
 import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.BaseComponent
-import com.lyadsky.peeker.data.network.services.HomeService
+import com.lyadsky.peeker.data.network.service.HomeService
 import com.lyadsky.peeker.di.components.createSearchDialogComponent
+import com.lyadsky.peeker.models.Product
 import com.lyadsky.peeker.utils.ComponentFactory
 import com.lyadsky.peeker.utils.LoadingState
 import com.lyadsky.peeker.utils.exceptionHandleable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 
 class HomeComponentImpl(
     componentContext: ComponentContext,
     componentFactory: ComponentFactory,
-    private val homeService: HomeService
+    private val homeService: HomeService,
 ) : HomeComponent, BaseComponent<HomeState>(componentContext, HomeState()) {
 
     private val slotNavigation = SlotNavigation<SlotConfig>()
@@ -41,6 +48,8 @@ class HomeComponentImpl(
                 onDismissed = { slotNavigation.dismiss() },
             )
         )
+
+    override val products: Flow<PagingData<Product>> = homeService.productPager.flow
 
     override val slotStack: Value<ChildSlot<*, HomeComponent.SlotChild>> =
         childSlot(
@@ -67,23 +76,23 @@ class HomeComponentImpl(
     }
 
     private fun getData() {
-        scope.launch(Dispatchers.IO) {
-            exceptionHandleable(
-                executionBlock = {
-                    viewState = viewState.copy(productsLoadingState = LoadingState.Loading)
-                    homeService.saveMarkets()
-                    val products = homeService.getProducts()
-                    viewState = viewState.copy(
-                        products = products,
-                        productsLoadingState = LoadingState.Success
-                    )
-                },
-                failureBlock = {
-                    viewState =
-                        viewState.copy(productsLoadingState = LoadingState.Error(it.message.toString()))
-                }
-            )
-        }
+//        scope.launch(Dispatchers.IO) {
+//            exceptionHandleable(
+//                executionBlock = {
+//                    viewState = viewState.copy(productsLoadingState = LoadingState.Loading)
+//                    homeService.saveMarkets()
+//                    val products = homeService.getProducts()
+//                    viewState = viewState.copy(
+//                        products = products,
+//                        productsLoadingState = LoadingState.Success
+//                    )
+//                },
+//                failureBlock = {
+//                    viewState =
+//                        viewState.copy(productsLoadingState = LoadingState.Error(it.message.toString()))
+//                }
+//            )
+//        }
     }
 
     @Serializable

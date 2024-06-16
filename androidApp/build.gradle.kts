@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.koin.compose)
 
     // UI
+    implementation("androidx.paging:paging-compose:3.3.0-alpha02")
     implementation(libs.coil)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)

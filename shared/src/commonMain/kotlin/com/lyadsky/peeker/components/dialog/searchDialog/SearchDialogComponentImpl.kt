@@ -10,7 +10,7 @@ import com.arkivanov.decompose.router.slot.dismiss
 import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.BaseComponent
 import com.lyadsky.peeker.components.layout.FilterLayoutComponent
-import com.lyadsky.peeker.data.network.services.HomeService
+import com.lyadsky.peeker.data.network.service.HomeService
 import com.lyadsky.peeker.di.components.createFilterBottomSheetComponent
 import com.lyadsky.peeker.di.components.createFilterLayoutComponent
 import com.lyadsky.peeker.di.components.createSortingBottomSheetComponent
