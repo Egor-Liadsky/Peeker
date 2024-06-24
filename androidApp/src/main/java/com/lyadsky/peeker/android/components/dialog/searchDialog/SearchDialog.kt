@@ -20,6 +20,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.lyadsky.peeker.android.R
 import com.lyadsky.peeker.android.components.bottomSheet.filterBottomSheet.FilterBottomSheetView
@@ -37,6 +38,7 @@ fun SearchDialog(
 ) {
     val state by component.viewStates.subscribeAsState()
     val slotNavigation by component.slotStack.subscribeAsState()
+    val paging = component.products.collectAsLazyPagingItems()
 
     Dialog(
         onDismissRequest = { component.onDismissClick() },
@@ -90,10 +92,11 @@ fun SearchDialog(
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 onBackButtonClick = { component.onDismissClick() }) {
                 component.onSearchTextFieldValueChanged(it)
+                paging.refresh()
             }
 
             when (state.searchedProduct) {
-                true -> SearchLayout(component = component)
+                true -> SearchLayout(component = component, paging = paging)
                 false -> FilterLayout(component = component.filterLayoutComponent)
             }
         }

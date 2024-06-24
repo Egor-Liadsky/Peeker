@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -16,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.lyadsky.peeker.android.R
 import com.lyadsky.peeker.android.components.dialog.searchDialog.view.FilterView
@@ -25,12 +29,14 @@ import com.lyadsky.peeker.android.ui.views.layout.EnterTextForSearchLayout
 import com.lyadsky.peeker.android.ui.views.layout.ErrorLayout
 import com.lyadsky.peeker.android.ui.views.layout.LoadingLayout
 import com.lyadsky.peeker.android.ui.views.layout.ProductsFlowRowLayout
+import com.lyadsky.peeker.android.ui.views.layout.ProductsFlowRowLayoutPaging
 import com.lyadsky.peeker.components.dialog.searchDialog.SearchDialogComponent
+import com.lyadsky.peeker.models.Product
 import com.lyadsky.peeker.utils.EmptyType
 import com.lyadsky.peeker.utils.LoadingState
 
 @Composable
-fun SearchLayout(component: SearchDialogComponent) {
+fun SearchLayout(component: SearchDialogComponent, paging: LazyPagingItems<Product>) {
 
     val state by component.viewStates.subscribeAsState()
 
@@ -65,41 +71,49 @@ fun SearchLayout(component: SearchDialogComponent) {
             }
         }
 
-        when (state.productsLoadingState) {
-            LoadingState.Success -> {
-                LazyColumn(
-                    Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Top
-                ) {
-                    item {
-                        ProductsFlowRowLayout(
-                            modifier = Modifier.padding(vertical = 20.dp, horizontal = 16.dp),
-                            products = state.products ?: listOf()
-                        ) {
-                            context.startActivity(
-                                Intent(
-                                    Intent.ACTION_VIEW,
-                                    Uri.parse(it.url)
-                                )
-                            )
-                        }
-                    }
-                }
-            }
-
-            LoadingState.Loading -> LoadingLayout(Modifier.fillMaxSize())
-
-            is LoadingState.Empty -> {
-                when ((state.productsLoadingState as LoadingState.Empty).type) {
-                    EmptyType.EmptyTextField -> EnterTextForSearchLayout(Modifier.fillMaxSize())
-                    EmptyType.NotFound -> EmptyLayout(Modifier.fillMaxSize())
-                }
-            }
-
-            is LoadingState.Error -> ErrorLayout(Modifier.fillMaxSize()) {
-                component.onProductRefreshClick()
-            }
+        Button(onClick = { paging.refresh() }) {
+            Text(text = "retry")
         }
+        
+        ProductsFlowRowLayoutPaging(paging = paging) {
+
+        }
+
+//        when (state.productsLoadingState) {
+//            LoadingState.Success -> {
+//                LazyColumn(
+//                    Modifier.fillMaxSize(),
+//                    verticalArrangement = Arrangement.Top
+//                ) {
+//                    item {
+//                        ProductsFlowRowLayout(
+//                            modifier = Modifier.padding(vertical = 20.dp, horizontal = 16.dp),
+//                            products = state.products ?: listOf()
+//                        ) {
+//                            context.startActivity(
+//                                Intent(
+//                                    Intent.ACTION_VIEW,
+//                                    Uri.parse(it.url)
+//                                )
+//                            )
+//                        }
+//                    }
+//                }
+//            }
+//
+//            LoadingState.Loading -> LoadingLayout(Modifier.fillMaxSize())
+//
+//            is LoadingState.Empty -> {
+//                when ((state.productsLoadingState as LoadingState.Empty).type) {
+//                    EmptyType.EmptyTextField -> EnterTextForSearchLayout(Modifier.fillMaxSize())
+//                    EmptyType.NotFound -> EmptyLayout(Modifier.fillMaxSize())
+//                }
+//            }
+//
+//            is LoadingState.Error -> ErrorLayout(Modifier.fillMaxSize()) {
+//                component.onProductRefreshClick()
+//            }
+//        }
     }
 }
 

@@ -7,6 +7,6 @@ data class Sorting(
 
 enum class SortingType {
     Price,
-    Marketplace,
-    Rating
+    Buy,
+    Rating,
 }

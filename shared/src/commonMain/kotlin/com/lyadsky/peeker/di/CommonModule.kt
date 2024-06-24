@@ -1,9 +1,12 @@
 package com.lyadsky.peeker.di
 
-import com.lyadsky.peeker.data.network.repository.HomeRepository
+import com.lyadsky.peeker.data.network.repository.home.HomeRepository
 import com.lyadsky.peeker.data.network.service.HomeService
 import com.lyadsky.peeker.data.database.MarketRepository
-import com.lyadsky.peeker.data.network.repository.ProductRepositoryPagingSource
+import com.lyadsky.peeker.data.network.repository.home.ProductRepositoryPagingSource
+import com.lyadsky.peeker.data.network.repository.search.SearchProductRepositoryPagingSource
+import com.lyadsky.peeker.data.network.repository.search.SearchRepository
+import com.lyadsky.peeker.data.network.service.SearchService
 import com.lyadsky.peeker.data.storage.Storage
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.logging.LogLevel
@@ -45,12 +48,15 @@ fun commonModule(): Module = module {
     }
 
     // Repository
-    single { HomeRepository(get()) }
+    single { HomeRepository() }
+    single { SearchRepository(get()) }
     single { MarketRepository(get()) }
     single { ProductRepositoryPagingSource(get(), get()) }
+    factory { (query: String) -> SearchProductRepositoryPagingSource(query, get(), get()) }
 
     // Services
     single { HomeService(get(), get(), get()) }
+    single { SearchService(get()) }
 
     // Storage
     single { Storage(get()) }

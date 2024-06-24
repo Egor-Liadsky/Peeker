@@ -40,8 +40,8 @@ fun SortingBottomSheetView(component: SortingBottomSheetComponent) {
     val sortingTypesList = listOf(
         Sorting(name = stringResource(id = R.string.filter_by_price), type = SortingType.Price),
         Sorting(
-            name = stringResource(id = R.string.filter_by_marketplaces),
-            type = SortingType.Marketplace
+            name = stringResource(id = R.string.filter_by_buy),
+            type = SortingType.Buy
         ),
         Sorting(name = stringResource(id = R.string.filter_by_rating), type = SortingType.Rating)
     )

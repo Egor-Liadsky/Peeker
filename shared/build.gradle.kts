@@ -80,7 +80,7 @@ buildkonfig {
         buildConfigField(Type.STRING, "TELEGRAM_GROUP", "https://web.telegram.org/k/")
 
         // Pagination
-        buildConfigField(Type.INT, "PAGING_OFFSET", "10")
+        buildConfigField(Type.INT, "PAGING_OFFSET", "30")
         buildConfigField(Type.INT, "PAGING_INITIAL_PAGE", "0")
     }
 }

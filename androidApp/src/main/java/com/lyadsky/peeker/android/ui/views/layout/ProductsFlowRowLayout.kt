@@ -91,6 +91,14 @@ fun ProductsFlowRowLayoutPaging(
                             }
                         }
                     }
+//                    repeat(paging.itemCount) { index ->
+//                        val product = paging[index]
+//                        if (product != null) {
+//                            ProductCardView(Modifier.fillMaxWidth(1f), product = product) {
+//                                onProductClick(product)
+//                            }
+//                        }
+//                    }
                 }
             }
 //                item {
