@@ -42,7 +42,7 @@ kotlin {
             api(libs.decompose)
             api(libs.essenty.lifecycle)
 
-            implementation("app.cash.paging:paging-common:3.3.0-alpha02-0.5.1")
+            implementation(libs.paging)
             implementation(libs.bundles.ktor.common)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.koin.core)
@@ -63,7 +63,6 @@ kotlin {
 
         iosMain.dependencies {
             implementation(libs.ktor.client.ios)
-            implementation("app.cash.paging:paging-runtime-uikit:3.3.0-alpha02-0.5.1")
         }
     }
 }
@@ -73,23 +72,23 @@ buildkonfig {
 
     defaultConfigs {
         buildConfigField(Type.STRING, "BASE_URL", "http://188.165.18.190:7812/api/")
-        buildConfigField(Type.STRING, "APP_VERSION", "1.0")
+        buildConfigField(Type.STRING, "APP_VERSION", libs.versions.versionName.get())
 
 
         buildConfigField(Type.STRING, "VK_GROUP", "https://vk.com/")
         buildConfigField(Type.STRING, "TELEGRAM_GROUP", "https://web.telegram.org/k/")
 
         // Pagination
-        buildConfigField(Type.INT, "PAGING_OFFSET", "10")
+        buildConfigField(Type.INT, "PAGING_OFFSET", "30")
         buildConfigField(Type.INT, "PAGING_INITIAL_PAGE", "0")
     }
 }
 
 android {
     namespace = "com.lyadsky.peeker"
-    compileSdk = 34
+    compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
-        minSdk = 24
+        minSdk = libs.versions.minSdk.get().toInt()
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

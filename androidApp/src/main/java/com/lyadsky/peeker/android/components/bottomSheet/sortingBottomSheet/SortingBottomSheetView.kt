@@ -38,12 +38,9 @@ fun SortingBottomSheetView(component: SortingBottomSheetComponent) {
     val state by component.viewStates.subscribeAsState()
 
     val sortingTypesList = listOf(
+        Sorting(name = stringResource(id = R.string.filter_by_rating), type = SortingType.Rating),
         Sorting(name = stringResource(id = R.string.filter_by_price), type = SortingType.Price),
-        Sorting(
-            name = stringResource(id = R.string.filter_by_marketplaces),
-            type = SortingType.Marketplace
-        ),
-        Sorting(name = stringResource(id = R.string.filter_by_rating), type = SortingType.Rating)
+        Sorting(name = stringResource(id = R.string.filter_by_buy), type = SortingType.Buy),
     )
 
     ModalBottomSheet(onDismissRequest = { component.onDismissClick() }) {
@@ -69,8 +66,8 @@ fun SortingBottomSheetView(component: SortingBottomSheetComponent) {
             }
 
             items(items = sortingTypesList) { sorting ->
-                SortingTypeItemView(sorting = sorting, selectedSorting = state.selectSorting) {
-                    component.onSelectSortingClick(sorting)
+                SortingTypeItemView(sorting = sorting, selectedSortingType = state.selectSorting) {
+                    component.onSelectSortingClick(sorting.type)
                 }
             }
 
@@ -92,7 +89,7 @@ fun SortingBottomSheetView(component: SortingBottomSheetComponent) {
 @Composable
 private fun SortingTypeItemView(
     sorting: Sorting,
-    selectedSorting: Sorting?,
+    selectedSortingType: SortingType,
     onClick: () -> Unit
 ) {
     Row(
@@ -107,7 +104,7 @@ private fun SortingTypeItemView(
         verticalAlignment = Alignment.CenterVertically
     ) {
         RadioButton(
-            selected = sorting == selectedSorting,
+            selected = sorting.type == selectedSortingType,
             onClick = { onClick() },
             colors = RadioButtonDefaults.colors(
                 selectedColor = Color.RadioButton.selectedSorting,

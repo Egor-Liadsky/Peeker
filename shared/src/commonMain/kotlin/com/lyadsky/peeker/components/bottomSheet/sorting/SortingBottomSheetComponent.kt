@@ -1,13 +1,13 @@
 package com.lyadsky.peeker.components.bottomSheet.sorting
 
 import com.arkivanov.decompose.value.Value
-import com.lyadsky.peeker.models.Sorting
+import com.lyadsky.peeker.models.SortingType
 
 interface SortingBottomSheetComponent {
 
     val viewStates: Value<SortingBottomSheetState>
 
-    fun onSelectSortingClick(sorting: Sorting)
+    fun onSelectSortingClick(sortingType: SortingType)
 
     fun onApplyClick()
 

@@ -5,18 +5,19 @@ import com.lyadsky.peeker.components.bottomSheet.filter.FilterBottomSheetCompone
 import com.lyadsky.peeker.components.bottomSheet.filter.FilterBottomSheetComponentImpl
 import com.lyadsky.peeker.components.bottomSheet.sorting.SortingBottomSheetComponent
 import com.lyadsky.peeker.components.bottomSheet.sorting.SortingBottomSheetComponentImpl
-import com.lyadsky.peeker.models.Sorting
 import com.lyadsky.peeker.models.SortingType
 import com.lyadsky.peeker.utils.ComponentFactory
 import org.koin.core.component.get
 
 fun ComponentFactory.createSortingBottomSheetComponent(
     componentContext: ComponentContext,
+    selectedSortingType: SortingType,
     onSelectSortingType: (SortingType) -> Unit,
     onDismiss: () -> Unit
 ): SortingBottomSheetComponent =
     SortingBottomSheetComponentImpl(
         componentContext = componentContext,
+        selectedSortingType = selectedSortingType,
         onSelectSortingType = onSelectSortingType,
         onDismiss = onDismiss
     )

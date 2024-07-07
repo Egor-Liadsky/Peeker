@@ -1,12 +1,12 @@
 package com.lyadsky.peeker.components.screen.home
 
-import app.cash.paging.PagingData
 import com.arkivanov.decompose.router.slot.ChildSlot
 import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.dialog.searchDialog.SearchDialogComponent
-import com.lyadsky.peeker.data.model.ProductItem
+import com.lyadsky.peeker.data.network.repository.home.HomePageContext
 import com.lyadsky.peeker.models.Product
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
+import ru.astrainteractive.klibs.paging.state.PagingState
 
 interface HomeComponent {
 
@@ -16,11 +16,13 @@ interface HomeComponent {
 
     val searchDialogComponent: SlotChild
 
-    val products: Flow<PagingData<Product>>
+    val products: StateFlow<PagingState<Product, HomePageContext>>
+
+    suspend fun loadNextPage()
+
+    fun onProductsReloadClick()
 
     fun onSearchTextFieldClick()
-
-    fun onProductRefreshClick()
 
     sealed class SlotChild {
         data class SearchDialogChild(val component: SearchDialogComponent) : SlotChild()

@@ -1,4 +1,11 @@
 [versions]
+
+compileSdk = "34"
+minSdk = "24"
+targetSdk = "34"
+versionCode = "1"
+versionName = "1.0"
+
 agp = "8.2.2"
 kotlin = "1.9.22"
 compose = "1.6.3"
@@ -19,6 +26,7 @@ com-google-protobuf = "0.9.1"
 datastore-preferences = "1.1.0"
 sqldelight = "2.0.1"
 sqldelight-runtime = "1.5.4"
+paging = "2.2.5"
 
 [libraries]
 
@@ -42,6 +50,9 @@ coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 # Storage
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore-preferences" }
+
+# Paing
+paging = { module = "ru.astrainteractive.klibs:paging", version.ref = "paging" }
 
 # Database
 sqldelight-native-driver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }

@@ -24,7 +24,7 @@ fun EmptyLayout(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(R.drawable.ic_404),
+            painter = painterResource(R.drawable.ic_not_found),
             contentDescription = "not found icon",
             Modifier.size(249.dp, 209.dp)
         )

@@ -5,13 +5,13 @@ plugins {
 
 android {
     namespace = "com.lyadsky.peeker.android"
-    compileSdk = 34
+    compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
         applicationId = "com.lyadsky.peeker.android"
-        minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
+        versionCode = libs.versions.versionCode.get().toInt()
+        versionName = libs.versions.versionName.get()
     }
     buildFeatures {
         compose = true
@@ -49,8 +49,10 @@ dependencies {
     // DI
     implementation(libs.koin.compose)
 
+    // Paging
+    implementation(libs.paging)
+
     // UI
-    implementation("androidx.paging:paging-compose:3.3.0-alpha02")
     implementation(libs.coil)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)

@@ -5,6 +5,10 @@ import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.bottomSheet.filter.FilterBottomSheetComponent
 import com.lyadsky.peeker.components.bottomSheet.sorting.SortingBottomSheetComponent
 import com.lyadsky.peeker.components.layout.FilterLayoutComponent
+import com.lyadsky.peeker.data.network.repository.search.SearchPageContext
+import com.lyadsky.peeker.models.Product
+import kotlinx.coroutines.flow.StateFlow
+import ru.astrainteractive.klibs.paging.state.PagingState
 
 interface SearchDialogComponent {
 
@@ -12,13 +16,17 @@ interface SearchDialogComponent {
 
     val slotStack: Value<ChildSlot<*, SlotChild>>
 
+    val products: StateFlow<PagingState<Product, SearchPageContext>>
+
     val sortingBottomSheetComponent: SlotChild
 
     val filterBottomSheetComponent: SlotChild
 
     val filterLayoutComponent: FilterLayoutComponent
 
-    fun onProductRefreshClick()
+    suspend fun loadNextPage()
+
+    fun onProductsReloadClick()
 
     fun onSearchTextFieldValueChanged(value: String)
 

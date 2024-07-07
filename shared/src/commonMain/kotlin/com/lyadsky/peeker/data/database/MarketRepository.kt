@@ -30,7 +30,7 @@ class MarketRepository(database: AppDatabase): BaseRepository() {
     private suspend fun getMarketsFromNetwork(): List<MarketResponse> {
         val response = executeCall(
             type = HttpMethod.Get,
-            path = "market/list"
+            path = "market/list/"
         )
         return Json.decodeFromString(response)
     }

@@ -1,15 +1,18 @@
 package com.lyadsky.peeker.android.components.dialog.searchDialog.layout
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,21 +23,25 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.lyadsky.peeker.android.R
 import com.lyadsky.peeker.android.components.dialog.searchDialog.view.FilterView
 import com.lyadsky.peeker.android.ui.theme.Color
+import com.lyadsky.peeker.android.ui.views.card.ProductCardView
 import com.lyadsky.peeker.android.ui.views.layout.EmptyLayout
 import com.lyadsky.peeker.android.ui.views.layout.EnterTextForSearchLayout
 import com.lyadsky.peeker.android.ui.views.layout.ErrorLayout
 import com.lyadsky.peeker.android.ui.views.layout.LoadingLayout
-import com.lyadsky.peeker.android.ui.views.layout.ProductsFlowRowLayout
+import com.lyadsky.peeker.android.utils.OnEndReached
+import com.lyadsky.peeker.android.utils.openUrl
 import com.lyadsky.peeker.components.dialog.searchDialog.SearchDialogComponent
-import com.lyadsky.peeker.utils.EmptyType
-import com.lyadsky.peeker.utils.LoadingState
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SearchLayout(component: SearchDialogComponent) {
 
     val state by component.viewStates.subscribeAsState()
-
+    val lazyListState = rememberLazyListState()
+    val pageData by component.products.collectAsState()
     val context = LocalContext.current
+
+    lazyListState.OnEndReached { component.loadNextPage() }
 
     Column(
         Modifier.fillMaxWidth(),
@@ -65,39 +72,46 @@ fun SearchLayout(component: SearchDialogComponent) {
             }
         }
 
-        when (state.productsLoadingState) {
-            LoadingState.Success -> {
-                LazyColumn(
-                    Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Top
+        LazyColumn(
+            Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            state = lazyListState,
+            verticalArrangement = Arrangement.Top
+        ) {
+            item {
+                FlowRow(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        16.dp,
+                        alignment = Alignment.CenterHorizontally
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    item {
-                        ProductsFlowRowLayout(
-                            modifier = Modifier.padding(vertical = 20.dp, horizontal = 16.dp),
-                            products = state.products ?: listOf()
-                        ) {
-                            context.startActivity(
-                                Intent(
-                                    Intent.ACTION_VIEW,
-                                    Uri.parse(it.url)
-                                )
-                            )
+                    pageData.items.forEach { product ->
+                        ProductCardView(Modifier.weight(1f), product = product) {
+                            context.openUrl(product.url)
                         }
+                    }
+                    if (pageData.items.size == 1) {
+                        Spacer(modifier = Modifier.weight(1f))
                     }
                 }
             }
+            item {
+                when {
+                    pageData.isLoading -> LoadingLayout(Modifier.fillMaxSize())
+                    pageData.isFailure -> ErrorLayout(Modifier.fillMaxSize()) {
+                        component.onProductsReloadClick()
+                    }
 
-            LoadingState.Loading -> LoadingLayout(Modifier.fillMaxSize())
+                    pageData.isLastPage -> when {
+                        state.products == null && state.searchTextField.isEmpty() ->
+                            EnterTextForSearchLayout(Modifier.fillMaxSize())
 
-            is LoadingState.Empty -> {
-                when ((state.productsLoadingState as LoadingState.Empty).type) {
-                    EmptyType.EmptyTextField -> EnterTextForSearchLayout(Modifier.fillMaxSize())
-                    EmptyType.NotFound -> EmptyLayout(Modifier.fillMaxSize())
+                        pageData.items.isEmpty() -> EmptyLayout(Modifier.fillMaxSize())
+                    }
                 }
-            }
-
-            is LoadingState.Error -> ErrorLayout(Modifier.fillMaxSize()) {
-                component.onProductRefreshClick()
             }
         }
     }

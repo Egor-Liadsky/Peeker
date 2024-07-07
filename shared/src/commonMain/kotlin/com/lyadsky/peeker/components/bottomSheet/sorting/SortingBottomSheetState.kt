@@ -1,7 +1,7 @@
 package com.lyadsky.peeker.components.bottomSheet.sorting
 
-import com.lyadsky.peeker.models.Sorting
+import com.lyadsky.peeker.models.SortingType
 
 data class SortingBottomSheetState(
-    val selectSorting: Sorting? = null
+    val selectSorting: SortingType = SortingType.Rating
 )

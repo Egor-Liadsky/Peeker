@@ -57,7 +57,7 @@ fun ProductCardView(modifier: Modifier = Modifier, product: Product, onClick: ()
                     model = product.image,
                     contentDescription = "product image",
                     modifier = Modifier.size(104.dp)
-                    )
+                )
             }
 
             Column(
@@ -69,11 +69,10 @@ fun ProductCardView(modifier: Modifier = Modifier, product: Product, onClick: ()
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
-
                     AsyncImage(
                         model = product.market.icon,
                         contentDescription = "market icon",
-                        modifier = Modifier.size(15.dp)
+                        modifier = Modifier.size(15.dp),
                     )
 
                     Text(
