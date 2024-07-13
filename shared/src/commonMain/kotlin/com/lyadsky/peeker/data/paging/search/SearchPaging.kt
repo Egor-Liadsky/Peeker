@@ -1,35 +1,27 @@
-package com.lyadsky.peeker.data.network.service
+package com.lyadsky.peeker.data.paging.search
 
-import com.lyadsky.peeker.data.database.MarketRepository
-import com.lyadsky.peeker.data.network.repository.ProductRepository
-import com.lyadsky.peeker.data.network.repository.search.SearchPageContext
-import com.lyadsky.peeker.data.network.repository.search.SearchPagerCollector
-import com.lyadsky.peeker.models.Market
+import com.lyadsky.peeker.data.service.ProductService
 import com.lyadsky.peeker.models.Product
 import com.lyadsky.peeker.models.SortingType
-import com.lyadsky.peeker.utils.toProduct
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.withContext
 import ru.astrainteractive.klibs.paging.PagingCollectorExt.updatePageContext
 import ru.astrainteractive.klibs.paging.data.LambdaPagedListDataSource
 import ru.astrainteractive.klibs.paging.state.PagingState
 
-class SearchService(
-    private val marketRepository: MarketRepository,
-    private val productRepository: ProductRepository
-) {
+class SearchPaging(private val productService: ProductService) {
 
     private val pagingCollector = SearchPagerCollector(
         pager = LambdaPagedListDataSource {
             runCatching {
                 if (it.pageContext.query.isNotEmpty()) {
-                    val markets = marketRepository.getMarkets()
-                    productRepository.searchProducts(
+                    productService.getProducts(
                         page = it.pageContext.page,
                         query = it.pageContext.query,
                         sortingType = it.pageContext.sortingType
-                    ).items.map { product ->
-                        product.toProduct(markets.first { product.market == it.id })
-                    }
+                    )
                 } else {
                     emptyList()
                 }
@@ -66,14 +58,7 @@ class SearchService(
         pagingCollector.updatePageContext { pageContext -> pageContext.copy(sortingType = sortingType) }
     }
 
-    suspend fun loadNextPage() {
+    suspend fun loadNextPage() = withContext(Dispatchers.IO) {
         pagingCollector.loadNextPage()
     }
-
-
-    suspend fun getMarkets(): List<Market> = marketRepository.getMarkets()
-
-    suspend fun getSearchedProduct(): Boolean = productRepository.getSearchedProduct()
-
-    suspend fun setSearchedProduct(value: Boolean) = productRepository.setSearchedProduct(value)
 }

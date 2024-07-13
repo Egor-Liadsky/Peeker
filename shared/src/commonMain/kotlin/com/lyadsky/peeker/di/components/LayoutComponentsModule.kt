@@ -12,6 +12,6 @@ fun ComponentFactory.createFilterLayoutComponent(
 ): FilterLayoutComponent =
     FilterLayoutComponentImpl(
         componentContext = componentContext,
-        searchService = get(),
+        marketService = get(),
         onApplyClicked = onApplyClick
     )

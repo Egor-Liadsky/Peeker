@@ -16,7 +16,8 @@ fun ComponentFactory.createSearchDialogComponent(
     SearchDialogComponentImpl(
         componentContext = componentContext,
         componentFactory = get(),
-        searchService = get(),
+        searchPaging = get(),
+        productService = get(),
         searchTextFieldValue = searchTextFieldValue,
         searchTextFieldValueChanged = searchTextFieldValueChanged,
         clearedSearchTextField = clearedSearchTextField,

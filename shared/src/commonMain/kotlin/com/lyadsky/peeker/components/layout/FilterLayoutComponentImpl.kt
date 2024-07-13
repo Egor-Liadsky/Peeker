@@ -2,7 +2,7 @@ package com.lyadsky.peeker.components.layout
 
 import com.arkivanov.decompose.ComponentContext
 import com.lyadsky.peeker.components.BaseComponent
-import com.lyadsky.peeker.data.network.service.SearchService
+import com.lyadsky.peeker.data.service.MarketService
 import com.lyadsky.peeker.utils.LoadingState
 import com.lyadsky.peeker.utils.exceptionHandleable
 import kotlinx.coroutines.Dispatchers
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class FilterLayoutComponentImpl(
     componentContext: ComponentContext,
-    private val searchService: SearchService,
+    private val marketService: MarketService,
     private val onApplyClicked: () -> Unit
 ) : FilterLayoutComponent, BaseComponent<FilterLayoutState>(componentContext, FilterLayoutState()) {
 
@@ -45,7 +45,7 @@ class FilterLayoutComponentImpl(
             exceptionHandleable(
                 executionBlock = {
                     viewState = viewState.copy(marketsLoadingState = LoadingState.Loading)
-                    val markets = searchService.getMarkets()
+                    val markets = marketService.getMarkets()
                     viewState = viewState.copy(
                         markets = markets,
                         marketsLoadingState = if (markets.isEmpty()) LoadingState.Error("empty") else LoadingState.Success // TODO понять почему тут Error

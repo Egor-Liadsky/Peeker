@@ -1,0 +1,37 @@
+package com.lyadsky.peeker.data.service
+
+import com.lyadsky.peeker.data.mapper.toMap
+import com.lyadsky.peeker.data.network.ProductRepository
+import com.lyadsky.peeker.data.storage.SearchStorageRepository
+import com.lyadsky.peeker.models.Product
+import com.lyadsky.peeker.models.SortingType
+
+class ProductService(
+    private val productRepository: ProductRepository,
+    private val marketService: MarketService,
+    private val searchStorageRepository: SearchStorageRepository
+) {
+
+    suspend fun getProducts(page: Int): List<Product> {
+        val markets = marketService.getMarkets()
+        return productRepository.getProducts(page).items.map { product ->
+            product.toMap(markets.first { it.id == product.market })
+        }
+    }
+
+    suspend fun getProducts(
+        page: Int,
+        query: String,
+        sortingType: SortingType
+    ): List<Product> {
+        val markets = marketService.getMarkets()
+        return productRepository.searchProducts(page, query, sortingType).items.map { product ->
+            product.toMap(markets.first { it.id == product.market })
+        }
+    }
+
+    suspend fun getSearchedProduct(): Boolean = searchStorageRepository.getSearchedProduct()
+
+    suspend fun setSearchedProduct(value: Boolean) =
+        searchStorageRepository.setSearchedProduct(value)
+}

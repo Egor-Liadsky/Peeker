@@ -1,4 +1,4 @@
-package com.lyadsky.peeker.data.network.repository.search
+package com.lyadsky.peeker.data.paging.search
 
 import com.lyadsky.peeker.BuildKonfig
 import com.lyadsky.peeker.models.SortingType

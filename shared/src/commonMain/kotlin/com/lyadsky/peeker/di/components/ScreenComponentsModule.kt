@@ -87,7 +87,7 @@ fun ComponentFactory.createHomeComponent(componentContext: ComponentContext): Ho
     HomeComponentImpl(
         componentContext = componentContext,
         componentFactory = get(),
-        homeService = get(),
+        homePaging = get(),
     )
 
 fun ComponentFactory.createChatComponent(componentContext: ComponentContext): ChatComponent =

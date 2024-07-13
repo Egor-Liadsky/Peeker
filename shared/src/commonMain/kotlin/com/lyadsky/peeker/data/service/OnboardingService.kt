@@ -1,19 +1,14 @@
 package com.lyadsky.peeker.data.service
 
-import com.lyadsky.peeker.data.storage.Storage
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
-import kotlinx.coroutines.withContext
+import com.lyadsky.peeker.data.storage.OnboardingStorageRepository
 
 class OnboardingService(
-    private val storage: Storage
+    private val onboardingStorageRepository: OnboardingStorageRepository
 ) {
 
-    suspend fun setPassedOnboarding(value: Boolean) = withContext(Dispatchers.IO) {
-        storage.setPassedOnboarding(value)
+    suspend fun setPassedOnboarding(value: Boolean) {
+        onboardingStorageRepository.setPassedOnboarding(value)
     }
 
-    suspend fun getPassedOnboarding(): Boolean = withContext(Dispatchers.IO) {
-        storage.getPassedOnboarding()
-    }
+    suspend fun getPassedOnboarding(): Boolean = onboardingStorageRepository.getPassedOnboarding()
 }

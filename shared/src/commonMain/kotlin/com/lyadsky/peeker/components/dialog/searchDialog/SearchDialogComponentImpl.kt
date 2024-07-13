@@ -10,15 +10,14 @@ import com.arkivanov.decompose.router.slot.dismiss
 import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.BaseComponent
 import com.lyadsky.peeker.components.layout.FilterLayoutComponent
-import com.lyadsky.peeker.data.network.service.SearchService
+import com.lyadsky.peeker.data.paging.search.SearchPaging
+import com.lyadsky.peeker.data.service.ProductService
 import com.lyadsky.peeker.di.components.createFilterBottomSheetComponent
 import com.lyadsky.peeker.di.components.createFilterLayoutComponent
 import com.lyadsky.peeker.di.components.createSortingBottomSheetComponent
 import com.lyadsky.peeker.utils.ComponentFactory
 import com.lyadsky.peeker.utils.EmptyType
 import com.lyadsky.peeker.utils.LoadingState
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -28,7 +27,8 @@ import org.koin.core.component.KoinComponent
 class SearchDialogComponentImpl(
     componentContext: ComponentContext,
     componentFactory: ComponentFactory,
-    private val searchService: SearchService,
+    private val searchPaging: SearchPaging,
+    private val productService: ProductService,
     private val searchTextFieldValue: String,
     private val searchTextFieldValueChanged: (String) -> Unit,
     private val clearedSearchTextField: () -> Unit,
@@ -41,8 +41,8 @@ class SearchDialogComponentImpl(
     private val slotNavigation = SlotNavigation<SlotConfig>()
 
     init {
-        scope.launch(Dispatchers.IO) {
-            val isSearchedProduct = searchService.getSearchedProduct()
+        scope.launch {
+            val isSearchedProduct = productService.getSearchedProduct()
             viewState = viewState.copy(
                 searchedProduct = isSearchedProduct,
                 searchTextField = searchTextFieldValue
@@ -50,7 +50,7 @@ class SearchDialogComponentImpl(
         }
     }
 
-    override val products = searchService.pagingState
+    override val pagingState = searchPaging.pagingState
 
     override val slotStack: Value<ChildSlot<*, SearchDialogComponent.SlotChild>> =
         childSlot(
@@ -67,8 +67,8 @@ class SearchDialogComponentImpl(
                 onSelectSortingType = {
                     viewState = viewState.copy(selectSortingType = it)
                     if (viewState.searchTextField.isNotEmpty()) {
-                        searchService.updateSortingType(it)
-                        searchService.reset()
+                        searchPaging.updateSortingType(it)
+                        searchPaging.reset()
                     }
                 },
                 onDismiss = { slotNavigation.dismiss() }
@@ -87,10 +87,10 @@ class SearchDialogComponentImpl(
         componentFactory.createFilterLayoutComponent(
             componentContext = childContext(key = "FilterLayoutComponent"),
             onApplyClick = {
-                scope.launch(Dispatchers.IO) {
-                    searchService.setSearchedProduct(true)
+                scope.launch {
+                    productService.setSearchedProduct(true)
                     viewState = viewState.copy(searchedProduct = true)
-                    searchService.reset()
+                    searchPaging.reset()
                 }
             }
         )
@@ -110,14 +110,14 @@ class SearchDialogComponentImpl(
     }
 
     override suspend fun loadNextPage() {
-        scope.launch(Dispatchers.IO) {
-            searchService.loadNextPage()
+        scope.launch {
+            searchPaging.loadNextPage()
         }
     }
 
     override fun onProductsReloadClick() {
-        scope.launch(Dispatchers.IO) {
-            searchService.reload()
+        scope.launch {
+            searchPaging.reload()
         }
     }
 
@@ -128,12 +128,10 @@ class SearchDialogComponentImpl(
         if (viewState.searchedProduct) { //FIXME убрать и посмотреть использование
             searchJob?.cancel()
 
-            searchJob = scope.launch(Dispatchers.IO) {
+            searchJob = scope.launch {
                 if (viewState.searchTextField.length != 1) delay(500)
-                searchService.updateQuery(viewState.searchTextField)
-                scope.launch(Dispatchers.IO) {
-                    searchService.reload()
-                }
+                searchPaging.updateQuery(viewState.searchTextField)
+                searchPaging.reload()
             }
         }
     }
@@ -145,8 +143,8 @@ class SearchDialogComponentImpl(
             searchTextField = "",
             productsLoadingState = LoadingState.Empty(EmptyType.EmptyTextField)
         )
-        searchService.updateQuery("")
-        searchService.reset()
+        searchPaging.updateQuery("")
+        searchPaging.reset()
     }
 
     override fun onSortingButtonClick() {

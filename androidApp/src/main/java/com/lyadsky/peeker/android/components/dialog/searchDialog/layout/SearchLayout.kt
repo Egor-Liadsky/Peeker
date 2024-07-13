@@ -38,7 +38,7 @@ fun SearchLayout(component: SearchDialogComponent) {
 
     val state by component.viewStates.subscribeAsState()
     val lazyListState = rememberLazyListState()
-    val pageData by component.products.collectAsState()
+    val pagingState by component.pagingState.collectAsState()
     val context = LocalContext.current
 
     lazyListState.OnEndReached { component.loadNextPage() }
@@ -88,28 +88,28 @@ fun SearchLayout(component: SearchDialogComponent) {
                     ),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    pageData.items.forEach { product ->
+                    pagingState.items.forEach { product ->
                         ProductCardView(Modifier.weight(1f), product = product) {
                             context.openUrl(product.url)
                         }
                     }
-                    if (pageData.items.size == 1) {
+                    if (pagingState.items.size == 1) {
                         Spacer(modifier = Modifier.weight(1f))
                     }
                 }
             }
             item {
                 when {
-                    pageData.isLoading -> LoadingLayout(Modifier.fillMaxSize())
-                    pageData.isFailure -> ErrorLayout(Modifier.fillMaxSize()) {
+                    pagingState.isLoading -> LoadingLayout(Modifier.fillMaxSize())
+                    pagingState.isFailure -> ErrorLayout(Modifier.fillMaxSize()) {
                         component.onProductsReloadClick()
                     }
 
-                    pageData.isLastPage -> when {
+                    pagingState.isLastPage -> when {
                         state.products == null && state.searchTextField.isEmpty() ->
                             EnterTextForSearchLayout(Modifier.fillMaxSize())
 
-                        pageData.items.isEmpty() -> EmptyLayout(Modifier.fillMaxSize())
+                        pagingState.items.isEmpty() -> EmptyLayout(Modifier.fillMaxSize())
                     }
                 }
             }

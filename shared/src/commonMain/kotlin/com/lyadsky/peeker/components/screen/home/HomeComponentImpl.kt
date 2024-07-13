@@ -9,18 +9,16 @@ import com.arkivanov.decompose.router.slot.childSlot
 import com.arkivanov.decompose.router.slot.dismiss
 import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.BaseComponent
-import com.lyadsky.peeker.data.network.service.HomeService
+import com.lyadsky.peeker.data.paging.home.HomePaging
 import com.lyadsky.peeker.di.components.createSearchDialogComponent
 import com.lyadsky.peeker.utils.ComponentFactory
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 
 class HomeComponentImpl(
     componentContext: ComponentContext,
     componentFactory: ComponentFactory,
-    private val homeService: HomeService
+    private val homePaging: HomePaging
 ) : HomeComponent, BaseComponent<HomeState>(componentContext, HomeState()) {
 
     private val slotNavigation = SlotNavigation<SlotConfig>()
@@ -36,7 +34,7 @@ class HomeComponentImpl(
             )
         )
 
-    override val products = homeService.pagingState
+    override val pagingState = homePaging.pagingState
 
     override val slotStack: Value<ChildSlot<*, HomeComponent.SlotChild>> =
         childSlot(
@@ -59,12 +57,12 @@ class HomeComponentImpl(
     }
 
     override suspend fun loadNextPage() {
-        homeService.loadNextPage()
+        homePaging.loadNextPage()
     }
 
     override fun onProductsReloadClick() {
-        scope.launch(Dispatchers.IO) {
-            homeService.reload()
+        scope.launch {
+            homePaging.reload()
         }
     }
 

@@ -1,11 +1,14 @@
 package com.lyadsky.peeker.di
 
-import com.lyadsky.peeker.data.database.MarketRepository
-import com.lyadsky.peeker.data.network.repository.ProductRepository
-import com.lyadsky.peeker.data.network.service.HomeService
-import com.lyadsky.peeker.data.network.service.SearchService
+import com.lyadsky.peeker.data.network.MarketRepository
+import com.lyadsky.peeker.data.network.ProductRepository
+import com.lyadsky.peeker.data.paging.home.HomePaging
+import com.lyadsky.peeker.data.paging.search.SearchPaging
+import com.lyadsky.peeker.data.service.MarketService
 import com.lyadsky.peeker.data.service.OnboardingService
-import com.lyadsky.peeker.data.storage.Storage
+import com.lyadsky.peeker.data.service.ProductService
+import com.lyadsky.peeker.data.storage.OnboardingStorageRepository
+import com.lyadsky.peeker.data.storage.SearchStorageRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
@@ -46,14 +49,17 @@ fun commonModule(): Module = module {
     }
 
     // Repository
-    single { ProductRepository(get()) }
-    single { MarketRepository(get()) }
+    single { ProductRepository() }
+    single { MarketRepository() }
+    single { OnboardingStorageRepository(get()) }
+    single { SearchStorageRepository(get()) }
 
     // Services
-    single { HomeService(get(), get()) }
-    single { SearchService(get(), get()) }
+    single { ProductService(get(), get(), get()) }
+    single { MarketService(get()) }
     single { OnboardingService(get()) }
 
-    // Storage
-    single { Storage(get()) }
+    // Paging
+    single { HomePaging(get()) }
+    single { SearchPaging(get()) }
 }

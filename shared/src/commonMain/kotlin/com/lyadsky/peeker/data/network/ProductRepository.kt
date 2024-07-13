@@ -1,18 +1,17 @@
-package com.lyadsky.peeker.data.network.repository
+package com.lyadsky.peeker.data.network
 
 import com.lyadsky.peeker.BuildKonfig
 import com.lyadsky.peeker.data.model.ProductResponse
-import com.lyadsky.peeker.data.network.BaseRepository
-import com.lyadsky.peeker.data.storage.Storage
 import com.lyadsky.peeker.models.SortingType
 import io.ktor.http.HttpMethod
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 
-class ProductRepository(
-    private val storage: Storage
-) : BaseRepository() {
+class ProductRepository : BaseRepository() {
 
-    suspend fun getProducts(page: Int): ProductResponse {
+    suspend fun getProducts(page: Int): ProductResponse = withContext(Dispatchers.IO) {
         val response = executeCall(
             type = HttpMethod.Get,
             path = "main/",
@@ -21,14 +20,14 @@ class ProductRepository(
                 "page_number" to page.toString()
             )
         )
-        return Json.decodeFromString(response)
+        Json.decodeFromString(response)
     }
 
     suspend fun searchProducts(
-        query: String,
         page: Int,
+        query: String,
         sortingType: SortingType
-    ): ProductResponse {
+    ): ProductResponse = withContext(Dispatchers.IO) {
         val response = executeCall(
             type = HttpMethod.Get,
             path = "product/",
@@ -40,10 +39,6 @@ class ProductRepository(
                 "filter_name" to sortingType.name.lowercase()
             ),
         )
-        return Json.decodeFromString(response)
+        Json.decodeFromString(response)
     }
-
-    suspend fun getSearchedProduct(): Boolean = storage.getSearchedProduct()
-
-    suspend fun setSearchedProduct(value: Boolean) = storage.setSearchedProduct(value)
 }

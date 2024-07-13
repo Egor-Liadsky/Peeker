@@ -1,10 +1,10 @@
-package com.lyadsky.peeker.utils
+package com.lyadsky.peeker.data.mapper
 
 import com.lyadsky.peeker.data.model.ProductItem
 import com.lyadsky.peeker.models.Market
 import com.lyadsky.peeker.models.Product
 
-fun ProductItem.toProduct(market: Market) =
+fun ProductItem.toMap(market: Market) =
     Product(
         market = Market(market.id, market.code, market.name, market.icon),
         item_id = this.item_id,

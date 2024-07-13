@@ -1,4 +1,4 @@
-package com.lyadsky.peeker.data.network.repository.home
+package com.lyadsky.peeker.data.paging.home
 
 import ru.astrainteractive.klibs.paging.context.PageContext
 

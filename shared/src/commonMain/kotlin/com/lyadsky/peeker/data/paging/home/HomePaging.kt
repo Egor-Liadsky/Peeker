@@ -1,28 +1,20 @@
-package com.lyadsky.peeker.data.network.service
+package com.lyadsky.peeker.data.paging.home
 
-import com.lyadsky.peeker.data.database.MarketRepository
-import com.lyadsky.peeker.data.network.repository.ProductRepository
-import com.lyadsky.peeker.data.network.repository.home.HomePageContext
-import com.lyadsky.peeker.data.network.repository.home.HomePagerCollector
+import com.lyadsky.peeker.data.service.ProductService
 import com.lyadsky.peeker.models.Product
-import com.lyadsky.peeker.utils.toProduct
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.withContext
 import ru.astrainteractive.klibs.paging.data.LambdaPagedListDataSource
 import ru.astrainteractive.klibs.paging.state.PagingState
 
-class HomeService(
-    private val productRepository: ProductRepository,
-    private val marketRepository: MarketRepository,
-) {
+class HomePaging(private val productService: ProductService) {
 
     private val pagingCollector = HomePagerCollector(
         pager = LambdaPagedListDataSource {
-            runCatching {
-                val markets = marketRepository.getMarkets()
-                productRepository.getProducts(it.pageContext.page).items.map { product ->
-                    product.toProduct(markets.first { product.market == it.id })
-                }
-            }.onFailure(Throwable::printStackTrace)
+            runCatching { productService.getProducts(page = it.pageContext.page) }
+                .onFailure(Throwable::printStackTrace)
         }
     )
 
@@ -46,7 +38,7 @@ class HomeService(
         }
     }
 
-    suspend fun loadNextPage() {
+    suspend fun loadNextPage() = withContext(Dispatchers.IO) {
         pagingCollector.loadNextPage()
     }
 }
