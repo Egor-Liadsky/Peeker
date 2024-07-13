@@ -65,7 +65,8 @@
     <string name="send">Отправить</string>
 
     <!-- OnBoarding -->
-    <string name="onboarding_title_1">PEEKER - ЭТО БЫСТРЫЙ ПОИСК ВЫГОДНЫХ ТОВАРОВ НА ТОПОВЫХ МАРКЕТПЛЕЙСАХ</string>
+    <string name="onboarding_title_1_1">PEEKER</string>
+    <string name="onboarding_title_1_2">- ЭТО БЫСТРЫЙ ПОИСК ВЫГОДНЫХ ТОВАРОВ НА ТОПОВЫХ МАРКЕТПЛЕЙСАХ</string>
     <string name="onboarding_title_2">ОПТИМИЗИРОВАННЫЙ ПОИСК ПО ТОЧНОМУ НАЗВАНИЮ, ССЫЛКЕ, КЛЮЧЕВЫМ СЛОВАМ ИЛИ QR-КОДУ</string>
     <string name="onboarding_title_3">ИННОВАЦИОННЫЙ НЕЙРОСЕТЕВОЙ АССИСТЕНТ ДЛЯ УЛУЧШЕННОГО ПОИСКА</string>
     <string name="next">Далее</string>

@@ -12,11 +12,17 @@ class Storage(private val dataStore: DataStore<Preferences>) {
 
     companion object {
         private val SEARCHED_PRODUCT = booleanPreferencesKey("SEARCHED_PRODUCT")
+        private val PASSED_ONBOARDING = booleanPreferencesKey("PASSED_ONBOARDING")
     }
 
-    val searchedProduct: Flow<Boolean>
+    private val searchedProduct: Flow<Boolean>
         get() = dataStore.data.map { prefs ->
             prefs[SEARCHED_PRODUCT] ?: false
+        }
+
+    private val passedOnboarding: Flow<Boolean>
+        get() = dataStore.data.map { prefs ->
+            prefs[PASSED_ONBOARDING] ?: false
         }
 
     suspend fun setSearchedProduct(value: Boolean) {
@@ -27,5 +33,15 @@ class Storage(private val dataStore: DataStore<Preferences>) {
 
     suspend fun getSearchedProduct(): Boolean {
         return searchedProduct.first()
+    }
+
+    suspend fun setPassedOnboarding(value: Boolean) {
+        dataStore.edit { storage ->
+            storage[PASSED_ONBOARDING] = value
+        }
+    }
+
+    suspend fun getPassedOnboarding(): Boolean {
+        return passedOnboarding.first()
     }
 }

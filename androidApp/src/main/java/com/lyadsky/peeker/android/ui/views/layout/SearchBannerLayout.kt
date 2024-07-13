@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lyadsky.peeker.android.R
 import com.lyadsky.peeker.android.ui.theme.Color
-import com.lyadsky.peeker.android.ui.theme.titleTopBar
+import com.lyadsky.peeker.android.ui.theme.titleDespairDisplay
 
 @Composable
 fun SearchBannerLayout(modifier: Modifier = Modifier) {
@@ -53,7 +53,7 @@ fun SearchBannerLayout(modifier: Modifier = Modifier) {
                     append(stringResource(id = R.string.ai_banner5))
                 }
             },
-            style = titleTopBar,
+            style = titleDespairDisplay,
             color = Color.Base.black,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(16.dp),

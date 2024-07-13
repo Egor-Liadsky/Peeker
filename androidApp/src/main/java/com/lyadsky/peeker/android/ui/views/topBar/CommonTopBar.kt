@@ -18,7 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.lyadsky.peeker.android.R
 import com.lyadsky.peeker.android.ui.theme.Color
-import com.lyadsky.peeker.android.ui.theme.titleTopBar
+import com.lyadsky.peeker.android.ui.theme.titleDespairDisplay
 
 @Composable
 fun CommonTopBar(
@@ -53,7 +53,7 @@ fun CommonTopBar(
 
             Text(
                 text = title,
-                style = titleTopBar,
+                style = titleDespairDisplay,
                 color = Color.Base.black,
             )
         }

@@ -62,7 +62,7 @@ val titleHomeTopBar = TextStyle(
     fontWeight = FontWeight.Bold
 )
 
-val titleTopBar = TextStyle(
+val titleDespairDisplay = TextStyle(
     fontSize = 16.sp,
     fontFamily = despairDisplay,
     fontWeight = FontWeight.Bold

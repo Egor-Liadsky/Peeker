@@ -3,14 +3,18 @@ package com.lyadsky.peeker.components.screen.root
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.popTo
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
+import com.lyadsky.peeker.components.BaseComponent
+import com.lyadsky.peeker.data.service.OnboardingService
 import com.lyadsky.peeker.di.components.createBottomNavigationComponent
 import com.lyadsky.peeker.di.components.createFaqComponent
 import com.lyadsky.peeker.di.components.createFeedbackComponent
+import com.lyadsky.peeker.di.components.createOnboardingComponent
 import com.lyadsky.peeker.di.components.createPrivacyPolicyComponent
 import com.lyadsky.peeker.di.components.createTermsOfServiceComponent
 import com.lyadsky.peeker.utils.ComponentFactory
@@ -20,7 +24,8 @@ import kotlinx.serialization.Serializable
 class RootComponentImpl(
     componentContext: ComponentContext,
     private val componentFactory: ComponentFactory,
-) : RootComponent, ComponentContext by componentContext {
+    private val onboardingService: OnboardingService
+) : RootComponent, BaseComponent<Unit>(componentContext, Unit) {
 
     private val navigation = StackNavigation<Config>()
 
@@ -28,7 +33,7 @@ class RootComponentImpl(
         childStack(
             source = navigation,
             serializer = Config.serializer(),
-            initialConfiguration = Config.BottomNavigation,
+            initialConfiguration = Config.Onboarding, //TODO добавить проверку на прохождене онбординга
             childFactory = ::childFactory,
         )
 
@@ -42,6 +47,7 @@ class RootComponentImpl(
             Config.Feedback -> feedbackComponent(componentContext)
             Config.PrivacyPolicy -> privacyPolicyComponent(componentContext)
             Config.TermsOfService -> termsOfServiceComponent(componentContext)
+            Config.Onboarding -> onboardingComponent(componentContext)
         }
 
     private fun bottomNavigationComponent(componentContext: ComponentContext): RootComponent.Child =
@@ -87,14 +93,26 @@ class RootComponentImpl(
             )
         )
 
+    private fun onboardingComponent(componentContext: ComponentContext): RootComponent.Child =
+        RootComponent.Child.OnboardingChild(
+            componentFactory.createOnboardingComponent(
+                componentContext = componentContext,
+                navigateToHome = { navigation.bringToFront(Config.BottomNavigation) },
+            )
+        )
+
     override fun onBackClicked(toIndex: Int) {
         navigation.popTo(index = toIndex)
     }
 
     @Serializable
     private sealed interface Config {
+
         @Serializable
         data object BottomNavigation : Config
+
+        @Serializable
+        data object Onboarding : Config
 
         @Serializable
         data object Feedback : Config

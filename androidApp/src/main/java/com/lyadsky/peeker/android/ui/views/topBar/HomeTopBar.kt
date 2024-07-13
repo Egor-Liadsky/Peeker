@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lyadsky.peeker.android.R
 import com.lyadsky.peeker.android.ui.theme.Color
-import com.lyadsky.peeker.android.ui.theme.titleTopBar
 import com.lyadsky.peeker.android.ui.theme.textField
 import com.lyadsky.peeker.android.ui.theme.titleHomeTopBar
 import com.lyadsky.peeker.android.ui.views.button.SelectCityButton

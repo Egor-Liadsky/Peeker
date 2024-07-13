@@ -4,6 +4,7 @@ import com.lyadsky.peeker.data.database.MarketRepository
 import com.lyadsky.peeker.data.network.repository.ProductRepository
 import com.lyadsky.peeker.data.network.service.HomeService
 import com.lyadsky.peeker.data.network.service.SearchService
+import com.lyadsky.peeker.data.service.OnboardingService
 import com.lyadsky.peeker.data.storage.Storage
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.logging.LogLevel
@@ -51,6 +52,7 @@ fun commonModule(): Module = module {
     // Services
     single { HomeService(get(), get()) }
     single { SearchService(get(), get()) }
+    single { OnboardingService(get()) }
 
     // Storage
     single { Storage(get()) }

@@ -8,6 +8,7 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.lyadsky.peeker.android.components.bottomNavigation.BottomNavigationScreen
 import com.lyadsky.peeker.android.components.screen.faq.FaqScreen
 import com.lyadsky.peeker.android.components.screen.feedback.FeedbackScreen
+import com.lyadsky.peeker.android.components.screen.onboarding.OnboardingScreen
 import com.lyadsky.peeker.android.components.screen.privacyPolicy.PrivacyPolicyScreen
 import com.lyadsky.peeker.android.components.screen.termsOfService.TermsOfServiceScreen
 import com.lyadsky.peeker.components.screen.root.RootComponent
@@ -20,6 +21,7 @@ fun RootChildren(component: RootComponent, modifier: Modifier = Modifier) {
         animation = stackAnimation(fade())
     ) {
         when (val child = it.instance) {
+            is RootComponent.Child.OnboardingChild -> OnboardingScreen(component = child.component)
             is RootComponent.Child.BottomNavigationChild -> BottomNavigationScreen(component = child.component)
             is RootComponent.Child.FaqChild -> FaqScreen(component = child.component)
             is RootComponent.Child.FeedbackChild -> FeedbackScreen(component = child.component)

@@ -15,7 +15,7 @@ class ProductRepository(
     suspend fun getProducts(page: Int): ProductResponse {
         val response = executeCall(
             type = HttpMethod.Get,
-            path = "main",
+            path = "main/",
             parameters = mapOf(
                 "offset" to BuildKonfig.PAGING_OFFSET.toString(),
                 "page_number" to page.toString()
@@ -31,7 +31,7 @@ class ProductRepository(
     ): ProductResponse {
         val response = executeCall(
             type = HttpMethod.Get,
-            path = "product",
+            path = "product/",
             parameters = mapOf(
                 "name" to query,
                 "offset" to BuildKonfig.PAGING_OFFSET.toString(),

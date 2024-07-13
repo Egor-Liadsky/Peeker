@@ -11,6 +11,8 @@ import com.lyadsky.peeker.components.screen.feedback.FeedbackComponent
 import com.lyadsky.peeker.components.screen.feedback.FeedbackComponentImpl
 import com.lyadsky.peeker.components.screen.home.HomeComponent
 import com.lyadsky.peeker.components.screen.home.HomeComponentImpl
+import com.lyadsky.peeker.components.screen.onboarding.OnboardingComponent
+import com.lyadsky.peeker.components.screen.onboarding.OnboardingComponentImpl
 import com.lyadsky.peeker.components.screen.privacyPolicy.PrivacyPolicyComponent
 import com.lyadsky.peeker.components.screen.privacyPolicy.PrivacyPolicyComponentImpl
 import com.lyadsky.peeker.components.screen.root.RootComponent
@@ -23,7 +25,11 @@ import com.lyadsky.peeker.utils.ComponentFactory
 import org.koin.core.component.get
 
 fun ComponentFactory.createRootComponent(componentContext: ComponentContext): RootComponent =
-    RootComponentImpl(componentContext, get())
+    RootComponentImpl(
+        componentContext = componentContext,
+        componentFactory = get(),
+        onboardingService = get()
+    )
 
 fun ComponentFactory.createBottomNavigationComponent(
     componentContext: ComponentContext,
@@ -100,4 +106,14 @@ fun ComponentFactory.createSettingsComponent(
         navigateToFaqComponent = navigateToFaqComponent,
         navigateToTermsOfServiceComponent = navigateToTermsOfServiceComponent,
         navigateToPrivacyPolicyComponent = navigateToPrivacyPolicyComponent,
+    )
+
+fun ComponentFactory.createOnboardingComponent(
+    componentContext: ComponentContext,
+    navigateToHome: () -> Unit,
+): OnboardingComponent =
+    OnboardingComponentImpl(
+        componentContext = componentContext,
+        navigateToHome = navigateToHome,
+        onboardingService = get()
     )

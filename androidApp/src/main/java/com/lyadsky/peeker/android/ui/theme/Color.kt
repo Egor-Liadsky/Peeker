@@ -46,7 +46,7 @@ object Color {
 
     object CommonButton {
         val title = Color(0xFFFFFFFF)
-        val background = Color(0xFF1E1E1E)
+        val background = Color(0xFF2A2F33)
     }
 
     object AboutApp {
@@ -57,5 +57,9 @@ object Color {
     object RadioButton {
         val selectedSorting = Color(0xFF5D00F5)
         val unselectedSorting = Color(0xFF2A2F33)
+    }
+
+    object PageIndicator {
+        val background = Color(0xFF9E9C9F)
     }
 }
