@@ -89,8 +89,12 @@ fun SearchLayout(component: SearchDialogComponent) {
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     pagingState.items.forEach { product ->
-                        ProductCardView(Modifier.weight(1f), product = product) {
-                            context.openUrl(product.url)
+                        product.item_id?.let {
+                            ProductCardView(Modifier.weight(1f), product = product) {
+                                product.url?.let {
+                                    context.openUrl(it)
+                                }
+                            }
                         }
                     }
                     if (pagingState.items.size == 1) {
@@ -106,7 +110,7 @@ fun SearchLayout(component: SearchDialogComponent) {
                     }
 
                     pagingState.isLastPage -> when {
-                        state.products == null && state.searchTextField.isEmpty() ->
+                        pagingState.items.isEmpty() && state.searchTextField.isEmpty() ->
                             EnterTextForSearchLayout(Modifier.fillMaxSize())
 
                         pagingState.items.isEmpty() -> EmptyLayout(Modifier.fillMaxSize())

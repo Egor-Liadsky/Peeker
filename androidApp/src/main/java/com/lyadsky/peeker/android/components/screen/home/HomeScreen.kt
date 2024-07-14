@@ -86,7 +86,9 @@ fun HomeScreen(component: HomeComponent) {
                 ) {
                     pagingState.items.forEach { product ->
                         ProductCardView(Modifier.weight(1f), product = product) {
-                            context.openUrl(product.url)
+                            product.url?.let {
+                                context.openUrl(it)
+                            }
                         }
                     }
                     if (pagingState.items.size == 1) {

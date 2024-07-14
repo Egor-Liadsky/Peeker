@@ -23,16 +23,18 @@ class HomeComponentImpl(
 
     private val slotNavigation = SlotNavigation<SlotConfig>()
 
-    override val searchDialogComponent: HomeComponent.SlotChild = //TODO childContext надо заменить
+    override val searchDialogComponent: HomeComponent.SlotChild by lazy {
         HomeComponent.SlotChild.SearchDialogChild(
             componentFactory.createSearchDialogComponent(
-                componentContext = childContext(key = "SearchDialogComponent"),
+                componentContext = childContext(key = "SearchDialogComponent"), //TODO childContext надо заменить
                 searchTextFieldValue = viewState.searchTextField,
                 searchTextFieldValueChanged = { viewState = viewState.copy(searchTextField = it) },
                 clearedSearchTextField = { viewState = viewState.copy(searchTextField = "") },
                 onDismissed = { slotNavigation.dismiss() },
             )
         )
+    }
+
 
     override val pagingState = homePaging.pagingState
 

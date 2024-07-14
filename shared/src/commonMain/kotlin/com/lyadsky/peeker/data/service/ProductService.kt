@@ -5,6 +5,7 @@ import com.lyadsky.peeker.data.network.ProductRepository
 import com.lyadsky.peeker.data.storage.SearchStorageRepository
 import com.lyadsky.peeker.models.Product
 import com.lyadsky.peeker.models.SortingType
+import kotlin.coroutines.cancellation.CancellationException
 
 class ProductService(
     private val productRepository: ProductRepository,
@@ -24,9 +25,13 @@ class ProductService(
         query: String,
         sortingType: SortingType
     ): List<Product> {
-        val markets = marketService.getMarkets()
-        return productRepository.searchProducts(page, query, sortingType).items.map { product ->
-            product.toMap(markets.first { it.id == product.market })
+        return try {
+            val markets = marketService.getMarkets()
+            productRepository.searchProducts(page, query, sortingType).items.map { product ->
+                product.toMap(markets.first { it.id == product.market })
+            }
+        } catch (e: CancellationException) {
+            listOf(Product()) // Костыль. При отмене джобы выбрасывается исключение, которое устанавливает ErrorLayout
         }
     }
 

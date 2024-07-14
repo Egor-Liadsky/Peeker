@@ -16,8 +16,6 @@ import com.lyadsky.peeker.di.components.createFilterBottomSheetComponent
 import com.lyadsky.peeker.di.components.createFilterLayoutComponent
 import com.lyadsky.peeker.di.components.createSortingBottomSheetComponent
 import com.lyadsky.peeker.utils.ComponentFactory
-import com.lyadsky.peeker.utils.EmptyType
-import com.lyadsky.peeker.utils.LoadingState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -88,9 +86,10 @@ class SearchDialogComponentImpl(
             componentContext = childContext(key = "FilterLayoutComponent"),
             onApplyClick = {
                 scope.launch {
+                    onSearchTextFieldValueChanged(viewState.searchTextField)
                     productService.setSearchedProduct(true)
                     viewState = viewState.copy(searchedProduct = true)
-                    searchPaging.reset()
+                    searchPaging.updateQuery(viewState.searchTextField)
                 }
             }
         )
@@ -125,7 +124,7 @@ class SearchDialogComponentImpl(
         viewState = viewState.copy(searchTextField = value)
         searchTextFieldValueChanged(value)
 
-        if (viewState.searchedProduct) { //FIXME убрать и посмотреть использование
+        if (viewState.searchedProduct) {
             searchJob?.cancel()
 
             searchJob = scope.launch {
@@ -139,12 +138,7 @@ class SearchDialogComponentImpl(
     override fun onClearedSearchTextField() {
         if (viewState.searchTextField.isEmpty()) return
         clearedSearchTextField()
-        viewState = viewState.copy(
-            searchTextField = "",
-            productsLoadingState = LoadingState.Empty(EmptyType.EmptyTextField)
-        )
-        searchPaging.updateQuery("")
-        searchPaging.reset()
+        viewState = viewState.copy(searchTextField = "")
     }
 
     override fun onSortingButtonClick() {

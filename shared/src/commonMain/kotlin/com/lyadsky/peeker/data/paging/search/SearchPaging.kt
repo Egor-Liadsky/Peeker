@@ -3,15 +3,13 @@ package com.lyadsky.peeker.data.paging.search
 import com.lyadsky.peeker.data.service.ProductService
 import com.lyadsky.peeker.models.Product
 import com.lyadsky.peeker.models.SortingType
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.withContext
 import ru.astrainteractive.klibs.paging.PagingCollectorExt.updatePageContext
 import ru.astrainteractive.klibs.paging.data.LambdaPagedListDataSource
 import ru.astrainteractive.klibs.paging.state.PagingState
 
 class SearchPaging(private val productService: ProductService) {
+
 
     private val pagingCollector = SearchPagerCollector(
         pager = LambdaPagedListDataSource {
@@ -58,7 +56,7 @@ class SearchPaging(private val productService: ProductService) {
         pagingCollector.updatePageContext { pageContext -> pageContext.copy(sortingType = sortingType) }
     }
 
-    suspend fun loadNextPage() = withContext(Dispatchers.IO) {
+    suspend fun loadNextPage() {
         pagingCollector.loadNextPage()
     }
 }

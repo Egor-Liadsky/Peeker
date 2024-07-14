@@ -46,89 +46,98 @@ fun ProductCardView(modifier: Modifier = Modifier, product: Product, onClick: ()
                 .padding(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Box(
-                modifier = Modifier
-                    .size(136.dp)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(Color.ProductCard.imageBackground),
-                contentAlignment = Alignment.Center
-            ) {
-                AsyncImage(
-                    model = product.image,
-                    contentDescription = "product image",
-                    modifier = Modifier.size(104.dp)
-                )
+            product.image?.let {
+                Box(
+                    modifier = Modifier
+                        .size(136.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                        .background(Color.ProductCard.imageBackground),
+                    contentAlignment = Alignment.Center
+                ) {
+                    AsyncImage(
+                        model = it,
+                        contentDescription = "product image",
+                        modifier = Modifier.size(104.dp)
+                    )
+                }
             }
 
             Column(
                 Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
+                product.market?.let {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(5.dp)
+                    ) {
+                        AsyncImage(
+                            model = it.icon,
+                            contentDescription = "market icon",
+                            modifier = Modifier.size(15.dp),
+                        )
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(5.dp)
-                ) {
-                    AsyncImage(
-                        model = product.market.icon,
-                        contentDescription = "market icon",
-                        modifier = Modifier.size(15.dp),
-                    )
+                        Text(
+                            text = it.name,
+                            style = TextStyle(
+                                color = Color.Base.black,
+                                fontFamily = gilroy,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 10.sp,
+                            ),
+                        )
+                    }
+                }
 
+                product.name?.let {
                     Text(
-                        text = product.market.name,
+                        text = it,
                         style = TextStyle(
                             color = Color.Base.black,
                             fontFamily = gilroy,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 12.sp
                         ),
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
 
-                Text(
-                    text = product.name,
-                    style = TextStyle(
-                        color = Color.Base.black,
-                        fontFamily = gilroy,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 12.sp
-                    ),
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
+                product.rating?.let {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(5.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_star),
+                            contentDescription = "star",
+                            modifier = Modifier.size(15.dp),
+                            tint = Color.Base.gray
+                        )
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(5.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_star),
-                        contentDescription = "star",
-                        modifier = Modifier.size(15.dp),
-                        tint = Color.Base.gray
-                    )
+                        Text(
+                            text = it.toString(),
+                            style = TextStyle(
+                                color = Color.Base.gray,
+                                fontFamily = gilroy,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 10.sp
+                            ),
+                        )
+                    }
+                }
 
+                product.price?.let {
                     Text(
-                        text = product.rating.toString(),
+                        text = "$it ₽",
                         style = TextStyle(
-                            color = Color.Base.gray,
+                            color = Color.Base.black,
                             fontFamily = gilroy,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 10.sp
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 16.sp
                         ),
                     )
                 }
-
-                Text(
-                    text = "${product.price.toInt()} ₽",
-                    style = TextStyle(
-                        color = Color.Base.black,
-                        fontFamily = gilroy,
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 16.sp
-                    ),
-                )
             }
         }
     }
