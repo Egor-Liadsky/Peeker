@@ -28,6 +28,8 @@ interface SearchDialogComponent {
 
     fun onProductsReloadClick()
 
+    fun onRefresh()
+
     fun onSearchTextFieldValueChanged(value: String)
 
     fun onClearedSearchTextField()

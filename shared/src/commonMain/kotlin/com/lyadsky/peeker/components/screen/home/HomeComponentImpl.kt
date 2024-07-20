@@ -35,7 +35,6 @@ class HomeComponentImpl(
         )
     }
 
-
     override val pagingState = homePaging.pagingState
 
     override val slotStack: Value<ChildSlot<*, HomeComponent.SlotChild>> =
@@ -65,6 +64,14 @@ class HomeComponentImpl(
     override fun onProductsReloadClick() {
         scope.launch {
             homePaging.reload()
+        }
+    }
+
+    override fun onRefresh() {
+        scope.launch {
+            viewState = viewState.copy(isRefreshing = true)
+            homePaging.reload()
+            viewState = viewState.copy(isRefreshing = false)
         }
     }
 

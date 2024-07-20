@@ -22,6 +22,8 @@ interface HomeComponent {
 
     fun onProductsReloadClick()
 
+    fun onRefresh()
+
     fun onSearchTextFieldClick()
 
     sealed class SlotChild {

@@ -129,7 +129,7 @@ fun ProductCardView(modifier: Modifier = Modifier, product: Product, onClick: ()
 
                 product.price?.let {
                     Text(
-                        text = "$it ₽",
+                        text = "${it.toInt()} ₽",
                         style = TextStyle(
                             color = Color.Base.black,
                             fontFamily = gilroy,

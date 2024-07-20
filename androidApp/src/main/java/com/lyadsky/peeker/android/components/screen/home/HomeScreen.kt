@@ -1,15 +1,21 @@
 package com.lyadsky.peeker.android.components.screen.home
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -32,7 +38,7 @@ import com.lyadsky.peeker.android.utils.OnEndReached
 import com.lyadsky.peeker.android.utils.openUrl
 import com.lyadsky.peeker.components.screen.home.HomeComponent
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(component: HomeComponent) {
 
@@ -40,6 +46,10 @@ fun HomeScreen(component: HomeComponent) {
     val slotNavigation by component.slotStack.subscribeAsState()
     val lazyListState = rememberLazyListState()
     val pagingState by component.pagingState.collectAsState()
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = state.isRefreshing,
+        onRefresh = { component.onRefresh() }
+    )
     val context = LocalContext.current
 
     lazyListState.OnEndReached { component.loadNextPage() }
@@ -58,52 +68,60 @@ fun HomeScreen(component: HomeComponent) {
             onSearchTextFieldClick = { component.onSearchTextFieldClick() }
         )
 
-        LazyColumn(
-            Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
-            state = lazyListState,
-            verticalArrangement = Arrangement.Top
-        ) {
-            item {
-                SearchBannerLayout()
-            }
-            item {
-                Text(
-                    text = stringResource(id = R.string.personal_selection),
-                    style = headerBold,
-                    modifier = Modifier.padding(vertical = 30.dp)
-                )
-            }
-            item {
-                FlowRow(
-                    Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(
-                        16.dp,
-                        alignment = Alignment.CenterHorizontally
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    pagingState.items.forEach { product ->
-                        ProductCardView(Modifier.weight(1f), product = product) {
-                            product.url?.let {
-                                context.openUrl(it)
+        Box(Modifier.pullRefresh(pullRefreshState)) {
+            LazyColumn(
+                Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp),
+                state = lazyListState,
+                verticalArrangement = Arrangement.Top
+            ) {
+                item {
+                    SearchBannerLayout()
+                }
+                item {
+                    Text(
+                        text = stringResource(id = R.string.personal_selection),
+                        style = headerBold,
+                        modifier = Modifier.padding(vertical = 30.dp)
+                    )
+                }
+                item {
+                    FlowRow(
+                        Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(
+                            16.dp,
+                            alignment = Alignment.CenterHorizontally
+                        ),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        pagingState.items.forEach { product ->
+                            ProductCardView(Modifier.weight(1f), product = product) {
+                                product.url?.let {
+                                    context.openUrl(it)
+                                }
                             }
                         }
+                        if (pagingState.items.size == 1) {
+                            Spacer(modifier = Modifier.weight(1f))
+                        }
                     }
-                    if (pagingState.items.size == 1) {
-                        Spacer(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+                item {
+                    when {
+                        pagingState.isLoading -> LoadingLayout(Modifier.fillMaxSize())
+                        pagingState.isFailure -> ErrorLayout(Modifier.fillMaxSize()) {
+                            component.onProductsReloadClick()
+                        }
                     }
                 }
             }
-            item {
-                when {
-                    pagingState.isLoading -> LoadingLayout(Modifier.fillMaxSize())
-                    pagingState.isFailure -> ErrorLayout(Modifier.fillMaxSize()) {
-                        component.onProductsReloadClick()
-                    }
-                }
-            }
+            PullRefreshIndicator(
+                refreshing = state.isRefreshing,
+                state = pullRefreshState,
+                Modifier.align(Alignment.TopCenter)
+            )
         }
     }
 }

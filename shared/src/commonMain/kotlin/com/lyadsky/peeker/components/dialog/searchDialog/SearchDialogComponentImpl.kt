@@ -120,6 +120,14 @@ class SearchDialogComponentImpl(
         }
     }
 
+    override fun onRefresh() {
+        scope.launch {
+            viewState = viewState.copy(isRefreshing = true)
+            searchPaging.reload()
+            viewState = viewState.copy(isRefreshing = false)
+        }
+    }
+
     override fun onSearchTextFieldValueChanged(value: String) {
         viewState = viewState.copy(searchTextField = value)
         searchTextFieldValueChanged(value)
