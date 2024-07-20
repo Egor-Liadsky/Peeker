@@ -21,6 +21,7 @@ class BottomNavigationComponentComponentImpl(
     private val navigateToFaqComponent: () -> Unit,
     private val navigateToTermsOfServiceComponent: () -> Unit,
     private val navigateToPrivacyPolicyComponent: () -> Unit,
+    private val navigateToOnboarding: () -> Unit
 ) : BottomNavigationComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
@@ -57,7 +58,12 @@ class BottomNavigationComponentComponentImpl(
     }
 
     private fun getHomeComponent(componentContext: ComponentContext): Child =
-        Child.HomeChild(componentFactory.createHomeComponent(componentContext))
+        Child.HomeChild(
+            componentFactory.createHomeComponent(
+                componentContext = componentContext,
+                navigateToOnboarding = navigateToOnboarding
+            )
+        )
 
     private fun getChatComponent(componentContext: ComponentContext): Child =
         Child.ChatChild(componentFactory.createChatComponent(componentContext = componentContext))

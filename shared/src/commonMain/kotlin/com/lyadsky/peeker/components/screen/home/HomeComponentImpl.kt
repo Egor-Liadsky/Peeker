@@ -10,6 +10,7 @@ import com.arkivanov.decompose.router.slot.dismiss
 import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.BaseComponent
 import com.lyadsky.peeker.data.paging.home.HomePaging
+import com.lyadsky.peeker.data.service.OnboardingService
 import com.lyadsky.peeker.di.components.createSearchDialogComponent
 import com.lyadsky.peeker.utils.ComponentFactory
 import kotlinx.coroutines.launch
@@ -18,8 +19,18 @@ import kotlinx.serialization.Serializable
 class HomeComponentImpl(
     componentContext: ComponentContext,
     componentFactory: ComponentFactory,
-    private val homePaging: HomePaging
+    private val homePaging: HomePaging,
+    private val onboardingService: OnboardingService,
+    private val navigateToOnBoarding: () -> Unit
 ) : HomeComponent, BaseComponent<HomeState>(componentContext, HomeState()) {
+
+
+    init {
+        scope.launch {
+            val isOnboardingPassed = onboardingService.getPassedOnboarding()
+            if (!isOnboardingPassed) navigateToOnBoarding()
+        }
+    }
 
     private val slotNavigation = SlotNavigation<SlotConfig>()
 

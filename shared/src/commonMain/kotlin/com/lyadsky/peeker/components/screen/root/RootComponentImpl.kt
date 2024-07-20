@@ -33,7 +33,7 @@ class RootComponentImpl(
         childStack(
             source = navigation,
             serializer = Config.serializer(),
-            initialConfiguration = Config.Onboarding, //TODO добавить проверку на прохождене онбординга
+            initialConfiguration = Config.BottomNavigation,
             childFactory = ::childFactory,
         )
 
@@ -58,6 +58,7 @@ class RootComponentImpl(
                 navigateToFaqComponent = { navigation.push(Config.Faq) },
                 navigateToTermsOfServiceComponent = { navigation.push(Config.TermsOfService) },
                 navigateToPrivacyPolicyComponent = { navigation.push(Config.PrivacyPolicy) },
+                navigateToOnboarding = { navigation.bringToFront(Config.Onboarding) }
             )
         )
 

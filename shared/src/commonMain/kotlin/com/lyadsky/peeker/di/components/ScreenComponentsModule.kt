@@ -37,6 +37,7 @@ fun ComponentFactory.createBottomNavigationComponent(
     navigateToFaqComponent: () -> Unit,
     navigateToTermsOfServiceComponent: () -> Unit,
     navigateToPrivacyPolicyComponent: () -> Unit,
+    navigateToOnboarding: () -> Unit
 ): BottomNavigationComponent =
     BottomNavigationComponentComponentImpl(
         componentContext = componentContext,
@@ -45,6 +46,7 @@ fun ComponentFactory.createBottomNavigationComponent(
         navigateToFaqComponent = navigateToFaqComponent,
         navigateToTermsOfServiceComponent = navigateToTermsOfServiceComponent,
         navigateToPrivacyPolicyComponent = navigateToPrivacyPolicyComponent,
+        navigateToOnboarding = navigateToOnboarding
     )
 
 fun ComponentFactory.createFeedbackComponent(
@@ -83,11 +85,16 @@ fun ComponentFactory.createPrivacyPolicyComponent(
         onBackButtonClicked = onBackButtonClicked
     )
 
-fun ComponentFactory.createHomeComponent(componentContext: ComponentContext): HomeComponent =
+fun ComponentFactory.createHomeComponent(
+    componentContext: ComponentContext,
+    navigateToOnboarding: () -> Unit
+): HomeComponent =
     HomeComponentImpl(
         componentContext = componentContext,
         componentFactory = get(),
         homePaging = get(),
+        onboardingService = get(),
+        navigateToOnBoarding = navigateToOnboarding
     )
 
 fun ComponentFactory.createChatComponent(componentContext: ComponentContext): ChatComponent =
