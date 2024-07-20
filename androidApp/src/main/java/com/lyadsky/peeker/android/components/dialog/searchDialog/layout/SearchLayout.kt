@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -119,17 +120,19 @@ fun SearchLayout(component: SearchDialogComponent) {
                 Modifier.align(Alignment.TopCenter)
             )
 
-            when {
-                pagingState.isLoading -> LoadingLayout(Modifier.fillMaxSize())
-                pagingState.isFailure -> ErrorLayout(Modifier.fillMaxSize()) {
-                    component.onProductsReloadClick()
-                }
+            Box(modifier = Modifier.fillMaxHeight(0.5f)) {
+                when {
+                    pagingState.isLoading -> LoadingLayout(Modifier.fillMaxSize())
+                    pagingState.isFailure -> ErrorLayout(Modifier.fillMaxSize()) {
+                        component.onProductsReloadClick()
+                    }
 
-                pagingState.isLastPage -> when {
-                    pagingState.items.isEmpty() && state.searchTextField.isEmpty() ->
-                        EnterTextForSearchLayout(Modifier.fillMaxSize())
+                    pagingState.isLastPage -> when {
+                        pagingState.items.isEmpty() && state.searchTextField.isEmpty() ->
+                            EnterTextForSearchLayout(Modifier.fillMaxSize())
 
-                    pagingState.items.isEmpty() -> EmptyLayout(Modifier.fillMaxSize())
+                        pagingState.items.isEmpty() -> EmptyLayout(Modifier.fillMaxSize())
+                    }
                 }
             }
         }

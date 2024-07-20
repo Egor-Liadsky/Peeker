@@ -13,7 +13,6 @@ import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpMethod
 import io.ktor.http.appendPathSegments
-import io.ktor.util.StringValues
 import io.ktor.utils.io.errors.IOException
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -66,7 +65,7 @@ abstract class BaseRepository : KoinComponent {
         } catch (e: IOException) {
             throw SocketException()
         }
-        if (response.status.value !in 200..299) {
+        if (response.status.value !in 200..299 && response.status.value != 404) {
             throw ServerException(response.status.value, response.status.description)
         }
         return response.body()
