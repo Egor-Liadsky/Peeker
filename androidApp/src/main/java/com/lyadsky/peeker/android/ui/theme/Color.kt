@@ -11,6 +11,11 @@ object Color {
         val purplePrimary = Color(0xFF8338EC)
     }
 
+    object Shimmer {
+        val background1 = Color(0xFFDBDBDB).copy(alpha = 0.4f)
+        val background2 = Color(0xFFDBDBDB).copy(alpha = 0.2f)
+    }
+
     object BottomBar {
         val selectedNavigationItem = Color(0xFF5D00F5)
         val unselectedNavigationItem = Color(0xFF9E9C9F)

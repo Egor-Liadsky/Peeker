@@ -15,6 +15,8 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,11 +30,15 @@ import coil.compose.AsyncImage
 import com.lyadsky.peeker.android.R
 import com.lyadsky.peeker.android.ui.theme.Color
 import com.lyadsky.peeker.android.ui.theme.gilroy
+import com.lyadsky.peeker.android.utils.conditional
+import com.lyadsky.peeker.android.utils.shimmerBackground
 import com.lyadsky.peeker.models.Product
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ProductCardView(modifier: Modifier = Modifier, product: Product, onClick: () -> Unit) {
+
+    val isLoadingState = remember { mutableStateOf(true) }
 
     Card(
         modifier = modifier.height(260.dp),
@@ -51,19 +57,26 @@ fun ProductCardView(modifier: Modifier = Modifier, product: Product, onClick: ()
                     modifier = Modifier
                         .size(136.dp)
                         .clip(RoundedCornerShape(10.dp))
-                        .background(Color.ProductCard.imageBackground),
+                        .background(Color.ProductCard.imageBackground)
+                        .conditional(isLoadingState.value) {
+                            shimmerBackground()
+                        },
                     contentAlignment = Alignment.Center
                 ) {
                     AsyncImage(
                         model = it,
                         contentDescription = "product image",
-                        modifier = Modifier.size(104.dp)
+                        modifier = Modifier.size(104.dp),
+                        onLoading = { isLoadingState.value = it.painter == null },
+                        onSuccess = { isLoadingState.value = false },
                     )
                 }
             }
 
             Column(
-                Modifier.fillMaxWidth(),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 product.market?.let {
@@ -71,11 +84,18 @@ fun ProductCardView(modifier: Modifier = Modifier, product: Product, onClick: ()
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(5.dp)
                     ) {
-                        AsyncImage(
-                            model = it.icon,
-                            contentDescription = "market icon",
-                            modifier = Modifier.size(15.dp),
-                        )
+                        Box(
+                            modifier = Modifier
+                                .conditional(isLoadingState.value) {
+                                    shimmerBackground()
+                                },
+                        ) {
+                            AsyncImage(
+                                model = it.icon,
+                                contentDescription = "market icon",
+                                modifier = Modifier.size(15.dp),
+                            )
+                        }
 
                         Text(
                             text = it.name,
