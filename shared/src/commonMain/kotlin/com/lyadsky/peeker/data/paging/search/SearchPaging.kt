@@ -10,7 +10,6 @@ import ru.astrainteractive.klibs.paging.state.PagingState
 
 class SearchPaging(private val productService: ProductService) {
 
-
     private val pagingCollector = SearchPagerCollector(
         pager = LambdaPagedListDataSource {
             runCatching {

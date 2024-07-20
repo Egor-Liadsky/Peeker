@@ -65,8 +65,10 @@ class SearchDialogComponentImpl(
                 onSelectSortingType = {
                     viewState = viewState.copy(selectSortingType = it)
                     if (viewState.searchTextField.isNotEmpty()) {
-                        searchPaging.updateSortingType(it)
-                        searchPaging.reset()
+                        scope.launch {
+                            searchPaging.updateSortingType(it)
+                            searchPaging.reload()
+                        }
                     }
                 },
                 onDismiss = { slotNavigation.dismiss() }
