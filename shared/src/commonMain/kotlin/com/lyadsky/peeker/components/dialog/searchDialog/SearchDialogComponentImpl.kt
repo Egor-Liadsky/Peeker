@@ -111,9 +111,7 @@ class SearchDialogComponentImpl(
     }
 
     override suspend fun loadNextPage() {
-        scope.launch {
-            searchPaging.loadNextPage()
-        }
+        searchPaging.loadNextPage()
     }
 
     override fun onProductsReloadClick() {
