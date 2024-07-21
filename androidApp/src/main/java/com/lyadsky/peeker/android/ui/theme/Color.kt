@@ -67,4 +67,9 @@ object Color {
     object PageIndicator {
         val background = Color(0xFF9E9C9F)
     }
+
+    object AdditionalInfoItem {
+        val text = Color(0xFF2A2F33)
+        val arrow = Color(0xFF2A2F33)
+    }
 }

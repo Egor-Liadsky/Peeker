@@ -34,7 +34,7 @@ fun SettingItemView(
                 indication = rememberRipple(),
                 interactionSource = remember { MutableInteractionSource() }
             ) { settingItem.onClick() }
-            .padding(horizontal = 16.dp, vertical = 10.dp),
+            .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {

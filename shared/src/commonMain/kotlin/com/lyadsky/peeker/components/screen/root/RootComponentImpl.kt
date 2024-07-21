@@ -6,7 +6,6 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
-import com.arkivanov.decompose.router.stack.popTo
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.BaseComponent
@@ -102,8 +101,8 @@ class RootComponentImpl(
             )
         )
 
-    override fun onBackClicked(toIndex: Int) {
-        navigation.popTo(index = toIndex)
+    override fun onBackClicked() {
+        navigation.pop()
     }
 
     @Serializable

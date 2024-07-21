@@ -54,6 +54,21 @@ object Typography {
         fontFamily = gilroy,
         fontWeight = FontWeight.Medium
     )
+
+    object Additional {
+
+        val title = TextStyle(
+            fontSize = 14.sp,
+            fontFamily = gilroy,
+            fontWeight = FontWeight.SemiBold
+        )
+        val description = TextStyle(
+            fontSize = 12.sp,
+            fontFamily = gilroy,
+            fontWeight = FontWeight.Medium,
+            lineHeight = 16.sp
+        )
+    }
 }
 
 val titleHomeTopBar = TextStyle(

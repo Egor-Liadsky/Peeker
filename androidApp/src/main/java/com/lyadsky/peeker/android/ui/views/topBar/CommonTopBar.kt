@@ -29,6 +29,7 @@ fun CommonTopBar(
     Box(
         Modifier
             .fillMaxWidth()
+            .padding(top = 16.dp)
             .background(Color.Base.white)) {
         Row(
             Modifier

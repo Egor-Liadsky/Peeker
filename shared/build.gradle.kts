@@ -74,13 +74,13 @@ buildkonfig {
         buildConfigField(Type.STRING, "BASE_URL", "http://188.165.18.190:7812/api/")
         buildConfigField(Type.STRING, "APP_VERSION", libs.versions.versionName.get())
 
+        buildConfigField(Type.INT, "PAGING_OFFSET", "30")
+        buildConfigField(Type.INT, "PAGING_INITIAL_PAGE", "0")
 
         buildConfigField(Type.STRING, "VK_GROUP", "https://vk.com/")
         buildConfigField(Type.STRING, "TELEGRAM_GROUP", "https://web.telegram.org/k/")
-
-        // Pagination
-        buildConfigField(Type.INT, "PAGING_OFFSET", "30")
-        buildConfigField(Type.INT, "PAGING_INITIAL_PAGE", "0")
+        buildConfigField(Type.STRING, "FEEDBACK_EMAIL", "support@peeker.me")
+        buildConfigField(Type.STRING, "FAQ_EMAIL", "admin@peeker.me")
     }
 }
 
