@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.lyadsky.peeker.android.R
-import com.lyadsky.peeker.android.models.PrivacyPolicy
 import com.lyadsky.peeker.android.ui.theme.Color
 import com.lyadsky.peeker.android.ui.views.button.AdditionalButton
 import com.lyadsky.peeker.android.ui.views.topBar.CommonTopBar
@@ -31,29 +30,29 @@ fun FaqScreen(component: FaqComponent) {
         }
 
         val privacyPolicyList = listOf(
-            PrivacyPolicy(
-                stringResource(id = R.string.general_provisions),
-                stringResource(id = R.string.general_provisions_description)
+            Pair(
+                stringResource(id = R.string.privacy_policy_general_provisions),
+                stringResource(id = R.string.privacy_policy_general_provisions_description)
             ),
-            PrivacyPolicy(
-                stringResource(id = R.string.basic_concepts_used_policy),
-                stringResource(id = R.string.basic_concepts_used_policy_description)
+            Pair(
+                stringResource(id = R.string.privacy_policy_basic_concepts_used_policy),
+                stringResource(id = R.string.privacy_policy_basic_concepts_used_policy_description)
             ),
-            PrivacyPolicy(
-                stringResource(id = R.string.basic_rights_and_obligations_operator),
-                stringResource(id = R.string.basic_rights_and_obligations_operator_description)
+            Pair(
+                stringResource(id = R.string.privacy_policy_basic_rights_and_obligations_operator),
+                stringResource(id = R.string.privacy_policy_basic_rights_and_obligations_operator_description)
             ),
-            PrivacyPolicy(
-                stringResource(id = R.string.basic_rights_and_obligations_of_personal_data_subjects),
-                stringResource(id = R.string.basic_rights_and_obligations_of_personal_data_subjects_description)
+            Pair(
+                stringResource(id = R.string.privacy_policy_basic_rights_and_obligations_of_personal_data_subjects),
+                stringResource(id = R.string.privacy_policy_basic_rights_and_obligations_of_personal_data_subjects_description)
             ),
-            PrivacyPolicy(
-                stringResource(id = R.string.principles_of_personal_data_processing),
-                stringResource(id = R.string.principles_of_personal_data_processing_description)
+            Pair(
+                stringResource(id = R.string.privacy_policy_principles_of_personal_data_processing),
+                stringResource(id = R.string.privacy_policy_principles_of_personal_data_processing_description)
             ),
-            PrivacyPolicy(
-                stringResource(id = R.string.personal_data_processing_goals),
-                stringResource(id = R.string.personal_data_processing_goals_description)
+            Pair(
+                stringResource(id = R.string.privacy_policy_personal_data_processing_goals),
+                stringResource(id = R.string.privacy_policy_personal_data_processing_goals_description)
             ),
         )
 
@@ -63,7 +62,7 @@ fun FaqScreen(component: FaqComponent) {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(items = privacyPolicyList) { privacyPolicy ->
-                AdditionalButton(privacyPolicy = privacyPolicy)
+                AdditionalButton(data = privacyPolicy)
             }
         }
     }

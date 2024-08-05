@@ -32,9 +32,7 @@ import com.lyadsky.peeker.android.ui.views.textField.CommonTextField
 import com.lyadsky.peeker.components.dialog.searchDialog.SearchDialogComponent
 
 @Composable
-fun SearchDialog(
-    component: SearchDialogComponent,
-) {
+fun SearchDialog(component: SearchDialogComponent) {
     val state by component.viewStates.subscribeAsState()
     val slotNavigation by component.slotStack.subscribeAsState()
 

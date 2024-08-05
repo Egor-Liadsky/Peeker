@@ -43,12 +43,13 @@ fun SortingBottomSheetView(component: SortingBottomSheetComponent) {
         Sorting(name = stringResource(id = R.string.filter_by_buy), type = SortingType.Buy),
     )
 
-    ModalBottomSheet(onDismissRequest = { component.onDismissClick() }) {
-
+    ModalBottomSheet(
+        onDismissRequest = { component.onDismissClick() },
+        containerColor = Color.Base.white
+    ) {
         LazyColumn(
             Modifier.fillMaxWidth()
         ) {
-
             item {
                 Text(
                     text = stringResource(id = R.string.sorting),
@@ -56,7 +57,6 @@ fun SortingBottomSheetView(component: SortingBottomSheetComponent) {
                     modifier = Modifier.fillMaxWidth()
                 )
             }
-
             item {
                 CommonDivider(
                     Modifier
@@ -64,13 +64,11 @@ fun SortingBottomSheetView(component: SortingBottomSheetComponent) {
                         .padding(16.dp)
                 )
             }
-
             items(items = sortingTypesList) { sorting ->
                 SortingTypeItemView(sorting = sorting, selectedSortingType = state.selectSorting) {
                     component.onSelectSortingClick(sorting.type)
                 }
             }
-
             item {
                 CommonButton(
                     modifier = Modifier

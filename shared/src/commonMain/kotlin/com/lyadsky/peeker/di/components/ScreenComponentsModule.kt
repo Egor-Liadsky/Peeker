@@ -3,6 +3,8 @@ package com.lyadsky.peeker.di.components
 import com.arkivanov.decompose.ComponentContext
 import com.lyadsky.peeker.components.bottomNavigation.BottomNavigationComponent
 import com.lyadsky.peeker.components.bottomNavigation.BottomNavigationComponentComponentImpl
+import com.lyadsky.peeker.components.dialog.onboardingDialog.OnboardingDialogComponent
+import com.lyadsky.peeker.components.dialog.onboardingDialog.OnboardingDialogComponentImpl
 import com.lyadsky.peeker.components.screen.chat.ChatComponent
 import com.lyadsky.peeker.components.screen.chat.ChatComponentImpl
 import com.lyadsky.peeker.components.screen.faq.FaqComponent
@@ -11,8 +13,6 @@ import com.lyadsky.peeker.components.screen.feedback.FeedbackComponent
 import com.lyadsky.peeker.components.screen.feedback.FeedbackComponentImpl
 import com.lyadsky.peeker.components.screen.home.HomeComponent
 import com.lyadsky.peeker.components.screen.home.HomeComponentImpl
-import com.lyadsky.peeker.components.screen.onboarding.OnboardingComponent
-import com.lyadsky.peeker.components.screen.onboarding.OnboardingComponentImpl
 import com.lyadsky.peeker.components.screen.privacyPolicy.PrivacyPolicyComponent
 import com.lyadsky.peeker.components.screen.privacyPolicy.PrivacyPolicyComponentImpl
 import com.lyadsky.peeker.components.screen.root.RootComponent
@@ -28,7 +28,6 @@ fun ComponentFactory.createRootComponent(componentContext: ComponentContext): Ro
     RootComponentImpl(
         componentContext = componentContext,
         componentFactory = get(),
-        onboardingService = get()
     )
 
 fun ComponentFactory.createBottomNavigationComponent(
@@ -37,7 +36,6 @@ fun ComponentFactory.createBottomNavigationComponent(
     navigateToFaqComponent: () -> Unit,
     navigateToTermsOfServiceComponent: () -> Unit,
     navigateToPrivacyPolicyComponent: () -> Unit,
-    navigateToOnboarding: () -> Unit
 ): BottomNavigationComponent =
     BottomNavigationComponentComponentImpl(
         componentContext = componentContext,
@@ -46,7 +44,6 @@ fun ComponentFactory.createBottomNavigationComponent(
         navigateToFaqComponent = navigateToFaqComponent,
         navigateToTermsOfServiceComponent = navigateToTermsOfServiceComponent,
         navigateToPrivacyPolicyComponent = navigateToPrivacyPolicyComponent,
-        navigateToOnboarding = navigateToOnboarding
     )
 
 fun ComponentFactory.createFeedbackComponent(
@@ -87,14 +84,12 @@ fun ComponentFactory.createPrivacyPolicyComponent(
 
 fun ComponentFactory.createHomeComponent(
     componentContext: ComponentContext,
-    navigateToOnboarding: () -> Unit
 ): HomeComponent =
     HomeComponentImpl(
         componentContext = componentContext,
         componentFactory = get(),
         homePaging = get(),
         onboardingService = get(),
-        navigateToOnBoarding = navigateToOnboarding
     )
 
 fun ComponentFactory.createChatComponent(componentContext: ComponentContext): ChatComponent =
@@ -117,10 +112,10 @@ fun ComponentFactory.createSettingsComponent(
 
 fun ComponentFactory.createOnboardingComponent(
     componentContext: ComponentContext,
-    navigateToHome: () -> Unit,
-): OnboardingComponent =
-    OnboardingComponentImpl(
+    onDismissed: () -> Unit,
+): OnboardingDialogComponent =
+    OnboardingDialogComponentImpl(
         componentContext = componentContext,
-        navigateToHome = navigateToHome,
+        onDismissed = onDismissed,
         onboardingService = get()
     )
