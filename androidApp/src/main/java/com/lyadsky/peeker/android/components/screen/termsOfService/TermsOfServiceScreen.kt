@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.lyadsky.peeker.android.R
-import com.lyadsky.peeker.android.models.PrivacyPolicy
 import com.lyadsky.peeker.android.ui.theme.Color
 import com.lyadsky.peeker.android.ui.views.button.AdditionalButton
 import com.lyadsky.peeker.android.ui.views.topBar.CommonTopBar
@@ -30,30 +29,38 @@ fun TermsOfServiceScreen(component: TermsOfServiceComponent) {
             component.onBackButtonClick()
         }
 
-        val privacyPolicyList = listOf(
-            PrivacyPolicy(
-                stringResource(id = R.string.general_provisions),
-                stringResource(id = R.string.general_provisions_description)
+        val termsOfServiceList = listOf(
+            Pair(
+                stringResource(id = R.string.terms_of_service_general_provisions),
+                stringResource(id = R.string.terms_of_service_general_provisions_description)
             ),
-            PrivacyPolicy(
-                stringResource(id = R.string.basic_concepts_used_policy),
-                stringResource(id = R.string.basic_concepts_used_policy_description)
+            Pair(
+                stringResource(id = R.string.terms_of_service_registration),
+                stringResource(id = R.string.terms_of_service_registration_description)
             ),
-            PrivacyPolicy(
-                stringResource(id = R.string.basic_rights_and_obligations_operator),
-                stringResource(id = R.string.basic_rights_and_obligations_operator_description)
+            Pair(
+                stringResource(id = R.string.terms_of_service_rights_and_obligations_of_parties),
+                stringResource(id = R.string.terms_of_service_rights_and_obligations_of_parties_description)
             ),
-            PrivacyPolicy(
-                stringResource(id = R.string.basic_rights_and_obligations_of_personal_data_subjects),
-                stringResource(id = R.string.basic_rights_and_obligations_of_personal_data_subjects_description)
+            Pair(
+                stringResource(id = R.string.terms_of_service_pay_and_cashback),
+                stringResource(id = R.string.terms_of_service_pay_and_cashback_description)
             ),
-            PrivacyPolicy(
-                stringResource(id = R.string.principles_of_personal_data_processing),
-                stringResource(id = R.string.principles_of_personal_data_processing_description)
+            Pair(
+                stringResource(id = R.string.terms_of_service_intellectual_property),
+                stringResource(id = R.string.terms_of_service_intellectual_property_description)
             ),
-            PrivacyPolicy(
-                stringResource(id = R.string.personal_data_processing_goals),
-                stringResource(id = R.string.personal_data_processing_goals_description)
+            Pair(
+                stringResource(id = R.string.terms_of_service_responsibility),
+                stringResource(id = R.string.terms_of_service_responsibility_description)
+            ),
+            Pair(
+                stringResource(id = R.string.terms_of_service_change_terms),
+                stringResource(id = R.string.terms_of_service_change_terms_description)
+            ),
+            Pair(
+                stringResource(id = R.string.terms_of_service_final_provisions),
+                stringResource(id = R.string.terms_of_service_final_provisions_description)
             ),
         )
 
@@ -62,8 +69,8 @@ fun TermsOfServiceScreen(component: TermsOfServiceComponent) {
             contentPadding = PaddingValues(vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(items = privacyPolicyList) { privacyPolicy ->
-                AdditionalButton(privacyPolicy = privacyPolicy)
+            items(items = termsOfServiceList) { termsOfServiceList ->
+                AdditionalButton(data = termsOfServiceList)
             }
         }
     }

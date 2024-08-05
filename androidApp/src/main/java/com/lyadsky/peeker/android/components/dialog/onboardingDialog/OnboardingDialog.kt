@@ -1,10 +1,10 @@
-package com.lyadsky.peeker.android.components.screen.onboarding
+package com.lyadsky.peeker.android.components.dialog.onboardingDialog
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,21 +27,22 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.lyadsky.peeker.android.R
 import com.lyadsky.peeker.android.models.Onboarding
 import com.lyadsky.peeker.android.ui.theme.Color
 import com.lyadsky.peeker.android.ui.theme.titleDespairDisplay
 import com.lyadsky.peeker.android.ui.views.button.CommonButton
 import com.lyadsky.peeker.android.ui.views.pager.PageIndicator
-import com.lyadsky.peeker.components.screen.onboarding.OnboardingComponent
+import com.lyadsky.peeker.components.dialog.onboardingDialog.OnboardingDialogComponent
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnboardingScreen(component: OnboardingComponent) {
+fun OnboardingDialog(component: OnboardingDialogComponent) {
 
     val scope = rememberCoroutineScope()
-
 
     val onboardingList = listOf(
         Onboarding(
@@ -60,49 +61,56 @@ fun OnboardingScreen(component: OnboardingComponent) {
 
     val pagerState = rememberPagerState { onboardingList.size }
 
-    BackHandler(enabled = pagerState.currentPage != 0) {
-        if (pagerState.currentPage > 0) {
-            scope.launch {
-                pagerState.animateScrollToPage(
-                    pagerState.currentPage - 1,
-                    animationSpec = spring(stiffness = Spring.StiffnessLow),
-                )
-            }
-        }
-    }
-
-    Column(
-        Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        HorizontalPager(state = pagerState) {
-            OnboardingItem(onboarding = onboardingList[it])
-        }
-        PageIndicator(
-            currentPage = pagerState.currentPage,
-            count = onboardingList.size,
-        )
-
-        val textButton =
-            if (pagerState.currentPage != onboardingList.lastIndex) stringResource(id = R.string.next)
-            else stringResource(id = R.string.start)
-
-        CommonButton(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .padding(top = 40.dp),
-            title = textButton
-        ) {
-            if (pagerState.currentPage == onboardingList.lastIndex) {
-                component.onNextButtonClick()
-            } else {
+    Dialog(
+        onDismissRequest = {
+            if (pagerState.currentPage > 0) {
                 scope.launch {
                     pagerState.animateScrollToPage(
-                        pagerState.currentPage + 1,
+                        pagerState.currentPage - 1,
                         animationSpec = spring(stiffness = Spring.StiffnessLow),
                     )
+                }
+            } else {
+                component.onDismissClick()
+            }
+        },
+        properties = DialogProperties(usePlatformDefaultWidth = false)
+    ) {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .background(Color.Base.white),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            HorizontalPager(state = pagerState) {
+                OnboardingItem(onboarding = onboardingList[it])
+            }
+            PageIndicator(
+                currentPage = pagerState.currentPage,
+                count = onboardingList.size,
+            )
+
+            val textButton =
+                if (pagerState.currentPage != onboardingList.lastIndex) stringResource(id = R.string.next)
+                else stringResource(id = R.string.start)
+
+            CommonButton(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 40.dp),
+                title = textButton
+            ) {
+                if (pagerState.currentPage == onboardingList.lastIndex) {
+                    component.onDismissClick()
+                } else {
+                    scope.launch {
+                        pagerState.animateScrollToPage(
+                            pagerState.currentPage + 1,
+                            animationSpec = spring(stiffness = Spring.StiffnessLow),
+                        )
+                    }
                 }
             }
         }

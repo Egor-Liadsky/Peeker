@@ -27,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.lyadsky.peeker.android.R
+import com.lyadsky.peeker.android.components.dialog.onboardingDialog.OnboardingDialog
 import com.lyadsky.peeker.android.components.dialog.searchDialog.SearchDialog
 import com.lyadsky.peeker.android.ui.theme.headerBold
 import com.lyadsky.peeker.android.ui.views.card.ProductCardView
@@ -60,6 +61,7 @@ fun HomeScreen(component: HomeComponent) {
             when (instance) {
 
                 is HomeComponent.SlotChild.SearchDialogChild -> SearchDialog(component = instance.component)
+                is HomeComponent.SlotChild.OnboardingDialogChild -> OnboardingDialog(component = instance.component)
             }
         }
 
@@ -106,7 +108,6 @@ fun HomeScreen(component: HomeComponent) {
                             Spacer(modifier = Modifier.weight(1f))
                         }
                     }
-                    Spacer(modifier = Modifier.height(16.dp))
                 }
                 item {
                     when {
@@ -115,6 +116,9 @@ fun HomeScreen(component: HomeComponent) {
                             component.onProductsReloadClick()
                         }
                     }
+                }
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
             PullRefreshIndicator(

@@ -22,14 +22,13 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.lyadsky.peeker.android.R
-import com.lyadsky.peeker.android.models.PrivacyPolicy
 import com.lyadsky.peeker.android.ui.theme.Color
 import com.lyadsky.peeker.android.ui.theme.Typography
 import com.lyadsky.peeker.android.ui.views.divider.CommonDivider
 import com.lyadsky.peeker.android.utils.conditional
 
 @Composable
-fun AdditionalButton(privacyPolicy: PrivacyPolicy) {
+fun AdditionalButton(data: Pair<String, String>) {
     val showDescriptionState = remember { mutableStateOf(false) }
     Column(Modifier.animateContentSize()) {
         TextButton(
@@ -45,7 +44,7 @@ fun AdditionalButton(privacyPolicy: PrivacyPolicy) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = privacyPolicy.title,
+                    text = data.first,
                     style = Typography.Additional.title,
                     modifier = Modifier.fillMaxWidth(0.9f),
                     color = Color.AdditionalInfoItem.text
@@ -65,7 +64,7 @@ fun AdditionalButton(privacyPolicy: PrivacyPolicy) {
         }
         AnimatedVisibility(visible = showDescriptionState.value) {
             Text(
-                text = privacyPolicy.description,
+                text = data.second,
                 style = Typography.Additional.description,
                 modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp)
             )

@@ -11,6 +11,7 @@ import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.BaseComponent
 import com.lyadsky.peeker.data.paging.home.HomePaging
 import com.lyadsky.peeker.data.service.OnboardingService
+import com.lyadsky.peeker.di.components.createOnboardingComponent
 import com.lyadsky.peeker.di.components.createSearchDialogComponent
 import com.lyadsky.peeker.utils.ComponentFactory
 import kotlinx.coroutines.launch
@@ -18,17 +19,16 @@ import kotlinx.serialization.Serializable
 
 class HomeComponentImpl(
     componentContext: ComponentContext,
-    componentFactory: ComponentFactory,
+    private val componentFactory: ComponentFactory,
     private val homePaging: HomePaging,
     private val onboardingService: OnboardingService,
-    private val navigateToOnBoarding: () -> Unit
 ) : HomeComponent, BaseComponent<HomeState>(componentContext, HomeState()) {
 
 
     init {
         scope.launch {
             val isOnboardingPassed = onboardingService.getPassedOnboarding()
-            if (!isOnboardingPassed) navigateToOnBoarding()
+            if (!isOnboardingPassed) slotNavigation.activate(SlotConfig.OnboardingDialog)
         }
     }
 
@@ -46,6 +46,14 @@ class HomeComponentImpl(
         )
     }
 
+    private fun onboardingComponent(componentContext: ComponentContext): HomeComponent.SlotChild =
+        HomeComponent.SlotChild.OnboardingDialogChild(
+            componentFactory.createOnboardingComponent(
+                componentContext = componentContext,
+                onDismissed = { slotNavigation.dismiss() },
+            )
+        )
+
     override val pagingState = homePaging.pagingState
 
     override val slotStack: Value<ChildSlot<*, HomeComponent.SlotChild>> =
@@ -62,6 +70,7 @@ class HomeComponentImpl(
     ): HomeComponent.SlotChild =
         when (config) {
             is SlotConfig.SearchDialog -> searchDialogComponent
+            is SlotConfig.OnboardingDialog -> onboardingComponent(componentContext)
         }
 
     override fun onSearchTextFieldClick() {
@@ -91,5 +100,8 @@ class HomeComponentImpl(
 
         @Serializable
         data class SearchDialog(val searchTextFieldValue: String) : SlotConfig
+
+        @Serializable
+        data object OnboardingDialog : SlotConfig
     }
 }

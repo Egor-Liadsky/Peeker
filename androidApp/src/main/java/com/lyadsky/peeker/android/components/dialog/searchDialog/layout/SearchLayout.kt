@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -81,7 +80,6 @@ fun SearchLayout(component: SearchDialogComponent) {
                 component.onFilterButtonClick()
             }
         }
-
         Box(Modifier.pullRefresh(pullRefreshState)) {
             LazyColumn(
                 Modifier
@@ -91,7 +89,7 @@ fun SearchLayout(component: SearchDialogComponent) {
             ) {
                 item {
                     FlowRow(
-                        Modifier.fillMaxWidth(),
+                        Modifier.fillMaxSize(),
                         horizontalArrangement = Arrangement.spacedBy(
                             16.dp,
                             alignment = Alignment.CenterHorizontally
@@ -113,6 +111,22 @@ fun SearchLayout(component: SearchDialogComponent) {
                     }
                 }
                 item {
+                    when {
+                        pagingState.isLoading -> LoadingLayout(Modifier.fillMaxSize())
+
+                        pagingState.isFailure -> ErrorLayout(Modifier.fillMaxSize()) {
+                            component.onProductsReloadClick()
+                        }
+
+                        pagingState.isLastPage -> when {
+                            pagingState.items.isEmpty() && state.searchTextField.isEmpty() ->
+                                EnterTextForSearchLayout(Modifier.fillMaxSize())
+
+                            pagingState.items.isEmpty() -> EmptyLayout(Modifier.fillMaxSize())
+                        }
+                    }
+                }
+                item {
                     Spacer(modifier = Modifier.height(16.dp))
                 }
             }
@@ -121,119 +135,6 @@ fun SearchLayout(component: SearchDialogComponent) {
                 state = pullRefreshState,
                 Modifier.align(Alignment.TopCenter)
             )
-
-            Box(modifier = Modifier.fillMaxHeight(0.5f)) {
-                when {
-                    pagingState.isLoading -> LoadingLayout(Modifier.fillMaxSize())
-                    pagingState.isFailure -> ErrorLayout(Modifier.fillMaxSize()) {
-                        component.onProductsReloadClick()
-                    }
-
-                    pagingState.isLastPage -> when {
-                        pagingState.items.isEmpty() && state.searchTextField.isEmpty() ->
-                            EnterTextForSearchLayout(Modifier.fillMaxSize())
-
-                        pagingState.items.isEmpty() -> EmptyLayout(Modifier.fillMaxSize())
-                    }
-                }
-            }
         }
     }
 }
-
-//@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterialApi::class)
-//@Composable
-//fun SearchLayout(component: SearchDialogComponent) {
-//
-//    val state by component.viewStates.subscribeAsState()
-//    val lazyListState = rememberLazyListState()
-//    val pagingState by component.pagingState.collectAsState()
-//    val pullRefreshState = rememberPullRefreshState(
-//        refreshing = state.isRefreshing,
-//        onRefresh = { component.onRefresh() }
-//    )
-//    val context = LocalContext.current
-//
-//    lazyListState.OnEndReached { component.loadNextPage() }
-//
-//    Column(
-//        Modifier.fillMaxWidth(),
-//        verticalArrangement = Arrangement.spacedBy(12.dp)
-//    ) {
-//
-//        Row(
-//            Modifier
-//                .fillMaxWidth()
-//                .padding(horizontal = 16.dp),
-//            verticalAlignment = Alignment.CenterVertically,
-//            horizontalArrangement = Arrangement.SpaceBetween
-//        ) {
-//            FilterView(
-//                title = stringResource(id = R.string.sorting),
-//                icon = R.drawable.ic_sorting,
-//                color = Color.Base.black
-//            ) {
-//                component.onSortingButtonClick()
-//            }
-//
-//            FilterView(
-//                title = stringResource(id = R.string.filter),
-//                icon = R.drawable.ic_filter,
-//                color = Color.Base.purplePrimary
-//            ) {
-//                component.onFilterButtonClick()
-//            }
-//        }
-//
-//        Box(Modifier.pullRefresh(pullRefreshState)) {
-//            LazyColumn(
-//                Modifier
-//                    .fillMaxSize()
-//                    .padding(horizontal = 16.dp),
-//                state = lazyListState,
-//                verticalArrangement = Arrangement.Top
-//            ) {
-//                item {
-//                    FlowRow(
-//                        Modifier.fillMaxWidth(),
-//                        horizontalArrangement = Arrangement.spacedBy(
-//                            16.dp,
-//                            alignment = Alignment.CenterHorizontally
-//                        ),
-//                        verticalArrangement = Arrangement.spacedBy(16.dp)
-//                    ) {
-//                        pagingState.items.forEach { product ->
-//                            ProductCardView(Modifier.weight(1f), product = product) {
-////                            context.openUrl(product.url)
-//                            }
-//                        }
-//                        if (pagingState.items.size == 1) {
-//                            Spacer(modifier = Modifier.weight(1f))
-//                        }
-//                    }
-//                }
-//            }
-//            PullRefreshIndicator(
-//                refreshing = state.isRefreshing,
-//                state = pullRefreshState,
-//                Modifier.align(Alignment.TopCenter)
-//            )
-//
-//            Box(modifier = Modifier.fillMaxHeight(0.5f)) {
-//                when {
-//                    pagingState.isLoading -> LoadingLayout(Modifier.fillMaxSize())
-//                    pagingState.isFailure -> ErrorLayout(Modifier.fillMaxSize()) {
-//                        component.onProductsReloadClick()
-//                    }
-//
-//                    pagingState.isLastPage -> when {
-//                        pagingState.items.isEmpty() && state.searchTextField.isEmpty() ->
-//                            EnterTextForSearchLayout(Modifier.fillMaxSize())
-//
-//                        pagingState.items.isEmpty() -> EmptyLayout(Modifier.fillMaxSize())
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
