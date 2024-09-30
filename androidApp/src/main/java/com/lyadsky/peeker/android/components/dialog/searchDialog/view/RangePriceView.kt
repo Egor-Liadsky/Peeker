@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.lyadsky.peeker.android.R
 import com.lyadsky.peeker.android.ui.theme.Color
@@ -51,7 +52,10 @@ fun RangePriceView(
                         modifier = Modifier.fillMaxWidth()
                     )
                 },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next,
+                    keyboardType = KeyboardType.Number
+                ),
                 keyboardActions = KeyboardActions(onNext = {
                     Log.e("TAGTAG", "ok")
                 }),
@@ -69,7 +73,10 @@ fun RangePriceView(
                         modifier = Modifier.fillMaxWidth()
                     )
                 },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done,
+                    keyboardType = KeyboardType.Number
+                ),
                 keyboardActions = KeyboardActions(onDone = {
                     Log.e("TAGTAG", "ok")
                 }),

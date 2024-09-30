@@ -6,7 +6,9 @@ import ru.astrainteractive.klibs.paging.context.PageContext
 data class SearchPageContext(
     val page: Int,
     val query: String,
-    val sortingType: SortingType
+    val sortingType: SortingType,
+    val priceFrom: String,
+    val priceTo: String?
 ) : PageContext {
 
     object Factory : PageContext.Factory<SearchPageContext> {

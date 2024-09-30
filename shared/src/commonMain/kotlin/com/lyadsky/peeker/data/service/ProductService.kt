@@ -23,11 +23,19 @@ class ProductService(
     suspend fun getProducts(
         page: Int,
         query: String,
-        sortingType: SortingType
+        sortingType: SortingType,
+        priceFrom: String,
+        priceTo: String?
     ): List<Product> {
         return try {
             val markets = marketService.getMarkets()
-            productRepository.searchProducts(page, query, sortingType).items.map { product ->
+            productRepository.searchProducts(
+                page,
+                query,
+                sortingType,
+                priceFrom,
+                priceTo
+            ).items.map { product ->
                 product.toMap(markets.first { it.id == product.market })
             }
         } catch (e: CancellationException) {

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,6 +28,7 @@ import com.lyadsky.peeker.android.components.layout.filterLayout.FilterLayout
 import com.lyadsky.peeker.android.ui.theme.Color
 import com.lyadsky.peeker.android.ui.theme.textField
 import com.lyadsky.peeker.android.ui.views.textField.CommonTextField
+import com.lyadsky.peeker.android.ui.views.textField.IconButtonTextField
 import com.lyadsky.peeker.components.dialog.searchDialog.SearchDialogComponent
 
 @Composable
@@ -71,11 +71,8 @@ fun SearchDialog(component: SearchDialogComponent) {
                         Modifier.padding(end = 10.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        IconButton(onClick = { component.onClearedSearchTextField() }) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_close),
-                                contentDescription = "QrCodeScanner"
-                            )
+                        IconButtonTextField(icon = R.drawable.ic_close) {
+                            component.onClearedSearchTextField()
                         }
 
                         Icon(

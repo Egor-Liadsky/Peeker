@@ -27,6 +27,14 @@ object Color {
         val placeholder = Color(0xFF9E9C9F)
         val input = Color(0xFF2A2F33)
         val background = Color(0x05395673)
+        val icon = Color(0xFF979797)
+    }
+
+    object ChatTextField {
+        val placeholder = Color(0xFF9E9C9F)
+        val input = Color(0xFF2A2F33)
+        val background = Color(0xFFFFFFFF)
+        val icon = Color(0xFF979797)
     }
 
     object SearchBanner {

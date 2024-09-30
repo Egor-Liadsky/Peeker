@@ -8,7 +8,7 @@ import org.koin.core.component.get
 
 fun ComponentFactory.createFilterLayoutComponent(
     componentContext: ComponentContext,
-    onApplyClick: () -> Unit
+    onApplyClick: (priceFrom: String, priceTo: String) -> Unit
 ): FilterLayoutComponent =
     FilterLayoutComponentImpl(
         componentContext = componentContext,

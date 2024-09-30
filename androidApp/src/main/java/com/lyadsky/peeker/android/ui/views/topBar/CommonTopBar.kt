@@ -22,7 +22,6 @@ import com.lyadsky.peeker.android.ui.theme.titleDespairDisplay
 
 @Composable
 fun CommonTopBar(
-    modifier: Modifier = Modifier,
     title: String,
     onBackClick: (() -> Unit)? = null
 ) {

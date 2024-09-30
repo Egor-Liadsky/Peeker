@@ -20,13 +20,15 @@ class SearchPaging(private val productService: ProductService) {
                     productService.getProducts(
                         page = it.pageContext.page,
                         query = it.pageContext.query,
-                        sortingType = it.pageContext.sortingType
+                        sortingType = it.pageContext.sortingType,
+                        priceFrom = it.pageContext.priceFrom,
+                        priceTo = it.pageContext.priceTo
                     )
                 } else {
                     emptyList()
                 }
             }.onFailure(Throwable::printStackTrace)
-        }
+        },
     )
 
     val pagingState: StateFlow<PagingState<Product, SearchPageContext>> =
@@ -56,6 +58,15 @@ class SearchPaging(private val productService: ProductService) {
 
     fun updateSortingType(sortingType: SortingType) {
         pagingCollector.updatePageContext { pageContext -> pageContext.copy(sortingType = sortingType) }
+    }
+
+    fun updatePriceFilter(priceFrom: String, priceTo: String) {
+        pagingCollector.updatePageContext { pageContext ->
+            pageContext.copy(
+                priceFrom = priceFrom,
+                priceTo = priceTo
+            )
+        }
     }
 
     suspend fun loadNextPage() = withContext(Dispatchers.IO) {

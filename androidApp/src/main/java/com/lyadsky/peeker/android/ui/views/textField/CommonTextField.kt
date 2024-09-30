@@ -6,14 +6,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
@@ -21,7 +18,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.lyadsky.peeker.android.R
@@ -53,14 +49,8 @@ fun CommonTextField(
     ) {
 
         if (onBackButtonClick != null) {
-            IconButton(
-                onClick = { onBackButtonClick() },
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_back),
-                    contentDescription = "ic back",
-                    modifier = Modifier.size(24.dp)
-                )
+            IconButtonTextField(icon = R.drawable.ic_back) {
+                onBackButtonClick()
             }
         }
 

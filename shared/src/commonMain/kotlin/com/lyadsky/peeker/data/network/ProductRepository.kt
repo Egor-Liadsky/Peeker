@@ -26,18 +26,24 @@ class ProductRepository : BaseRepository() {
     suspend fun searchProducts(
         page: Int,
         query: String,
-        sortingType: SortingType
+        sortingType: SortingType,
+        priceFrom: String,
+        priceTo: String?
     ): ProductResponse = withContext(Dispatchers.IO) {
+        val parameters = mutableMapOf(
+            "name" to query,
+            "offset" to BuildKonfig.PAGING_OFFSET.toString(),
+            "page_number" to page.toString(),
+            "filter_by" to "asc",
+            "filter_name" to sortingType.name.lowercase(),
+            "price_from" to priceFrom,
+        )
+        priceTo?.let { parameters.put("price_to", priceTo) }
+
         val response = executeCall(
             type = HttpMethod.Get,
             path = "product/",
-            parameters = mapOf(
-                "name" to query,
-                "offset" to BuildKonfig.PAGING_OFFSET.toString(),
-                "page_number" to page.toString(),
-                "filter_by" to "asc",
-                "filter_name" to sortingType.name.lowercase()
-            ),
+            parameters = parameters,
         )
         Json.decodeFromString(response)
     }

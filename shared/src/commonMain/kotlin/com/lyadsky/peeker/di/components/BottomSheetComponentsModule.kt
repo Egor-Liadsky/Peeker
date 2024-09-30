@@ -24,10 +24,12 @@ fun ComponentFactory.createSortingBottomSheetComponent(
 
 fun ComponentFactory.createFilterBottomSheetComponent(
     componentContext: ComponentContext,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    onApply: (priceFrom: String, priceTo: String) -> Unit
 ): FilterBottomSheetComponent =
     FilterBottomSheetComponentImpl(
         componentContext = componentContext,
         componentFactory = get(),
-        onDismiss = onDismiss
+        onDismiss = onDismiss,
+        onApplyClick = onApply
     )

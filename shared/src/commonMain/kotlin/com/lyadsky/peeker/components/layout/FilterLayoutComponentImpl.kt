@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 class FilterLayoutComponentImpl(
     componentContext: ComponentContext,
     private val marketService: MarketService,
-    private val onApplyClicked: () -> Unit
+    private val onApplyClicked: (priceFrom: String, priceTo: String) -> Unit
 ) : FilterLayoutComponent, BaseComponent<FilterLayoutState>(componentContext, FilterLayoutState()) {
 
     init {
@@ -33,7 +33,7 @@ class FilterLayoutComponentImpl(
     }
 
     override fun onApplyClick() {
-        onApplyClicked()
+        onApplyClicked(viewState.rangeFromTextField, viewState.rangeToTextField)
     }
 
     override fun onMarketsRefreshClick() {

@@ -79,18 +79,23 @@ class SearchDialogComponentImpl(
         SearchDialogComponent.SlotChild.FilterBottomSheetChild(
             componentFactory.createFilterBottomSheetComponent(
                 componentContext = childContext(key = "FilterBottomSheetComponent"),
-                onDismiss = { slotNavigation.dismiss() }
+                onDismiss = { slotNavigation.dismiss() },
+                onApply = { priceFrom: String, priceTo: String ->
+                    searchPaging.updatePriceFilter(priceFrom, priceTo)
+                    searchPaging.reset()
+                }
             )
         )
 
     override val filterLayoutComponent: FilterLayoutComponent by lazy {
         componentFactory.createFilterLayoutComponent(
             componentContext = childContext(key = "FilterLayoutComponent"),
-            onApplyClick = {
+            onApplyClick = { priceFrom: String, priceTo: String ->
                 scope.launch {
                     onSearchTextFieldValueChanged(viewState.searchTextField)
                     productService.setSearchedProduct(true)
                     viewState = viewState.copy(searchedProduct = true)
+                    searchPaging.updatePriceFilter(priceFrom, priceTo)
                     searchPaging.updateQuery(viewState.searchTextField)
                 }
             }

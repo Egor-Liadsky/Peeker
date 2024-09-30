@@ -10,7 +10,9 @@ import ru.astrainteractive.klibs.paging.state.PagingState
 class SearchPagerCollector<T>(
     private val pager: PagedListDataSource<T, SearchPageContext>,
     private val initialQuery: String = "",
-    private val initialSortingType: SortingType = SortingType.Rating
+    private val initialSortingType: SortingType = SortingType.Rating,
+    private val priceFrom: String = "0",
+    private val priceTo: String? = null
 ) : PagingCollector<T, SearchPageContext> by DefaultPagingCollector(
 
     initialPagingStateFactory = {
@@ -18,7 +20,9 @@ class SearchPagerCollector<T>(
             pageContext = SearchPageContext(
                 page = BuildKonfig.PAGING_INITIAL_PAGE,
                 query = initialQuery,
-                sortingType = initialSortingType
+                sortingType = initialSortingType,
+                priceFrom = priceFrom,
+                priceTo = priceTo
             ),
             items = emptyList(),
             pageSizeAtLeast = BuildKonfig.PAGING_OFFSET,

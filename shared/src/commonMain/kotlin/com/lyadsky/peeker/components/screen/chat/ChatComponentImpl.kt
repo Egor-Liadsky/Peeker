@@ -5,4 +5,9 @@ import com.lyadsky.peeker.components.BaseComponent
 
 class ChatComponentImpl(
     componentContext: ComponentContext
-) : ChatComponent, BaseComponent<Unit>(componentContext, Unit)
+) : ChatComponent, BaseComponent<ChatState>(componentContext, ChatState()) {
+
+    override fun chatTextFieldValueChanged(value: String) {
+        viewState = viewState.copy(chatTextFieldValue = value)
+    }
+}
