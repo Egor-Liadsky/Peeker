@@ -6,7 +6,6 @@ import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.lyadsky.peeker.android.components.screen.home.HomeScreen
-import com.lyadsky.peeker.android.components.screen.chat.ChatScreen
 import com.lyadsky.peeker.android.components.screen.settings.SettingsScreen
 import com.lyadsky.peeker.components.bottomNavigation.BottomNavigationComponent
 
@@ -22,7 +21,7 @@ fun BottomNavigationChildren(
     ) {
         when (val child = it.instance) {
             is BottomNavigationComponent.Child.HomeChild -> HomeScreen(component = child.component)
-            is BottomNavigationComponent.Child.ChatChild -> ChatScreen(component = child.component)
+//            is BottomNavigationComponent.Child.ChatChild -> ChatScreen(component = child.component)
             is BottomNavigationComponent.Child.SettingsChild -> SettingsScreen(component = child.component)
         }
     }

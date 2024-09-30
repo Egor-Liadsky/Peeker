@@ -1,6 +1,7 @@
 package com.lyadsky.peeker.components.layout
 
 import com.arkivanov.decompose.value.Value
+import com.lyadsky.peeker.models.Market
 
 interface FilterLayoutComponent {
 
@@ -15,4 +16,6 @@ interface FilterLayoutComponent {
     fun onApplyClick()
 
     fun onMarketsRefreshClick()
+
+    fun onSelectMarketClick(market: Market)
 }

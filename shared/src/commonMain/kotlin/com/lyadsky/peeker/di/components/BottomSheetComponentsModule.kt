@@ -5,6 +5,7 @@ import com.lyadsky.peeker.components.bottomSheet.filter.FilterBottomSheetCompone
 import com.lyadsky.peeker.components.bottomSheet.filter.FilterBottomSheetComponentImpl
 import com.lyadsky.peeker.components.bottomSheet.sorting.SortingBottomSheetComponent
 import com.lyadsky.peeker.components.bottomSheet.sorting.SortingBottomSheetComponentImpl
+import com.lyadsky.peeker.models.Market
 import com.lyadsky.peeker.models.SortingType
 import com.lyadsky.peeker.utils.ComponentFactory
 import org.koin.core.component.get
@@ -25,7 +26,7 @@ fun ComponentFactory.createSortingBottomSheetComponent(
 fun ComponentFactory.createFilterBottomSheetComponent(
     componentContext: ComponentContext,
     onDismiss: () -> Unit,
-    onApply: (priceFrom: String, priceTo: String) -> Unit
+    onApply: (priceFrom: String, priceTo: String, marketsFilter: List<Market>) -> Unit
 ): FilterBottomSheetComponent =
     FilterBottomSheetComponentImpl(
         componentContext = componentContext,

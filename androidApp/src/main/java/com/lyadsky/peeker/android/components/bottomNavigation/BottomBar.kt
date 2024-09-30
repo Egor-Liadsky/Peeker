@@ -51,19 +51,19 @@ fun BottomBar(component: BottomNavigationComponent, modifier: Modifier = Modifie
                 )
             },
         )
-        BottomNavigationItem(
-            selected = activeComponent is Child.ChatChild,
-            onClick = { component.onTabClicked(MainNavTab.CHAT) },
-            selectedContentColor = Color.BottomBar.selectedNavigationItem,
-            unselectedContentColor = Color.BottomBar.unselectedNavigationItem,
-            icon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_chat),
-                    contentDescription = "Чат",
-                    Modifier.size(24.dp)
-                )
-            },
-        )
+//        BottomNavigationItem(
+//            selected = activeComponent is Child.ChatChild,
+//            onClick = { component.onTabClicked(MainNavTab.CHAT) },
+//            selectedContentColor = Color.BottomBar.selectedNavigationItem,
+//            unselectedContentColor = Color.BottomBar.unselectedNavigationItem,
+//            icon = {
+//                Icon(
+//                    painter = painterResource(id = R.drawable.ic_chat),
+//                    contentDescription = "Чат",
+//                    Modifier.size(24.dp)
+//                )
+//            },
+//        )
         BottomNavigationItem(
             selected = activeComponent is Child.SettingsChild,
             onClick = { component.onTabClicked(MainNavTab.SETTINGS) },

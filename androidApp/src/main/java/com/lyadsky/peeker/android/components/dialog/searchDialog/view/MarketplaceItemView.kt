@@ -24,7 +24,12 @@ import com.lyadsky.peeker.android.utils.shimmerBackground
 import com.lyadsky.peeker.models.Market
 
 @Composable
-fun MarketplaceItemView(modifier: Modifier = Modifier, market: Market) {
+fun MarketplaceItemView(
+    modifier: Modifier = Modifier,
+    market: Market,
+    checked: Boolean,
+    onClick: () -> Unit
+) {
 
     val isLoadingState = remember { mutableStateOf(true) }
 
@@ -63,8 +68,10 @@ fun MarketplaceItemView(modifier: Modifier = Modifier, market: Market) {
                 )
 
                 Checkbox(
-                    checked = true,
-                    onCheckedChange = { },
+                    checked = checked,
+                    onCheckedChange = {
+                        onClick()
+                    },
                     colors = CheckboxDefaults.colors(
                         checkedColor = Color.Checkbox.checked,
                         uncheckedColor = Color.Checkbox.unchecked

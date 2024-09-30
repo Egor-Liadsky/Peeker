@@ -1,6 +1,7 @@
 package com.lyadsky.peeker.data.paging.search
 
 import com.lyadsky.peeker.data.service.ProductService
+import com.lyadsky.peeker.models.Market
 import com.lyadsky.peeker.models.Product
 import com.lyadsky.peeker.models.SortingType
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +23,8 @@ class SearchPaging(private val productService: ProductService) {
                         query = it.pageContext.query,
                         sortingType = it.pageContext.sortingType,
                         priceFrom = it.pageContext.priceFrom,
-                        priceTo = it.pageContext.priceTo
+                        priceTo = it.pageContext.priceTo,
+                        marketsFilter = it.pageContext.marketsFilter
                     )
                 } else {
                     emptyList()
@@ -65,6 +67,14 @@ class SearchPaging(private val productService: ProductService) {
             pageContext.copy(
                 priceFrom = priceFrom,
                 priceTo = priceTo
+            )
+        }
+    }
+
+    fun updateMarketsFilter(marketsFilter: List<Market>) {
+        pagingCollector.updatePageContext { pageContext ->
+            pageContext.copy(
+                marketsFilter = marketsFilter
             )
         }
     }

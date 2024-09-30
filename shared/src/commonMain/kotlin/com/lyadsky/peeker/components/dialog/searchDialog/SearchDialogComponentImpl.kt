@@ -15,6 +15,7 @@ import com.lyadsky.peeker.data.service.ProductService
 import com.lyadsky.peeker.di.components.createFilterBottomSheetComponent
 import com.lyadsky.peeker.di.components.createFilterLayoutComponent
 import com.lyadsky.peeker.di.components.createSortingBottomSheetComponent
+import com.lyadsky.peeker.models.Market
 import com.lyadsky.peeker.utils.ComponentFactory
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -80,8 +81,9 @@ class SearchDialogComponentImpl(
             componentFactory.createFilterBottomSheetComponent(
                 componentContext = childContext(key = "FilterBottomSheetComponent"),
                 onDismiss = { slotNavigation.dismiss() },
-                onApply = { priceFrom: String, priceTo: String ->
+                onApply = { priceFrom: String, priceTo: String, marketsFilter: List<Market> ->
                     searchPaging.updatePriceFilter(priceFrom, priceTo)
+                    searchPaging.updateMarketsFilter(marketsFilter)
                     searchPaging.reset()
                 }
             )
@@ -90,12 +92,13 @@ class SearchDialogComponentImpl(
     override val filterLayoutComponent: FilterLayoutComponent by lazy {
         componentFactory.createFilterLayoutComponent(
             componentContext = childContext(key = "FilterLayoutComponent"),
-            onApplyClick = { priceFrom: String, priceTo: String ->
+            onApplyClick = { priceFrom: String, priceTo: String, marketsFilter: List<Market> ->
                 scope.launch {
                     onSearchTextFieldValueChanged(viewState.searchTextField)
                     productService.setSearchedProduct(true)
                     viewState = viewState.copy(searchedProduct = true)
                     searchPaging.updatePriceFilter(priceFrom, priceTo)
+                    searchPaging.updateMarketsFilter(marketsFilter)
                     searchPaging.updateQuery(viewState.searchTextField)
                 }
             }

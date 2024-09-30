@@ -8,7 +8,6 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.popTo
 import com.arkivanov.decompose.value.Value
 import com.lyadsky.peeker.components.bottomNavigation.BottomNavigationComponent.Child
-import com.lyadsky.peeker.di.components.createChatComponent
 import com.lyadsky.peeker.di.components.createHomeComponent
 import com.lyadsky.peeker.di.components.createSettingsComponent
 import com.lyadsky.peeker.utils.ComponentFactory
@@ -36,7 +35,7 @@ class BottomNavigationComponentComponentImpl(
     override fun onTabClicked(tab: MainNavTab) {
         when (tab) {
             MainNavTab.HOME -> navigation.bringToFront(Config.Home)
-            MainNavTab.CHAT -> navigation.bringToFront(Config.Chat)
+//            MainNavTab.CHAT -> navigation.bringToFront(Config.Chat)
             MainNavTab.SETTINGS -> navigation.bringToFront(Config.Settings)
         }
     }
@@ -51,7 +50,7 @@ class BottomNavigationComponentComponentImpl(
     ): Child {
         return when (config) {
             Config.Home -> getHomeComponent(componentContext)
-            Config.Chat -> getChatComponent(componentContext)
+//            Config.Chat -> getChatComponent(componentContext)
             Config.Settings -> getSettingsComponent(componentContext)
         }
     }
@@ -61,8 +60,8 @@ class BottomNavigationComponentComponentImpl(
             componentFactory.createHomeComponent(componentContext = componentContext)
         )
 
-    private fun getChatComponent(componentContext: ComponentContext): Child =
-        Child.ChatChild(componentFactory.createChatComponent(componentContext = componentContext))
+//    private fun getChatComponent(componentContext: ComponentContext): Child =
+//        Child.ChatChild(componentFactory.createChatComponent(componentContext = componentContext))
 
     private fun getSettingsComponent(componentContext: ComponentContext): Child =
         Child.SettingsChild(
@@ -81,8 +80,8 @@ class BottomNavigationComponentComponentImpl(
         @Serializable
         data object Home : Config
 
-        @Serializable
-        data object Chat : Config
+//        @Serializable
+//        data object Chat : Config
 
         @Serializable
         data object Settings : Config

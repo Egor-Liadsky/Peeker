@@ -2,6 +2,7 @@ package com.lyadsky.peeker.data.network
 
 import com.lyadsky.peeker.BuildKonfig
 import com.lyadsky.peeker.data.model.ProductResponse
+import com.lyadsky.peeker.models.Market
 import com.lyadsky.peeker.models.SortingType
 import io.ktor.http.HttpMethod
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +29,8 @@ class ProductRepository : BaseRepository() {
         query: String,
         sortingType: SortingType,
         priceFrom: String,
-        priceTo: String?
+        priceTo: String?,
+        marketsFilter: List<Market>
     ): ProductResponse = withContext(Dispatchers.IO) {
         val parameters = mutableMapOf(
             "name" to query,
