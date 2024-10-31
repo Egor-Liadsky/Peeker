@@ -3,7 +3,6 @@ package com.lyadsky.peeker.data.service
 import com.lyadsky.peeker.data.mapper.toMap
 import com.lyadsky.peeker.data.network.ProductRepository
 import com.lyadsky.peeker.data.storage.SearchStorageRepository
-import com.lyadsky.peeker.models.Market
 import com.lyadsky.peeker.models.Product
 import com.lyadsky.peeker.models.SortingType
 import kotlin.coroutines.cancellation.CancellationException
@@ -25,9 +24,9 @@ class ProductService(
         page: Int,
         query: String,
         sortingType: SortingType,
-        priceFrom: String,
+        priceFrom: String?,
         priceTo: String?,
-        marketsFilter: List<Market>
+        marketsFilter: String?
     ): List<Product> {
         return try {
             val markets = marketService.getMarkets()

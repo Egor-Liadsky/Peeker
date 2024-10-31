@@ -2,7 +2,6 @@ package com.lyadsky.peeker.data.network
 
 import com.lyadsky.peeker.BuildKonfig
 import com.lyadsky.peeker.data.model.ProductResponse
-import com.lyadsky.peeker.models.Market
 import com.lyadsky.peeker.models.SortingType
 import io.ktor.http.HttpMethod
 import kotlinx.coroutines.Dispatchers
@@ -28,9 +27,9 @@ class ProductRepository : BaseRepository() {
         page: Int,
         query: String,
         sortingType: SortingType,
-        priceFrom: String,
+        priceFrom: String?,
         priceTo: String?,
-        marketsFilter: List<Market>
+        marketsFilter: String?
     ): ProductResponse = withContext(Dispatchers.IO) {
         val parameters = mutableMapOf(
             "name" to query,
@@ -38,9 +37,14 @@ class ProductRepository : BaseRepository() {
             "page_number" to page.toString(),
             "filter_by" to "asc",
             "filter_name" to sortingType.name.lowercase(),
-            "price_from" to priceFrom,
         )
-        priceTo?.let { parameters.put("price_to", priceTo) }
+        if (priceFrom?.isNotEmpty() == true) {
+            parameters["price_from"]
+        }
+        if (priceTo?.isNotEmpty() == true) {
+            parameters["price_to"] = priceTo
+        }
+        marketsFilter?.let { parameters["markets"] = marketsFilter }
 
         val response = executeCall(
             type = HttpMethod.Get,

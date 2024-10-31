@@ -1,5 +1,6 @@
 package com.lyadsky.peeker.android.ui.views.topBar
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,6 +14,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -30,6 +32,7 @@ fun HomeTopBar(
     searchTextInput: String,
     onSearchTextFieldClick: () -> Unit
 ) {
+    val context = LocalContext.current
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -53,7 +56,7 @@ fun HomeTopBar(
                 )
 
                 SelectCityButton {
-                    // TODO сделать выбор города
+                    Toast.makeText(context, "В разработке", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -75,7 +78,13 @@ fun HomeTopBar(
                     )
                 },
                 trailingIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = {
+                        Toast.makeText(
+                            context,
+                            "В разработке",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_qr_code_scan),
                             contentDescription = "QrCodeScanner"

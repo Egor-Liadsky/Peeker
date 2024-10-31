@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class FilterLayoutComponentImpl(
     componentContext: ComponentContext,
     private val marketService: MarketService,
-    private val onApplyClicked: (priceFrom: String, priceTo: String, marketsFilter: List<Market>) -> Unit
+    private val onApplyClicked: (priceFrom: String, priceTo: String, marketsFilter: String?) -> Unit
 ) : FilterLayoutComponent, BaseComponent<FilterLayoutState>(componentContext, FilterLayoutState()) {
 
     init {
@@ -44,10 +44,19 @@ class FilterLayoutComponentImpl(
     }
 
     override fun onApplyClick() {
+        val marketsId = mutableListOf<Long>()
+        viewState.markets?.forEach { market ->
+            marketsId.add(market.id)
+        }
+        val markets = if (viewState.selectedMarkets.size == 1) {
+            viewState.selectedMarkets[0].id.toString()
+        } else {
+            viewState.selectedMarkets.joinToString(",") { it.id.toString() }
+        }
         onApplyClicked(
             viewState.rangeFromTextField,
             viewState.rangeToTextField,
-            viewState.selectedMarkets
+            markets
         )
     }
 

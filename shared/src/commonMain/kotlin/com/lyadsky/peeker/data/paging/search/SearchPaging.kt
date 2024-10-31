@@ -1,7 +1,6 @@
 package com.lyadsky.peeker.data.paging.search
 
 import com.lyadsky.peeker.data.service.ProductService
-import com.lyadsky.peeker.models.Market
 import com.lyadsky.peeker.models.Product
 import com.lyadsky.peeker.models.SortingType
 import kotlinx.coroutines.Dispatchers
@@ -60,6 +59,7 @@ class SearchPaging(private val productService: ProductService) {
 
     fun updateSortingType(sortingType: SortingType) {
         pagingCollector.updatePageContext { pageContext -> pageContext.copy(sortingType = sortingType) }
+        reset()
     }
 
     fun updatePriceFilter(priceFrom: String, priceTo: String) {
@@ -69,14 +69,16 @@ class SearchPaging(private val productService: ProductService) {
                 priceTo = priceTo
             )
         }
+        reset()
     }
 
-    fun updateMarketsFilter(marketsFilter: List<Market>) {
+    fun updateMarketsFilter(marketsFilter: String?) {
         pagingCollector.updatePageContext { pageContext ->
             pageContext.copy(
                 marketsFilter = marketsFilter
             )
         }
+        reset()
     }
 
     suspend fun loadNextPage() = withContext(Dispatchers.IO) {

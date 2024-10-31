@@ -72,7 +72,7 @@ buildkonfig {
     packageName = "com.lyadsky.peeker"
 
     defaultConfigs {
-        buildConfigField(Type.STRING, "BASE_URL", "http://188.165.18.190:7812/api/")
+        buildConfigField(Type.STRING, "BASE_URL", "http://62.109.29.83:7812/api/")
         buildConfigField(Type.STRING, "APP_VERSION", libs.versions.versionName.get())
 
         buildConfigField(Type.INT, "PAGING_OFFSET", "30")

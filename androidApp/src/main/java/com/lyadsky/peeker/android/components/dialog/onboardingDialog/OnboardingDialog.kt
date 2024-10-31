@@ -47,15 +47,15 @@ fun OnboardingDialog(component: OnboardingDialogComponent) {
     val onboardingList = listOf(
         Onboarding(
             title = { OnboardingTitleTextItem() },
-            image = painterResource(id = R.drawable.image_onboarding1_200x399),
+            image = painterResource(id = R.drawable.image_onboarding1),
         ),
         Onboarding(
             title = { OnboardingTextItem(title = stringResource(id = R.string.onboarding_title_2)) },
-            image = painterResource(id = R.drawable.image_onboarding2_200x399)
+            image = painterResource(id = R.drawable.image_onboarding2)
         ),
         Onboarding(
             title = { OnboardingTextItem(title = stringResource(id = R.string.onboarding_title_3)) },
-            image = painterResource(id = R.drawable.image_onboarding3_200x399)
+            image = painterResource(id = R.drawable.image_onboarding3)
         )
     )
 

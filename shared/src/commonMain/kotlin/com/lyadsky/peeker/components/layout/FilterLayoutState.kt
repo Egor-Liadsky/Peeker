@@ -8,6 +8,6 @@ data class FilterLayoutState(
     val marketsLoadingState: LoadingState = LoadingState.Loading,
     val rangeFromTextField: String = "",
     val rangeToTextField: String = "",
-    val selectedMarkets: MutableList<Market> = mutableListOf(Market(1, "as", "as", "f")),
+    val selectedMarkets: MutableList<Market> = mutableListOf(),
     val searchAllMarketplacesCheckbox: Boolean = false,
 )

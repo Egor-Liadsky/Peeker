@@ -12,7 +12,8 @@ class SearchPagerCollector<T>(
     private val initialQuery: String = "",
     private val initialSortingType: SortingType = SortingType.Rating,
     private val priceFrom: String = "0",
-    private val priceTo: String? = null
+    private val priceTo: String? = null,
+    private val marketsFilter: String? = null
 ) : PagingCollector<T, SearchPageContext> by DefaultPagingCollector(
 
     initialPagingStateFactory = {
@@ -22,7 +23,8 @@ class SearchPagerCollector<T>(
                 query = initialQuery,
                 sortingType = initialSortingType,
                 priceFrom = priceFrom,
-                priceTo = priceTo
+                priceTo = priceTo,
+                marketsFilter = marketsFilter
             ),
             items = emptyList(),
             pageSizeAtLeast = BuildKonfig.PAGING_OFFSET,

@@ -54,7 +54,7 @@ fun ProductCardView(modifier: Modifier = Modifier, product: Product, onClick: ()
             .padding(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        product.image?.let {
+        if (product.image != null) {
             Box(
                 modifier = Modifier
                     .size(136.dp)
@@ -66,13 +66,20 @@ fun ProductCardView(modifier: Modifier = Modifier, product: Product, onClick: ()
                 contentAlignment = Alignment.Center
             ) {
                 AsyncImage(
-                    model = it,
+                    model = product.image,
                     contentDescription = "product image",
                     modifier = Modifier.size(104.dp),
                     onLoading = { isLoadingState.value = it.painter == null },
                     onSuccess = { isLoadingState.value = false },
                 )
             }
+        } else {
+            Box(
+                modifier = Modifier
+                    .size(136.dp)
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(Color.ProductCard.imageBackground),
+            )
         }
 
         Column(
