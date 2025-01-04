@@ -44,7 +44,9 @@ class ProductRepository : BaseRepository() {
         if (priceTo?.isNotEmpty() == true) {
             parameters["price_to"] = priceTo
         }
-        marketsFilter?.let { parameters["markets"] = marketsFilter }
+        if (marketsFilter?.isNotEmpty() == true) {
+            parameters["markets"] = marketsFilter
+        }
 
         val response = executeCall(
             type = HttpMethod.Get,
